@@ -45,20 +45,65 @@ bool Player::Update(float dt)
 {
 	b2Vec2 vel = b2Vec2(0, -GRAVITY_Y);
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		//
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {  
+		saltando = true;
+		
+		//vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y);
+	}
+
+	if (saltando) {
+		progreso_salto += dt;
+		if (progreso_salto > duracion_salto) {
+			progreso_salto = duracion_salto;
+		}
+		 
+		vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y ); 
+
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			//Con esto se mueve en diagonal para saltar de una plataforma a otra
+			vel = b2Vec2(- speed * dt, -speed + GRAVITY_Y);
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			
+			vel = b2Vec2(speed * dt, -speed + GRAVITY_Y);
+			
+		}
+
+		if (progreso_salto == duracion_salto) {
+			progreso_salto = 0;
+			saltando = false;
+		}
+	}
+
+	else if (!saltando) {
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
+			vel = b2Vec2(-speed * dt, -GRAVITY_Y); 
+
+			//if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) { //Con esto se mueve en diagonal para saltar de una plataforma a otra
+			//	vel = b2Vec2(-speed * dt, -speed + GRAVITY_Y); 
+			//} 
+			//else {
+			//	vel = b2Vec2(-speed * dt, -GRAVITY_Y);
+			//}
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
+			vel = b2Vec2(speed * dt, -GRAVITY_Y); 
+			/*if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+				vel = b2Vec2(speed * dt, -speed + GRAVITY_Y);
+			}
+			else {
+				vel = b2Vec2(speed * dt, -GRAVITY_Y);
+			}*/
+
+		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		vel = b2Vec2(-speed*dt, -GRAVITY_Y);
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		vel = b2Vec2(speed*dt, -GRAVITY_Y);
-	}
+	
 
 	//Set the velocity of the pbody of the player
 	pbody->body->SetLinearVelocity(vel);

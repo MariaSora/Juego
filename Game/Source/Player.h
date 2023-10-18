@@ -31,6 +31,11 @@ public:
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;
 	int pickCoinFxId;
+
+
+	bool saltando = false;
+	int progreso_salto = 0;
+	int duracion_salto = 320;
 };
 
 #endif // __PLAYER_H__
