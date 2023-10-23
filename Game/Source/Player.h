@@ -34,8 +34,10 @@ public:
 
 
 	bool saltando = false;
-	int progreso_salto = 0;
-	int duracion_salto = 320;
+	int remainingJumpSteps;
+
+private:
+	bool LoadAnim(pugi::xml_node mapFile);
 };
 
 #endif // __PLAYER_H__

@@ -12,6 +12,7 @@
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
+	remainingJumpSteps = 0; 
 }
 
 Player::~Player() {
@@ -23,6 +24,20 @@ bool Player::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	pugi::xml_node anim;
+	//for (anim = parameters.child("animations").child("walkRAnim"); anim = parameters.next_sibling("walkRAnim");)
+	//{
+
+	//	/*walkRAnim = parameters.attribute("x").as_int();
+
+
+	//	SString texPath = path;
+	//	texPath += tileset.child("image").attribute("source").as_string();
+	//	set->texture = app->tex->Load(texPath.GetString());
+
+	//	mapData.tilesets.Add(set);*/
+	//}
+
 
 	return true;
 }
@@ -45,35 +60,23 @@ bool Player::Update(float dt)
 {
 	b2Vec2 vel = b2Vec2(0, -GRAVITY_Y);
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {  
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {  
 		saltando = true;
-		
-		//vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y);
 	}
-
 	if (saltando) {
-		progreso_salto += dt;
-		if (progreso_salto > duracion_salto) {
-			progreso_salto = duracion_salto;
-		}
-		 
-		vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y ); 
-
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+		
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
 			//Con esto se mueve en diagonal para saltar de una plataforma a otra
 			vel = b2Vec2(- speed * dt, -speed + GRAVITY_Y);
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
 			
 			vel = b2Vec2(speed * dt, -speed + GRAVITY_Y);
 			
 		}
 
-		if (progreso_salto == duracion_salto) {
-			progreso_salto = 0;
-			saltando = false;
-		}
+		
 	}
 
 	else if (!saltando) {
