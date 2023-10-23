@@ -254,6 +254,7 @@ bool Map::LoadMap(pugi::xml_node mapFile)
         mapData.width = map.attribute("width").as_int();
         mapData.tileHeight = map.attribute("tileheight").as_int();
         mapData.tileWidth = map.attribute("tilewidth").as_int();
+        mapData.parallax = map.attribute("parallaax").as_int();
         mapData.type = MAPTYPE_UNKNOWN;
     }
 
@@ -277,6 +278,7 @@ bool Map::LoadTileSet(pugi::xml_node mapFile){
         set->tileHeight = tileset.attribute("tileheight").as_int();
         set->columns = tileset.attribute("columns").as_int();
         set->tilecount = tileset.attribute("tilecount").as_int();
+        //Add parallax
 
         SString texPath = path; 
         texPath += tileset.child("image").attribute("source").as_string();
@@ -297,6 +299,7 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
     layer->name = node.attribute("name").as_string();
     layer->width = node.attribute("width").as_int();
     layer->height = node.attribute("height").as_int();
+    //Add parallax
 
     LoadProperties(node, layer->properties);
 

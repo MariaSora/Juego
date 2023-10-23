@@ -91,6 +91,7 @@ struct MapData
 	int	height;
 	int	tileWidth;
 	int	tileHeight;
+	int parallax;
 	List<TileSet*> tilesets;
 	MapTypes type;
 
