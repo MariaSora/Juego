@@ -102,8 +102,13 @@ bool Player::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
-
-	
+	if (position.x < 100) {
+		position.x = 100;
+	}
+	if (app->render->camera.x != position.x) {
+		app->render->camera.x = -position.x+100;
+		//app->render->camera.x--;
+	}
 
 	//Set the velocity of the pbody of the player
 	pbody->body->SetLinearVelocity(vel);
