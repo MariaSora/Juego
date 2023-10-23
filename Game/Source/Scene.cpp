@@ -98,6 +98,14 @@ bool Scene::Update(float dt)
 	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		app->render->camera.x += (int)ceil(camSpeed * dt);
 	
+	if (player->position.x < 100) {
+		player->position.x = 100;
+	}
+	if (app->render->camera.x != player->position.x) {
+		app->render->camera.x = -player->position.x + 100;
+		//app->render->camera.x--;
+	}
+
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
