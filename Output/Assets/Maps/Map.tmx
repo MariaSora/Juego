@@ -16020,7 +16020,7 @@
    <tile/>
   </data>
  </layer>
- <layer id="3" name="Clouds1" width="400" height="20" offsetx="-300" offsety="0" parallaxx="0.5">
+ <layer id="3" name="Clouds1" width="400" height="20" offsetx="-300" offsety="0" parallaxx="0.7">
   <properties>
    <property name="Draw" type="bool" value="true"/>
   </properties>
@@ -29641,12 +29641,12 @@
    <tile gid="3"/>
    <tile gid="3"/>
    <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
    <tile gid="4"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -30041,12 +30041,12 @@
    <tile gid="39"/>
    <tile gid="39"/>
    <tile gid="39"/>
+   <tile gid="39"/>
+   <tile gid="39"/>
+   <tile gid="39"/>
+   <tile gid="39"/>
+   <tile gid="39"/>
    <tile gid="40"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -30441,12 +30441,12 @@
    <tile gid="75"/>
    <tile gid="75"/>
    <tile gid="75"/>
+   <tile gid="75"/>
+   <tile gid="75"/>
+   <tile gid="75"/>
+   <tile gid="75"/>
+   <tile gid="75"/>
    <tile gid="76"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
    <tile/>
    <tile/>
    <tile/>
