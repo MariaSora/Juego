@@ -12,6 +12,10 @@
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
+
+	
+
+
 }
 
 Player::~Player() {
@@ -23,6 +27,58 @@ bool Player::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	
+	idleAnim.PushBack({7, 4, 17, 28});
+
+	jumpRAnim.PushBack({6, 295, 22, 32});
+	jumpRAnim.PushBack({ 39, 295, 22, 32 });
+	jumpRAnim.PushBack({ 72, 295, 22, 32 });
+	jumpRAnim.PushBack({ 105, 295, 22, 32 });
+	jumpRAnim.PushBack({ 138, 295, 22, 32 });
+	jumpRAnim.PushBack({ 171, 295, 22, 32 });
+	jumpRAnim.PushBack({ 204, 295, 22, 32 });
+	jumpRAnim.PushBack({ 237, 295, 22, 32 });
+	jumpRAnim.loop = true;
+	jumpRAnim.speed = 0.1f;
+
+	jumpLAnim.PushBack({ 6, 540, 22, 32 });
+	jumpLAnim.PushBack({ 39, 540, 22, 32 });
+	jumpLAnim.PushBack({ 72, 540, 22, 32 });
+	jumpLAnim.PushBack({ 105, 540, 22, 32 });
+	jumpLAnim.PushBack({ 138, 540, 22, 32 });
+	jumpLAnim.PushBack({ 171, 540, 22, 32 });
+	jumpLAnim.PushBack({ 204, 540, 22, 32 });
+	jumpLAnim.PushBack({ 237, 540, 22, 32 });
+	jumpLAnim.loop = true;
+	jumpLAnim.speed = 0.1f;
+
+	walkRAnim.PushBack({ 10, 460, 18, 28 });
+	walkRAnim.PushBack({ 42, 460, 18, 28 });
+	walkRAnim.PushBack({ 74, 460, 18, 28 });
+	walkRAnim.PushBack({ 106, 460, 18, 28 });
+	walkRAnim.PushBack({ 138, 460, 18, 28 });
+	walkRAnim.PushBack({ 170, 460, 18, 28 });
+	walkRAnim.loop = true;
+	walkRAnim.speed = 0.1f;
+
+	walkLAnim.PushBack({ 15, 584, 19, 28 });
+	walkLAnim.PushBack({ 47, 584, 19, 28 });
+	walkLAnim.PushBack({ 78, 584, 19, 28 });
+	walkLAnim.PushBack({ 111, 584, 19, 28 });
+	walkLAnim.PushBack({ 143, 584, 19, 28 });
+	walkLAnim.PushBack({ 175, 584, 19, 28 });
+	walkLAnim.loop = true;
+	walkLAnim.speed = 0.1f;
+
+	climbAnim.PushBack({ 6, 295, 22, 32 });
+	climbAnim.PushBack({ 39, 295, 22, 32 });
+	climbAnim.PushBack({ 72, 295, 22, 32 });
+	climbAnim.PushBack({ 105, 295, 22, 32 });
+	climbAnim.loop = true;
+	climbAnim.speed = 0.1f;
+
+	currentAnimation = &idleAnim; 
+
 
 	return true;
 }
@@ -31,6 +87,8 @@ bool Player::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
+
+	//player = app->tex->Load("Assets/Textures/Pink_Monster.png");
 
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
 	pbody->listener = this;
@@ -79,24 +137,18 @@ bool Player::Update(float dt)
 	else if (!saltando) {
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
 			vel = b2Vec2(-speed * dt, -GRAVITY_Y); 
-
-			//if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) { //Con esto se mueve en diagonal para saltar de una plataforma a otra
-			//	vel = b2Vec2(-speed * dt, -speed + GRAVITY_Y); 
-			//} 
-			//else {
-			//	vel = b2Vec2(-speed * dt, -GRAVITY_Y);
-			//}
+			if (currentAnimation != &walkLAnim){
+				walkLAnim.Reset();
+				currentAnimation = &walkLAnim;
+			}
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
 			vel = b2Vec2(speed * dt, -GRAVITY_Y); 
-			/*if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-				vel = b2Vec2(speed * dt, -speed + GRAVITY_Y);
+			if (currentAnimation != &walkRAnim) {
+				walkRAnim.Reset();
+				currentAnimation = &walkRAnim;
 			}
-			else {
-				vel = b2Vec2(speed * dt, -GRAVITY_Y);
-			}*/
-
 		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
@@ -110,7 +162,12 @@ bool Player::Update(float dt)
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
-	app->render->DrawTexture(texture, position.x, position.y);
+
+	currentAnimation->Update();
+
+	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
+	app->render->DrawTexture(texture, position.x, position.y, &rect);
+
 
 	return true;
 }

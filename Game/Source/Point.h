@@ -2,7 +2,6 @@
 #define __POINT_H__
 
 #include "Defs.h"
-
 #include <math.h>
 
 template<class TYPE>
