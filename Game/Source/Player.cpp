@@ -59,21 +59,21 @@ bool Player::Awake() {
 	walkRAnim.PushBack({ 138, 460, 18, 28 });
 	walkRAnim.PushBack({ 170, 460, 18, 28 });
 	walkRAnim.loop = true;
-	walkRAnim.speed = 0.1f;
-
-	walkLAnim.PushBack({ 15, 584, 19, 28 });
-	walkLAnim.PushBack({ 47, 584, 19, 28 });
-	walkLAnim.PushBack({ 78, 584, 19, 28 });
-	walkLAnim.PushBack({ 111, 584, 19, 28 });
+	walkRAnim.speed = 0.2f;
+	
+	walkLAnim.PushBack({ 175, 584, 19, 28 });	
 	walkLAnim.PushBack({ 143, 584, 19, 28 });
-	walkLAnim.PushBack({ 175, 584, 19, 28 });
+	walkLAnim.PushBack({ 111, 584, 19, 28 });
+	walkLAnim.PushBack({ 78, 584, 19, 28 });
+	walkLAnim.PushBack({ 47, 584, 19, 28 });
+	walkLAnim.PushBack({ 15, 584, 19, 28 });
 	walkLAnim.loop = true;
-	walkLAnim.speed = 0.1f;
+	walkLAnim.speed = 0.2f;
 
-	climbAnim.PushBack({ 6, 295, 22, 32 });
-	climbAnim.PushBack({ 39, 295, 22, 32 });
-	climbAnim.PushBack({ 72, 295, 22, 32 });
-	climbAnim.PushBack({ 105, 295, 22, 32 });
+	climbAnim.PushBack({ 6, 122, 20, 29 });
+	climbAnim.PushBack({ 39, 122, 20, 29 });
+	climbAnim.PushBack({ 71, 122, 20, 29 });
+	climbAnim.PushBack({ 101, 122, 20, 29 });
 	climbAnim.loop = true;
 	climbAnim.speed = 0.1f;
 
@@ -90,7 +90,7 @@ bool Player::Start() {
 
 	//player = app->tex->Load("Assets/Textures/Pink_Monster.png");
 
-	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 13, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::PLAYER;
 
@@ -103,19 +103,20 @@ bool Player::Update(float dt)
 {
 	b2Vec2 vel = b2Vec2(0, -GRAVITY_Y);
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {  
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {  
 		saltando = true;
 		
 		//vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y);
 	}
 
 	if (saltando) {
+		vel.y = 10;
 		progreso_salto += dt;
 		if (progreso_salto > duracion_salto) {
 			progreso_salto = duracion_salto;
 		}
 		 
-		vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y ); 
+		vel = b2Vec2(0, -speed + GRAVITY_Y ); 
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			//Con esto se mueve en diagonal para saltar de una plataforma a otra
@@ -136,7 +137,7 @@ bool Player::Update(float dt)
 
 	else if (!saltando) {
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
-			vel = b2Vec2(-speed * dt, -GRAVITY_Y); 
+			vel = b2Vec2((- speed / 2) * dt, -GRAVITY_Y);
 			if (currentAnimation != &walkLAnim){
 				walkLAnim.Reset();
 				currentAnimation = &walkLAnim;
@@ -144,12 +145,22 @@ bool Player::Update(float dt)
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
-			vel = b2Vec2(speed * dt, -GRAVITY_Y); 
+			vel = b2Vec2((speed / 2) * dt, -GRAVITY_Y); 
 			if (currentAnimation != &walkRAnim) {
 				walkRAnim.Reset();
 				currentAnimation = &walkRAnim;
 			}
 		}
+
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+		{
+			vel = b2Vec2(GRAVITY_X, (- speed / 2) * dt);
+			if (currentAnimation != &climbAnim) {
+				climbAnim.Reset();
+				currentAnimation = &climbAnim;
+			}
+		}
+
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//

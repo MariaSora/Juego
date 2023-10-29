@@ -23,7 +23,7 @@
 
   <scene>
     <map path="Assets/Maps/" name="Map.tmx"/>
-    <player x="100" y="100" texturepath="Assets/Textures/Pink_Monster.png">
+    <player x="100" y="150" texturepath="Assets/Textures/Pink_Monster.png">
 	  <animations>
 		  <idleAnim x ="7" y ="4" width ="17" height ="28"/>
 
