@@ -27,45 +27,25 @@ bool Player::Awake() {
 	
 	idleAnim.PushBack({7, 4, 17, 28});
 
-	jumpRAnim.PushBack({6, 295, 22, 32});
-	jumpRAnim.PushBack({ 39, 295, 22, 32 });
-	jumpRAnim.PushBack({ 72, 295, 22, 32 });
-	jumpRAnim.PushBack({ 105, 295, 22, 32 });
-	jumpRAnim.PushBack({ 138, 295, 22, 32 });
-	jumpRAnim.PushBack({ 171, 295, 22, 32 });
-	jumpRAnim.PushBack({ 204, 295, 22, 32 });
-	jumpRAnim.PushBack({ 237, 295, 22, 32 });
-	jumpRAnim.loop = true;
-	jumpRAnim.speed = 0.1f;
+	jumpAnim.PushBack({6, 295, 22, 32});
+	jumpAnim.PushBack({ 39, 295, 22, 32 });
+	jumpAnim.PushBack({ 72, 295, 22, 32 });
+	jumpAnim.PushBack({ 105, 295, 22, 32 });
+	jumpAnim.PushBack({ 138, 295, 22, 32 });
+	jumpAnim.PushBack({ 171, 295, 22, 32 });
+	jumpAnim.PushBack({ 204, 295, 22, 32 });
+	jumpAnim.PushBack({ 237, 295, 22, 32 });
+	jumpAnim.loop = false;
+	jumpAnim.speed = 0.3f;
 
-	jumpLAnim.PushBack({ 6, 540, 22, 32 });
-	jumpLAnim.PushBack({ 39, 540, 22, 32 });
-	jumpLAnim.PushBack({ 72, 540, 22, 32 });
-	jumpLAnim.PushBack({ 105, 540, 22, 32 });
-	jumpLAnim.PushBack({ 138, 540, 22, 32 });
-	jumpLAnim.PushBack({ 171, 540, 22, 32 });
-	jumpLAnim.PushBack({ 204, 540, 22, 32 });
-	jumpLAnim.PushBack({ 237, 540, 22, 32 });
-	jumpLAnim.loop = true;
-	jumpLAnim.speed = 0.1f;
-
-	walkRAnim.PushBack({ 10, 460, 18, 28 });
-	walkRAnim.PushBack({ 42, 460, 18, 28 });
-	walkRAnim.PushBack({ 74, 460, 18, 28 });
-	walkRAnim.PushBack({ 106, 460, 18, 28 });
-	walkRAnim.PushBack({ 138, 460, 18, 28 });
-	walkRAnim.PushBack({ 170, 460, 18, 28 });
-	walkRAnim.loop = true;
-	walkRAnim.speed = 0.2f;
-	
-	walkLAnim.PushBack({ 175, 584, 19, 28 });	
-	walkLAnim.PushBack({ 143, 584, 19, 28 });
-	walkLAnim.PushBack({ 111, 584, 19, 28 });
-	walkLAnim.PushBack({ 78, 584, 19, 28 });
-	walkLAnim.PushBack({ 47, 584, 19, 28 });
-	walkLAnim.PushBack({ 15, 584, 19, 28 });
-	walkLAnim.loop = true;
-	walkLAnim.speed = 0.2f;
+	walkAnim.PushBack({ 10, 460, 18, 28 });
+	walkAnim.PushBack({ 42, 460, 18, 28 });
+	walkAnim.PushBack({ 74, 460, 18, 28 });
+	walkAnim.PushBack({ 106, 460, 18, 28 });
+	walkAnim.PushBack({ 138, 460, 18, 28 });
+	walkAnim.PushBack({ 170, 460, 18, 28 });
+	walkAnim.loop = true;
+	walkAnim.speed = 0.2f;
 
 	climbAnim.PushBack({ 6, 122, 20, 29 });
 	climbAnim.PushBack({ 39, 122, 20, 29 });
@@ -100,14 +80,15 @@ bool Player::Update(float dt)
 	currentAnimation = &idleAnim;
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
+		isFacingRight = false; 
 		vel = b2Vec2((- speed / 2) * dt, pbody->body->GetLinearVelocity().y);
-		currentAnimation = &walkLAnim;
-	
+		currentAnimation = &walkAnim;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
+		isFacingRight = true;
 		vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
-		currentAnimation = &walkRAnim;
+		currentAnimation = &walkAnim;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
@@ -122,7 +103,10 @@ bool Player::Update(float dt)
 	pbody->body->SetLinearVelocity(vel);
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-		if(!saltando){
+		if(!saltando){ 
+			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) isFacingRight = true;
+			if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN) isFacingRight = false;
+		
 			vel.y = 0;
 			pbody->body->SetLinearVelocity(vel);
 			pbody->body->ApplyLinearImpulse(b2Vec2(0, GRAVITY_Y * 0.1), pbody->body->GetWorldCenter(), true);
@@ -130,8 +114,8 @@ bool Player::Update(float dt)
 		}
 	}
 
-	//Set the velocity of the pbody of the player
-	
+	if (saltando) currentAnimation = &jumpAnim; 
+
 
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -141,7 +125,14 @@ bool Player::Update(float dt)
 	currentAnimation->Update();
 
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
-	app->render->DrawTexture(texture, position.x, position.y, &rect);
+
+	if (isFacingRight) {
+		app->render->DrawTexture(texture, position.x, position.y, &rect, 1, SDL_FLIP_NONE);
+	}
+	else {
+		app->render->DrawTexture(texture, position.x, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
+	}
+
 
 
 	return true;
@@ -163,6 +154,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLATFORM:
 		saltando = false; 
+		jumpAnim.Reset();
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::UNKNOWN:

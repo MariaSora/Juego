@@ -42,7 +42,9 @@ public:
 	SDL_Texture* player = nullptr; 
 
 	Animation* currentAnimation = nullptr; 
-	Animation idleAnim, climbAnim, climbdownAnim, jumpLAnim, jumpRAnim, walkLAnim, walkRAnim;
+	Animation idleAnim, climbAnim, climbdownAnim, jumpAnim, walkAnim;
+
+	bool isFacingRight; 
 };
 
 #endif // __PLAYER_H__
