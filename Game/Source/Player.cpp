@@ -158,7 +158,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::UNKNOWN:
-		saltando = false;
 		LOG("Collision UNKNOWN");
 		break;
 	}
