@@ -83,8 +83,6 @@ bool Player::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
-	currentAnimation = &idleAnim;
-
 	//player = app->tex->Load("Assets/Textures/Pink_Monster.png");
 
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 13, bodyType::DYNAMIC);
@@ -98,68 +96,42 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
-	b2Vec2 vel = b2Vec2(0, -GRAVITY_Y);
-
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {  
-		b2Vec2 vel = pbody->body->GetLinearVelocity();
-		vel.y = 10;
-		pbody->body->SetLinearVelocity(vel);
-		//vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y);
-
-		remainingJumpSteps = 6;
-		
-		if (remainingJumpSteps > 0)
-		{
-			float force = pbody->body->GetMass() * 10 / (1 / 60.0);
-			force /= 6.0;
-			pbody->body->ApplyForce(b2Vec2(0, force), pbody->body->GetWorldCenter(), true);
-			remainingJumpSteps--;
-		}
-
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-			//Con esto se mueve en diagonal para saltar de una plataforma a otra
-			vel = b2Vec2(- speed * dt, -speed + GRAVITY_Y);
-		}
-
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-			
-			vel = b2Vec2(speed * dt, -speed + GRAVITY_Y);
-			
-		}
-
-	}
+	b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+	currentAnimation = &idleAnim;
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
-		vel = b2Vec2((- speed / 2) * dt, -GRAVITY_Y);
-		if (currentAnimation != &walkLAnim){
-			walkLAnim.Reset();
-			currentAnimation = &walkLAnim;
-		}
+		vel = b2Vec2((- speed / 2) * dt, pbody->body->GetLinearVelocity().y);
+		currentAnimation = &walkLAnim;
+	
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
-		vel = b2Vec2((speed / 2) * dt, -GRAVITY_Y); 
-		if (currentAnimation != &walkRAnim) {
-			walkRAnim.Reset();
-			currentAnimation = &walkRAnim;
-		}
+		vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
+		currentAnimation = &walkRAnim;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 		vel = b2Vec2(GRAVITY_X, (- speed / 2) * dt);
-		if (currentAnimation != &climbAnim) {
-			climbAnim.Reset();
-			currentAnimation = &climbAnim;
-		}
-
+		currentAnimation = &climbAnim;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
 
-	//Set the velocity of the pbody of the player
 	pbody->body->SetLinearVelocity(vel);
+
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+		if(!saltando){
+			vel.y = 0;
+			pbody->body->SetLinearVelocity(vel);
+			pbody->body->ApplyLinearImpulse(b2Vec2(0, GRAVITY_Y * 0.1), pbody->body->GetWorldCenter(), true);
+			saltando = true;
+		}
+	}
+
+	//Set the velocity of the pbody of the player
+	
 
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -190,9 +162,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::PLATFORM:
+		saltando = false; 
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::UNKNOWN:
+		saltando = false;
 		LOG("Collision UNKNOWN");
 		break;
 	}
