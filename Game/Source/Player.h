@@ -35,6 +35,7 @@ public:
 	int pickCoinFxId;
 
 	bool saltando = false;
+	int remainingJumpSteps;
 	int progreso_salto = 0;
 	int duracion_salto = 320;
 

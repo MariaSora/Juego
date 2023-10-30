@@ -12,10 +12,7 @@
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
-
-	
-
-
+	remainingJumpSteps = 0;
 }
 
 Player::~Player() {
@@ -77,8 +74,6 @@ bool Player::Awake() {
 	climbAnim.loop = true;
 	climbAnim.speed = 0.1f;
 
-	currentAnimation = &idleAnim; 
-
 
 	return true;
 }
@@ -87,6 +82,8 @@ bool Player::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
+
+	currentAnimation = &idleAnim;
 
 	//player = app->tex->Load("Assets/Textures/Pink_Monster.png");
 
@@ -104,19 +101,20 @@ bool Player::Update(float dt)
 	b2Vec2 vel = b2Vec2(0, -GRAVITY_Y);
 
 	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {  
-		saltando = true;
-		
-		//vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y);
-	}
-
-	if (saltando) {
+		b2Vec2 vel = pbody->body->GetLinearVelocity();
 		vel.y = 10;
-		progreso_salto += dt;
-		if (progreso_salto > duracion_salto) {
-			progreso_salto = duracion_salto;
+		pbody->body->SetLinearVelocity(vel);
+		//vel = b2Vec2(GRAVITY_X, -speed + GRAVITY_Y);
+
+		remainingJumpSteps = 6;
+		
+		if (remainingJumpSteps > 0)
+		{
+			float force = pbody->body->GetMass() * 10 / (1 / 60.0);
+			force /= 6.0;
+			pbody->body->ApplyForce(b2Vec2(0, force), pbody->body->GetWorldCenter(), true);
+			remainingJumpSteps--;
 		}
-		 
-		vel = b2Vec2(0, -speed + GRAVITY_Y ); 
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			//Con esto se mueve en diagonal para saltar de una plataforma a otra
@@ -129,39 +127,33 @@ bool Player::Update(float dt)
 			
 		}
 
-		if (progreso_salto == duracion_salto) {
-			progreso_salto = 0;
-			saltando = false;
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
+		vel = b2Vec2((- speed / 2) * dt, -GRAVITY_Y);
+		if (currentAnimation != &walkLAnim){
+			walkLAnim.Reset();
+			currentAnimation = &walkLAnim;
 		}
 	}
 
-	else if (!saltando) {
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
-			vel = b2Vec2((- speed / 2) * dt, -GRAVITY_Y);
-			if (currentAnimation != &walkLAnim){
-				walkLAnim.Reset();
-				currentAnimation = &walkLAnim;
-			}
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
+		vel = b2Vec2((speed / 2) * dt, -GRAVITY_Y); 
+		if (currentAnimation != &walkRAnim) {
+			walkRAnim.Reset();
+			currentAnimation = &walkRAnim;
 		}
+	}
 
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
-			vel = b2Vec2((speed / 2) * dt, -GRAVITY_Y); 
-			if (currentAnimation != &walkRAnim) {
-				walkRAnim.Reset();
-				currentAnimation = &walkRAnim;
-			}
-		}
-
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		{
-			vel = b2Vec2(GRAVITY_X, (- speed / 2) * dt);
-			if (currentAnimation != &climbAnim) {
-				climbAnim.Reset();
-				currentAnimation = &climbAnim;
-			}
+	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+		vel = b2Vec2(GRAVITY_X, (- speed / 2) * dt);
+		if (currentAnimation != &climbAnim) {
+			climbAnim.Reset();
+			currentAnimation = &climbAnim;
 		}
 
 	}
+
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
