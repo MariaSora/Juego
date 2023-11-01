@@ -116,6 +116,7 @@ bool App::Start()
 
 	while(item != NULL && ret == true)
 	{
+		LOG("Cargando: %s", item->data->name.GetString());
 		ret = item->data->Start();
 		item = item->next;
 	}

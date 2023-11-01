@@ -86,6 +86,31 @@ struct MapLayer
 	}
 };
 
+
+struct MapObject {
+
+	uint id;
+	uint x;
+	uint y;
+	uint width;
+	uint height;
+
+};
+
+struct MapObjects
+{
+	SString    name;
+	int id;
+	int x;
+	int y;
+	int width;
+	int height;
+	List<MapObject*> objects;
+
+	Properties properties;
+
+};
+
 struct MapData
 {
 	int width;
@@ -95,6 +120,8 @@ struct MapData
 	List<TileSet*> tilesets;
 	MapTypes type;
 
+
+	List<MapObjects*> mapObjects;
 	List<MapLayer*> maplayers;
 };
 
@@ -131,6 +158,9 @@ private:
 	bool LoadTileSet(pugi::xml_node mapFile);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
 	bool LoadAllLayers(pugi::xml_node mapNode);
+	bool LoadObject(pugi::xml_node& node, MapObjects* layer);
+	bool LoadAllObjectGroup(pugi::xml_node mapNode);
+	bool LoadCollisionsObject();
 	TileSet* GetTilesetFromTileId(int gid) const;
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 

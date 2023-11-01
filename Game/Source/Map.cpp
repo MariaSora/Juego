@@ -182,23 +182,34 @@ bool Map::Load(SString mapFileName)
     {
         ret = LoadAllLayers(mapFileXML.child("map"));
     }
+
+    if(ret == true)
+    {
+        ret = LoadAllObjectGroup(mapFileXML.child("map"));
+    }
+
+    //Dibuja las colisiones en el mapa
+    if (ret == true) {
+        ret = LoadCollisionsObject();
+    }
     
+
     // NOTE: Later you have to create a function here to load and create the colliders from the map
 
-    PhysBody* c1 = app->physics->CreateRectangle(224 + 128, 543 + 32, 256, 64, STATIC);
-    c1->ctype = ColliderType::PLATFORM;
+    //PhysBody* c1 = app->physics->CreateRectangle(224 + 128, 543 + 32, 256, 64, STATIC);
+    //c1->ctype = ColliderType::PLATFORM;
 
-    PhysBody* c4 = app->physics->CreateRectangle(300, 249, 96, 47, STATIC);
-    c4->ctype = ColliderType::PLATFORM;
+    //PhysBody* c4 = app->physics->CreateRectangle(300, 249, 96, 47, STATIC);
+    //c4->ctype = ColliderType::PLATFORM;
 
-    PhysBody* c5 = app->physics->CreateRectangle(152, 249, 175, 47, STATIC);
-    c5->ctype = ColliderType::PLATFORM;
+    //PhysBody* c5 = app->physics->CreateRectangle(152, 249, 175, 47, STATIC);
+    //c5->ctype = ColliderType::PLATFORM;
 
-    PhysBody* c2 = app->physics->CreateRectangle(352 + 64, 384 + 32, 128, 64, STATIC);
-    c2->ctype = ColliderType::PLATFORM;
+    //PhysBody* c2 = app->physics->CreateRectangle(352 + 64, 384 + 32, 128, 64, STATIC);
+    //c2->ctype = ColliderType::PLATFORM;
 
-    PhysBody* c3 = app->physics->CreateRectangle(256, 704 + 32, 576, 64, STATIC);
-    c3->ctype = ColliderType::PLATFORM;
+    //PhysBody* c3 = app->physics->CreateRectangle(256, 704 + 32, 576, 64, STATIC);
+    //c3->ctype = ColliderType::PLATFORM;
     
     if(ret == true)
     {
@@ -338,6 +349,83 @@ bool Map::LoadAllLayers(pugi::xml_node mapNode) {
     }
 
     return ret;
+}
+
+bool Map::LoadObject(pugi::xml_node& node, MapObjects* mapObjects)
+{
+    bool ret = true;
+
+    //Load the attributes
+    mapObjects->id = node.attribute("id").as_int();
+    mapObjects->name = node.attribute("name").as_string();
+    mapObjects->width = node.attribute("width").as_int();
+    mapObjects->width = node.attribute("height").as_int();
+    mapObjects->x = node.attribute("x").as_int();
+    mapObjects->y = node.attribute("y").as_int();
+
+    LoadProperties(node, mapObjects->properties);
+
+    ////Reserve the memory for the data 
+    //layer->data = new uint[layer->width * layer->height];
+    //memset(layer->data, 0, layer->width * layer->height);
+
+    //Iterate over all the tiles and assign the values
+    pugi::xml_node object;
+    int i = 0;
+    for (object = node.child("object"); object && ret; object = object.next_sibling("object"))
+    {
+        mapObjects->objects.Add(new MapObject{
+            object.attribute("id").as_uint(),
+            object.attribute("x").as_uint(),
+            object.attribute("y").as_uint(),
+            object.attribute("width").as_uint(),
+            object.attribute("height").as_uint(),
+
+            });
+        i++;
+    }
+
+    return ret;
+}
+
+bool Map::LoadAllObjectGroup(pugi::xml_node mapNode)
+{
+    bool ret = true;
+
+    for (pugi::xml_node objectNode = mapNode.child("objectgroup"); objectNode && ret; objectNode = objectNode.next_sibling("objectgroup"))
+    {
+        //Load the layer
+        MapObjects* mapObjects = new MapObjects();
+        ret = LoadObject(objectNode, mapObjects);
+
+        //add the layer to the map
+        mapData.mapObjects.Add(mapObjects);
+    }
+
+    return ret;
+}
+
+bool Map::LoadCollisionsObject()
+{
+    ListItem<MapObjects*>* mapObjectsItem;
+    mapObjectsItem = mapData.mapObjects.start;
+    bool ret = false;
+
+
+    while (mapObjectsItem != NULL) { //Capa de objetos
+        for (int i = 0; i < mapObjectsItem->data->objects.Count(); i++) { //Cada objeto individual
+
+            MapObject* object = mapObjectsItem->data->objects[i];
+
+            PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
+            c1->ctype = ColliderType::PLATFORM;
+
+        }
+        mapObjectsItem = mapObjectsItem->next;
+    }
+
+
+    return true;
 }
 
 bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
