@@ -9,6 +9,24 @@
 
 struct SDL_Texture;
 
+//struct jumpAnim {
+//	uint x;
+//	uint y;
+//	uint width;
+//	uint height;
+//
+//};
+//
+//struct jumpAnims
+//{
+//	SString name;
+//	int x;
+//	int y;
+//	int width;
+//	int height;
+//	List<jumpAnims*> jump; 
+//};
+
 class Player : public Entity
 {
 public:
@@ -45,6 +63,10 @@ public:
 	Animation idleAnim, climbAnim, climbdownAnim, jumpAnim, walkAnim;
 
 	bool isFacingRight; 
+
+private:
+	//bool LoadJumpAnim(pugi::xml_node& node, jumpAnims* jump);
+	//bool LoadAllJumpAnims(pugi::xml_node animNode);
 };
 
 #endif // __PLAYER_H__
