@@ -30,11 +30,11 @@ bool Player::Awake() {
 	jumpAnim.PushBack({6, 295, 22, 32});
 	jumpAnim.PushBack({ 39, 295, 22, 32 });
 	jumpAnim.PushBack({ 72, 295, 22, 32 });
-	jumpAnim.PushBack({ 105, 295, 22, 32 });
-	jumpAnim.PushBack({ 138, 295, 22, 32 });
-	jumpAnim.PushBack({ 171, 295, 22, 32 });
-	jumpAnim.PushBack({ 204, 295, 22, 32 });
-	jumpAnim.PushBack({ 237, 295, 22, 32 });
+	jumpAnim.PushBack({ 102, 295, 22, 32 });
+	jumpAnim.PushBack({ 134, 295, 22, 32 });
+	jumpAnim.PushBack({ 167, 295, 22, 32 });
+	jumpAnim.PushBack({ 200, 295, 22, 32 });
+	jumpAnim.PushBack({ 230, 295, 22, 32 });
 	jumpAnim.loop = false;
 	jumpAnim.speed = 0.3f;
 
@@ -162,3 +162,13 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	}
 }
+
+//bool Player::LoadJumpAnim(pugi::xml_node& node, jumpAnims* jump)
+//{
+//	return false;
+//}
+//
+//bool Player::LoadAllJumpAnims(pugi::xml_node animNode)
+//{
+//	return false;
+//}
