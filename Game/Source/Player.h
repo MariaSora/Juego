@@ -6,6 +6,7 @@
 #include "Animation.h"
 #include "SDL/include/SDL.h"
 
+#include "Physics.h"
 
 struct SDL_Texture;
 
@@ -67,6 +68,8 @@ public:
 private:
 	//bool LoadJumpAnim(pugi::xml_node& node, jumpAnims* jump);
 	//bool LoadAllJumpAnims(pugi::xml_node animNode);
+
+	b2Transform Ipos;
 };
 
 #endif // __PLAYER_H__

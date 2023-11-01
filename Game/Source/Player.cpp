@@ -47,51 +47,103 @@ bool Player::Start() {
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 
+	Ipos = pbody->body->GetTransform(); //Pos inicial
+
 	return true;
 }
 
 bool Player::Update(float dt)
 {
-	b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
+	b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y); 
 	currentAnimation = &idleAnim;
 
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
-		isFacingRight = false; 
-		vel = b2Vec2((- speed / 2) * dt, pbody->body->GetLinearVelocity().y);
-		currentAnimation = &walkAnim;
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) { 
+		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
-		isFacingRight = true;
-		vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
-		currentAnimation = &walkAnim;
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { 
+		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0); 
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-		vel = b2Vec2(GRAVITY_X, (- speed / 2) * dt);
-		currentAnimation = &climbAnim;
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_REPEAT) {
+		app->godmode = !app->godmode;
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		//
-	}
+	if (app->godmode) {
 
-	pbody->body->SetLinearVelocity(vel);
-
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-		if(!saltando){ 
-			if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) isFacingRight = true;
-			if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN) isFacingRight = false;
-		
-			vel.y = 0;
-			pbody->body->SetLinearVelocity(vel);
-			pbody->body->ApplyLinearImpulse(b2Vec2(0, GRAVITY_Y * 0.1), pbody->body->GetWorldCenter(), true);
-			saltando = true;
+		b2Vec2 vel = b2Vec2(0,0); 
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
+			isFacingRight = false; 
+			vel = b2Vec2((-speed / 2) * dt, 0); 
+			currentAnimation = &walkAnim;
 		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
+			isFacingRight = true;
+			vel = b2Vec2((speed / 2) * dt, 0);
+			currentAnimation = &walkAnim;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) { 
+			vel = b2Vec2(0, (-speed / 2) * dt); 
+			currentAnimation = &climbAnim;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) { 
+			vel = b2Vec2(0, (speed / 2) * dt);
+		}
+		pbody->body->SetLinearVelocity(vel);
+		pbody->body->SetGravityScale(0);
+		pbody->body->GetFixtureList()[0].SetSensor(true);
+
+
+	}
+	
+	if (app->godmode == false) {
+
+		pbody->body->SetGravityScale(1);
+		pbody->body->GetFixtureList()[0].SetSensor(false);
+
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			isFacingRight = false;
+			vel = b2Vec2((-speed / 2) * dt, pbody->body->GetLinearVelocity().y);
+			currentAnimation = &walkAnim;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+			isFacingRight = true;
+			vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
+			currentAnimation = &walkAnim;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			vel = b2Vec2(GRAVITY_X, (-speed / 2) * dt);
+			currentAnimation = &climbAnim;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+			//
+		}
+
+		pbody->body->SetLinearVelocity(vel);
+
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+			if (!saltando) {
+				if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) isFacingRight = true;
+				if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN) isFacingRight = false;
+
+				vel.y = 0;
+				pbody->body->SetLinearVelocity(vel);
+				pbody->body->ApplyLinearImpulse(b2Vec2(0, GRAVITY_Y * 0.1), pbody->body->GetWorldCenter(), true);
+				saltando = true;
+			}
+		}
+
+		if (saltando) currentAnimation = &jumpAnim;
+
 	}
 
-	if (saltando) currentAnimation = &jumpAnim; 
-
+	
 
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
