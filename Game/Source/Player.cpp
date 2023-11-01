@@ -25,35 +25,11 @@ bool Player::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	
-	idleAnim.PushBack({7, 4, 17, 28});
 
-	jumpAnim.PushBack({6, 295, 22, 32});
-	jumpAnim.PushBack({ 39, 295, 22, 32 });
-	jumpAnim.PushBack({ 72, 295, 22, 32 });
-	jumpAnim.PushBack({ 102, 295, 22, 32 });
-	jumpAnim.PushBack({ 134, 295, 22, 32 });
-	jumpAnim.PushBack({ 167, 295, 22, 32 });
-	jumpAnim.PushBack({ 200, 295, 22, 32 });
-	jumpAnim.PushBack({ 230, 295, 22, 32 });
-	jumpAnim.loop = false;
-	jumpAnim.speed = 0.3f;
-
-	walkAnim.PushBack({ 10, 460, 18, 28 });
-	walkAnim.PushBack({ 42, 460, 18, 28 });
-	walkAnim.PushBack({ 74, 460, 18, 28 });
-	walkAnim.PushBack({ 106, 460, 18, 28 });
-	walkAnim.PushBack({ 138, 460, 18, 28 });
-	walkAnim.PushBack({ 170, 460, 18, 28 });
-	walkAnim.loop = true;
-	walkAnim.speed = 0.2f;
-
-	climbAnim.PushBack({ 6, 122, 20, 29 });
-	climbAnim.PushBack({ 39, 122, 20, 29 });
-	climbAnim.PushBack({ 71, 122, 20, 29 });
-	climbAnim.PushBack({ 101, 122, 20, 29 });
-	climbAnim.loop = true;
-	climbAnim.speed = 0.1f;
-
+	idleAnim.LoadAnimation("idleAnim");
+	jumpAnim.LoadAnimation("jumpAnim");
+	walkAnim.LoadAnimation("walkAnim");
+	climbAnim.LoadAnimation("climbAnim");
 
 	return true;
 }
