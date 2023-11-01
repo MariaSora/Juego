@@ -94,6 +94,7 @@ struct MapObject {
 	uint y;
 	uint width;
 	uint height;
+	List<uint> point;
 
 };
 

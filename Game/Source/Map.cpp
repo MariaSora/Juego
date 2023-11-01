@@ -3,6 +3,7 @@
 #include "Textures.h"
 #include "Map.h"
 #include "Physics.h"
+#include "Scene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -50,7 +51,11 @@ bool Map::Update(float dt)
 
         if (mapLayerItem->data->properties.GetProperty("Draw") != NULL && mapLayerItem->data->properties.GetProperty("Draw")->value) {
 
-            for (int x = 0; x < mapLayerItem->data->width; x++)
+            iPoint playerPos = app->scene->GetPlayer()->position;
+            int xToTiledLeft = MAX((playerPos.x / 16) - 15, 0);
+            int xToTiledRight = MIN((playerPos.x / 16) + 15, mapLayerItem->data->width);
+
+            for (int x = xToTiledLeft; x < xToTiledRight; x++)
             {
                 for (int y = 0; y < mapLayerItem->data->height; y++)
                 {
@@ -187,6 +192,7 @@ bool Map::Load(SString mapFileName)
     {
         ret = LoadAllObjectGroup(mapFileXML.child("map"));
     }
+
 
     //Dibuja las colisiones en el mapa
     if (ret == true) {
@@ -374,14 +380,18 @@ bool Map::LoadObject(pugi::xml_node& node, MapObjects* mapObjects)
     int i = 0;
     for (object = node.child("object"); object && ret; object = object.next_sibling("object"))
     {
-        mapObjects->objects.Add(new MapObject{
+        MapObject* objectAux = new MapObject{
             object.attribute("id").as_uint(),
             object.attribute("x").as_uint(),
             object.attribute("y").as_uint(),
             object.attribute("width").as_uint(),
             object.attribute("height").as_uint(),
+            List<uint>()
 
-            });
+        };
+
+        mapObjects->objects.Add(objectAux);
+
         i++;
     }
 
