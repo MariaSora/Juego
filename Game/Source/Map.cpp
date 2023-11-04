@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Physics.h"
 #include "Scene.h"
+#include "Player.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -219,7 +220,7 @@ bool Map::Load(SString mapFileName)
     if (ret == true) {
         ret = LoadCollisionsObject();
     }
-    
+
 
     // NOTE: Later you have to create a function here to load and create the colliders from the map
 
@@ -456,16 +457,9 @@ bool Map::LoadCollisionsObject()
 
             if (mapObjectsItem->data->id == 10) //stairs
             {
-                PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
-                c1->ctype = ColliderType::STAIRS;
-                c1->body->GetFixtureList()[0].SetSensor(true);
-            }
-
-            if (mapObjectsItem->data->id == 11) //transferable floor
-            {
-                PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
-                c1->ctype = ColliderType::TRANSFERABLE;
-                c1->body->GetFixtureList()[0].SetSensor(true);
+                PhysBody* c2 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
+                c2->ctype = ColliderType::STAIRS;
+                c2->body->GetFixtureList()[0].SetSensor(true);
             }
 
         }
@@ -474,6 +468,18 @@ bool Map::LoadCollisionsObject()
 
 
     return ret;
+}
+
+bool Map::MovingPlatform()
+{
+    //Para hacer las plataformas que se mueven
+
+    PhysBody* c1 = app->physics->CreateRectangle(85 , 150, 48, 16, DYNAMIC);
+    c1->ctype = ColliderType::MOVING_PLATFORM;
+
+
+
+    return false;
 }
 
 bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)

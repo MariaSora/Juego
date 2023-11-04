@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Map.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -41,7 +42,7 @@ bool Player::Start() {
 
 	//player = app->tex->Load("Assets/Textures/Pink_Monster.png");
 
-	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 13, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x - 16, position.y + 16, 13, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::PLAYER;
 
@@ -84,7 +85,7 @@ bool Player::Update(float dt)
 			vel = b2Vec2(0, (-speed / 2) * dt); 
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) { 
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 			vel = b2Vec2(0, (speed / 2) * dt);
 		}
 		pbody->body->SetLinearVelocity(vel);
@@ -193,11 +194,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		//vel = b2Vec2(0, 0);
 		LOG("Collision STAIRS");
 		
-		break;
-	case ColliderType::TRANSFERABLE:
-		LOG("Collision TRANSFERABLE");
-		saltando = false;
-		jumpAnim.Reset();
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
