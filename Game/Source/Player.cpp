@@ -73,20 +73,15 @@ bool Player::Update(float dt)
 
 		b2Vec2 vel = b2Vec2(0,0); 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
-			isFacingRight = false; 
 			vel = b2Vec2((-speed / 2) * dt, 0); 
-			currentAnimation = &walkAnim;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
-			isFacingRight = true;
 			vel = b2Vec2((speed / 2) * dt, 0);
-			currentAnimation = &walkAnim;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) { 
 			vel = b2Vec2(0, (-speed / 2) * dt); 
-			currentAnimation = &climbAnim;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) { 
