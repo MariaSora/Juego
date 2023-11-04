@@ -9,7 +9,7 @@
   </renderer>
 
   <window>
-    <resolution width="1024" height="630" scale="2"/>
+    <resolution width="900" height="630" scale="2"/>
     <fullscreen value="false"/>
     <borderless value="false"/>
     <resizable value="false"/>
@@ -38,6 +38,7 @@
 			  <anim x ="167" y ="295" width ="22" height ="32"/>
 			  <anim x ="200" y ="295" width ="22" height ="32"/>
 			  <anim x ="230" y ="295" width ="22" height ="32"/>
+			  <anim x ="6" y ="295" width ="22" height ="32"/>
 		  </jumpAnim>
 
 	    <walkAnim loop ="true" speed ="0.2">
@@ -50,10 +51,10 @@
 		</walkAnim>
 
 		<climbAnim loop ="true" speed ="0.1">
-			<anim x ="6" y ="122" width ="19" height ="29"/>
-			<anim x ="39" y ="122" width ="19" height ="29"/>
-			<anim x ="71" y ="122" width ="19" height ="29"/>
-			<anim x ="101" y ="122" width ="19" height ="29"/>
+			<anim x ="6" y ="122" width ="20" height ="29"/>
+			<anim x ="39" y ="122" width ="20" height ="29"/>
+			<anim x ="71" y ="122" width ="20" height ="29"/>
+			<anim x ="101" y ="122" width ="20" height ="29"/>
 		</climbAnim>
 
 	  </animations>

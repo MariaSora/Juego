@@ -102,7 +102,7 @@ bool Scene::Update(float dt)
 	//	player->position.x = 100;
 	//}
 	if (app->render->camera.x != player->position.x * app->win->GetScale()) {
-		app->render->camera.x = -player->position.x * app->win->GetScale() + 100;
+		app->render->camera.x = -player->position.x * app->win->GetScale() + 200;
 		//app->render->camera.x--;
 	}
 
