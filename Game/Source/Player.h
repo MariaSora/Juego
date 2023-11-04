@@ -59,7 +59,6 @@ public:
 	int progreso_salto = 0;
 	int duracion_salto = 320;
 
-	bool collidingPlatform;
 
 	SDL_Texture* player = nullptr; 
 

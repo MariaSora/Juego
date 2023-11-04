@@ -115,7 +115,7 @@ bool Player::Update(float dt)
 			currentAnimation = &walkAnim;
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && collidingPlatform) {
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			vel = b2Vec2(GRAVITY_X, (-speed / 2) * dt);
 			currentAnimation = &climbAnim;
 		}
@@ -188,20 +188,17 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		saltando = false;
 		muere = false;
 		jumpAnim.Reset();
-		collidingPlatform = false;
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::STAIRS:
 		//vel = b2Vec2(0, 0);
 		LOG("Collision STAIRS");
 		
-		collidingPlatform = true;
 		break;
 	case ColliderType::TRANSFERABLE:
 		LOG("Collision TRANSFERABLE");
 		saltando = false;
 		jumpAnim.Reset();
-		collidingPlatform = true;
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
