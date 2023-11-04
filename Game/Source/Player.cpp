@@ -145,12 +145,12 @@ bool Player::Update(float dt)
 
 		if (saltando) currentAnimation = &jumpAnim;
 		
-		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || position.y >= 630) {
+		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			muere = true;
 		}
-
-		if (muere) {
-			pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0); 
+		if (position.y >= 630) {
+			pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+			muere = true;
 		}
 	}
 

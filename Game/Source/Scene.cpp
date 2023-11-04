@@ -103,9 +103,14 @@ bool Scene::Update(float dt)
 	//}
 	if (app->render->camera.x != player->position.x * app->win->GetScale()) {
 		app->render->camera.x = -player->position.x * app->win->GetScale() + 200;
-		//app->render->camera.x--;
 	}
 
+	if (app->render->camera.x >= 0) {
+		app->render->camera.x = 0;
+	}
+	if (app->render->camera.x <= -5500) {
+		app->render->camera.x = -5500;
+	}
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 
