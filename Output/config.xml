@@ -24,6 +24,7 @@
   <scene>
     <map path="Assets/Maps/" name="Map.tmx"/>
     <player x="100" y="150" texturepath="Assets/Textures/Pink_Monster.png">
+	<movingplatform x="100" y="80" texturepath="Assets/Textures/movingPlatform.png"/>
 	  <animations>
 		  <idleAnim loop ="false" speed ="1.0">
 			<anim x ="7" y ="4" width ="17" height ="28"/>
@@ -59,7 +60,7 @@
 
 	  </animations>
 	  </player>
-    <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
+		  
     <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="384" y="352" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="200" y="672" texturepath="Assets/Textures/goldCoin.png"/>

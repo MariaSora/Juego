@@ -63,9 +63,9 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { 
 		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0); 
-		}
+	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_REPEAT) {
 		app->godmode = !app->godmode;
 	}
 
@@ -73,19 +73,20 @@ bool Player::Update(float dt)
 
 		b2Vec2 vel = b2Vec2(0,0); 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
-			//isFacingRight = false; 
+			isFacingRight = false; 
 			vel = b2Vec2((-speed / 2) * dt, 0); 
-			//currentAnimation = &walkAnim;
+			currentAnimation = &walkAnim;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
-			//isFacingRight = true;
+			isFacingRight = true;
 			vel = b2Vec2((speed / 2) * dt, 0);
-			//currentAnimation = &walkAnim;
+			currentAnimation = &walkAnim;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) { 
 			vel = b2Vec2(0, (-speed / 2) * dt); 
+			currentAnimation = &climbAnim;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) { 
@@ -94,7 +95,6 @@ bool Player::Update(float dt)
 		pbody->body->SetLinearVelocity(vel);
 		pbody->body->SetGravityScale(0);
 		pbody->body->GetFixtureList()[0].SetSensor(true);
-
 
 	}
 	
@@ -161,7 +161,6 @@ bool Player::Update(float dt)
 	}
 
 
-
 	return true;
 }
 
@@ -183,6 +182,16 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		saltando = false; 
 		jumpAnim.Reset();
 		LOG("Collision PLATFORM");
+		break;
+	case ColliderType::STAIRS:
+		LOG("Collision STAIRS");
+			
+		break;
+	case ColliderType::TRANSFERABLE:
+		LOG("Collision TRANSFERABLE");
+		saltando = false;
+		jumpAnim.Reset();
+
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");

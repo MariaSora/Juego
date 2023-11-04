@@ -26,7 +26,9 @@ enum bodyType {
 enum class ColliderType {
 	PLAYER, 
 	ITEM,
-	PLATFORM, 
+	PLATFORM,
+	STAIRS,
+	TRANSFERABLE,
 	UNKNOWN
 	// ..
 };

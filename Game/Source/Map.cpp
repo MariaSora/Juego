@@ -441,7 +441,7 @@ bool Map::LoadCollisionsObject()
 {
     ListItem<MapObjects*>* mapObjectsItem;
     mapObjectsItem = mapData.mapObjects.start;
-    bool ret = false;
+    bool ret = true;
 
 
     while (mapObjectsItem != NULL) { //Capa de objetos
@@ -449,15 +449,30 @@ bool Map::LoadCollisionsObject()
 
             MapObject* object = mapObjectsItem->data->objects[i];
 
-            PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
-            c1->ctype = ColliderType::PLATFORM;
+            if (mapObjectsItem->data->id == 8) //normal floor
+            {
+              PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
+              c1->ctype = ColliderType::PLATFORM;
+            }
+
+            if (mapObjectsItem->data->id == 10) //stairs
+            {
+                PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
+                c1->ctype = ColliderType::STAIRS;
+            }
+
+            if (mapObjectsItem->data->id == 11) //transferable floor
+            {
+                PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
+                c1->ctype = ColliderType::TRANSFERABLE;
+            }
 
         }
         mapObjectsItem = mapObjectsItem->next;
     }
 
 
-    return true;
+    return ret;
 }
 
 bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
