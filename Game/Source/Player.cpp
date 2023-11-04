@@ -65,7 +65,7 @@ bool Player::Update(float dt)
 		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0); 
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_REPEAT) {
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) { 
 		app->godmode = !app->godmode;
 	}
 
@@ -140,7 +140,14 @@ bool Player::Update(float dt)
 		}
 
 		if (saltando) currentAnimation = &jumpAnim;
+		
+		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || position.y >= 630) {
+			muere = true;
+		}
 
+		if (muere) {
+			pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0); 
+		}
 	}
 
 	//Update player position in pixels
@@ -178,7 +185,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::PLATFORM:
-		saltando = false; 
+		saltando = false;
+		muere = false;
 		jumpAnim.Reset();
 		LOG("Collision PLATFORM");
 		break;
