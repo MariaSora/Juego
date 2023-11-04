@@ -121,7 +121,8 @@ bool Player::Update(float dt)
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-			//
+			vel = b2Vec2(GRAVITY_X, (speed / 2) * dt);
+			currentAnimation = &climbAnim;
 		}
 
 		pbody->body->SetLinearVelocity(vel);
@@ -141,8 +142,6 @@ bool Player::Update(float dt)
 		if (saltando) currentAnimation = &jumpAnim;
 
 	}
-
-	
 
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -171,7 +170,7 @@ bool Player::CleanUp()
 }
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
-
+	//b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
@@ -184,6 +183,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::STAIRS:
+		//vel = b2Vec2(0, 0);
 		LOG("Collision STAIRS");
 			
 		break;
