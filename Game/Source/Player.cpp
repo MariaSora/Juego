@@ -114,16 +114,20 @@ bool Player::Update(float dt)
 			vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
 			currentAnimation = &walkAnim;
 		}
+	
+		if (pbody->ctype == ColliderType::STAIRS)
+		{
+			if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+				vel = b2Vec2(GRAVITY_X, (-speed / 2) * dt);
+				currentAnimation = &climbAnim;
+			}
 
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-			vel = b2Vec2(GRAVITY_X, (-speed / 2) * dt);
-			currentAnimation = &climbAnim;
+			if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+				vel = b2Vec2(GRAVITY_X, (speed / 2) * dt);
+				currentAnimation = &climbAnim;
+			}
 		}
-
-		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-			vel = b2Vec2(GRAVITY_X, (speed / 2) * dt);
-			currentAnimation = &climbAnim;
-		}
+		
 
 		pbody->body->SetLinearVelocity(vel);
 
