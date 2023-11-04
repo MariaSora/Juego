@@ -67,10 +67,9 @@ bool Map::Update(float dt)
                     iPoint pos = MapToWorld(x, y);
 
                     app->render->DrawTexture(tileset->texture,
-                                             pos.x,
-                                             pos.y,
-                                             &r,
-                                             mapLayerItem->data->parallax);
+                        pos.x,
+                        pos.y,
+                        &r);
                 }   
             }
         }
@@ -459,12 +458,14 @@ bool Map::LoadCollisionsObject()
             {
                 PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
                 c1->ctype = ColliderType::STAIRS;
+                c1->body->GetFixtureList()[0].SetSensor(true);
             }
 
             if (mapObjectsItem->data->id == 11) //transferable floor
             {
                 PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
                 c1->ctype = ColliderType::TRANSFERABLE;
+                c1->body->GetFixtureList()[0].SetSensor(true);
             }
 
         }

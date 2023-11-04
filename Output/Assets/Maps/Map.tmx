@@ -48052,6 +48052,9 @@
   </data>
  </layer>
  <objectgroup color="#ffaaff" id="11" name="Collisions_transferableFloor">
+  <properties>
+   <property name="isSensor" type="bool" value="true"/>
+  </properties>
   <object id="46" x="832" y="128" width="111.333" height="63.3333"/>
   <object id="47" x="848" y="112" width="95.3333" height="16.3333"/>
   <object id="48" x="864.333" y="95.6667" width="79.3333" height="16.3333"/>
@@ -48060,6 +48063,9 @@
   <object id="53" x="2592.33" y="112.333" width="95.6667" height="15.3333"/>
  </objectgroup>
  <objectgroup color="#55ff7f" id="10" name="Collisions_stairs">
+  <properties>
+   <property name="isSensor" type="bool" value="true"/>
+  </properties>
   <object id="44" x="464" y="80" width="31.6667" height="113.333"/>
   <object id="45" x="1904" y="32" width="31.6667" height="161.667"/>
  </objectgroup>
