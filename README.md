@@ -1,26 +1,30 @@
-# {Project Name}
+# CloudEater
 
-## Description
-
-{project description}
+## CloudEater is a platform game developed in C++, with SDL and Box2D libraries, about a cute character on its adventure through a world of candy placed in the sky. 
 
 ## Key Features
 
- - {Feature01}
- - {Feature02}
- - {Feature03}
- - {Feature04}
+ - Debug system 
+ - Moving platforms
+ - Climb movement
+ - Player movement with Box2D
+ - Use of Tiled for collisions
+ - Parallax 
+ - Draw fraction of the map relative to player position for better performance
  
 ## Controls
 
- - {ControlsScheme}
+ - A: move left
+ - D: move right
+ - W: climb up (only on stairs)
+ - S: climb down (only on stairs)
+ - SPACE: jump
 
 ## Developers
 
- - {Dev01} - {Role(s)}
- - {Dev02} - {Role(s)}
- - {Dev03} - {Role(s)}
- - {Dev04} - {Role(s)}
+ - Rebeca Fernández 
+ - Maria Perarnau 
+ - Carla Puga 
 
 ## License
 
