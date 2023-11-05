@@ -24,9 +24,9 @@
   <scene>
     <map path="Assets/Maps/" name="Map.tmx"/>
 	<movingplatform x="1090" y="180" type="true" distance="60" direction="false" texturepath="Assets/Textures/movingPlatform.png"/>
-	<movingplatform x="1280" y="180" type="true" distance="60" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
+	<movingplatform x="1300" y="180" type="true" distance="60" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
 	<movingplatform x="2256" y="180" type="false" distance="50" direction="false" texturepath="Assets/Textures/movingPlatform.png"/>
-	<movingplatform x="2368" y="50" type="false" distance="50" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
+	<movingplatform x="2368" y="80" type="false" distance="50" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
     <player x="100" y="150" texturepath="Assets/Textures/Pink_Monster.png">
 	  <animations>
 		  <idleAnim loop ="false" speed ="1.0">
