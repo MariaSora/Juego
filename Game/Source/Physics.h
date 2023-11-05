@@ -78,6 +78,8 @@ public:
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 
+	void EndContact(b2Contact* contact);
+
 private:
 
 	// Debug mode

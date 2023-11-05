@@ -171,6 +171,8 @@ public:
 	MapData mapData;
 	SString name;
 	SString path;
+	PhysBody* platform;
+	PhysBody* stairs;
 
 private:
 

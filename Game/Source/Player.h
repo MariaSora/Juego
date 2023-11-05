@@ -46,6 +46,8 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
+	void OnExitCollision(PhysBody* physA, PhysBody* physB);
+
 public:
 	float speed = 0.2f;
 	const char* texturePath;
@@ -55,6 +57,9 @@ public:
 
 	bool saltando = false;
 	bool muere = false;
+	bool climb = false; 
+	bool touchingP = false;
+	bool touchingS = false;
 	int remainingJumpSteps;
 	int progreso_salto = 0;
 	int duracion_salto = 320;
@@ -63,7 +68,7 @@ public:
 	SDL_Texture* player = nullptr; 
 
 	Animation* currentAnimation = nullptr; 
-	Animation idleAnim, climbAnim, climbdownAnim, jumpAnim, walkAnim;
+	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim;
 
 	bool isFacingRight; 
 

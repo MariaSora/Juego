@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "Scene.h"
 #include "Map.h"
+#include "movingPlatform.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -36,6 +37,11 @@ bool Scene::Awake(pugi::xml_node& config)
 	if (config.child("player")) {
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 		player->parameters = config.child("player");
+	}
+	
+	for (pugi::xml_node platformNode = config.child("movingplatform"); platformNode; platformNode = platformNode.next_sibling("movingplatform")) {
+		MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::MOVINGPLATFORM);
+		movingplatform->parameters = platformNode;
 	}
 
 	if (config.child("map")) {

@@ -31,6 +31,7 @@ bool Player::Awake() {
 	jumpAnim.LoadAnimation("jumpAnim");
 	walkAnim.LoadAnimation("walkAnim");
 	climbAnim.LoadAnimation("climbAnim");
+	climbIdleAnim.LoadAnimation("climbIdleAnim");
 
 	return true;
 }
@@ -111,8 +112,11 @@ bool Player::Update(float dt)
 			currentAnimation = &walkAnim;
 		}
 	
-		if (pbody->ctype == ColliderType::STAIRS)
+		if ((touchingP && touchingS) || touchingS)
 		{
+			pbody->body->SetGravityScale(0);
+			vel.y = 0; 
+			currentAnimation = &climbIdleAnim;
 			if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 				vel = b2Vec2(GRAVITY_X, (-speed / 2) * dt);
 				currentAnimation = &climbAnim;
@@ -123,7 +127,6 @@ bool Player::Update(float dt)
 				currentAnimation = &climbAnim;
 			}
 		}
-		
 
 		pbody->body->SetLinearVelocity(vel);
 
@@ -160,10 +163,10 @@ bool Player::Update(float dt)
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
 
 	if (isFacingRight) {
-		app->render->DrawTexture(texture, position.x, position.y, &rect, 1, SDL_FLIP_NONE);
+		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_NONE);
 	}
 	else {
-		app->render->DrawTexture(texture, position.x, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
+		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
 	}
 
 
@@ -177,7 +180,6 @@ bool Player::CleanUp()
 }
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
-	//b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
@@ -187,26 +189,42 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLATFORM:
 		saltando = false;
 		muere = false;
+		touchingP = true;
 		jumpAnim.Reset();
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::STAIRS:
-		//vel = b2Vec2(0, 0);
+		touchingS = true; 
 		LOG("Collision STAIRS");
-		
 		break;
 	case ColliderType::UNKNOWN:
+		LOG("Collision UNKNOWN");
+		break;
+	case ColliderType::MOVING_PLATFORM:
+		saltando = false;
+		jumpAnim.Reset();
 		LOG("Collision UNKNOWN");
 		break;
 	}
 }
 
-//bool Player::LoadJumpAnim(pugi::xml_node& node, jumpAnims* jump)
-//{
-//	return false;
-//}
-//
-//bool Player::LoadAllJumpAnims(pugi::xml_node animNode)
-//{
-//	return false;
-//}
+void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
+{
+	switch (physB->ctype)
+	{
+	case ColliderType::ITEM:
+		break;
+	case ColliderType::PLATFORM:
+		touchingP = false;
+		break;
+	case ColliderType::STAIRS:
+		touchingS = false; 
+		pbody->body->SetGravityScale(1);
+		break;
+	case ColliderType::UNKNOWN:
+		break;
+	case ColliderType::MOVING_PLATFORM:
+		break;
+	}
+}
+

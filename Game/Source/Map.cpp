@@ -220,24 +220,6 @@ bool Map::Load(SString mapFileName)
     if (ret == true) {
         ret = LoadCollisionsObject();
     }
-
-
-    // NOTE: Later you have to create a function here to load and create the colliders from the map
-
-    //PhysBody* c1 = app->physics->CreateRectangle(224 + 128, 543 + 32, 256, 64, STATIC);
-    //c1->ctype = ColliderType::PLATFORM;
-
-    //PhysBody* c4 = app->physics->CreateRectangle(300, 249, 96, 47, STATIC);
-    //c4->ctype = ColliderType::PLATFORM;
-
-    //PhysBody* c5 = app->physics->CreateRectangle(152, 249, 175, 47, STATIC);
-    //c5->ctype = ColliderType::PLATFORM;
-
-    //PhysBody* c2 = app->physics->CreateRectangle(352 + 64, 384 + 32, 128, 64, STATIC);
-    //c2->ctype = ColliderType::PLATFORM;
-
-    //PhysBody* c3 = app->physics->CreateRectangle(256, 704 + 32, 576, 64, STATIC);
-    //c3->ctype = ColliderType::PLATFORM;
     
     if(ret == true)
     {
@@ -453,6 +435,7 @@ bool Map::LoadCollisionsObject()
             {
               PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
               c1->ctype = ColliderType::PLATFORM;
+              platform = c1; 
             }
 
             if (mapObjectsItem->data->id == 10) //stairs
@@ -460,6 +443,7 @@ bool Map::LoadCollisionsObject()
                 PhysBody* c2 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
                 c2->ctype = ColliderType::STAIRS;
                 c2->body->GetFixtureList()[0].SetSensor(true);
+                stairs = c2; 
             }
 
         }
