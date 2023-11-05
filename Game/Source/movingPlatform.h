@@ -27,8 +27,10 @@ private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
-	int crono = 0; 
 	bool ro = false;
+	iPoint initialPos;
+	int distance;
+	bool type = true; 
 
 };
 
