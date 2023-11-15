@@ -49,6 +49,9 @@ bool Player::Start() {
 	pbody->ctype = ColliderType::PLAYER;
 
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+	attackFx = app->audio->LoadFx("---");
+	jumpFx = app->audio->LoadFx("---");
+	killFx = app->audio->LoadFx("---");
 
 	Ipos = pbody->body->GetTransform(); //Pos inicial
 
@@ -143,8 +146,12 @@ bool Player::Update(float dt)
 			}
 		}
 
-		if (saltando) currentAnimation = &jumpAnim;
-		
+		if (saltando) {
+			currentAnimation = &jumpAnim;
+			app->audio->PlayFx(jumpFx);
+		}
+			
+
 		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			muere = true;
 		}
@@ -154,10 +161,8 @@ bool Player::Update(float dt)
 		}
 
 		//ataque personaje
-		if (app->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT) { 
-
-			//isFacingRight;
-			//vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
+		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {   
+			app->audio->PlayFx(attackFx); 
 			currentAnimation = &attackAnim;
 		}
 	}
@@ -191,6 +196,10 @@ bool Player::CleanUp()
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
+	case ColliderType::ENEMY:
+		app->audio->PlayFx(killFx);
+		LOG("Collision ENEMY");
+		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
 		app->audio->PlayFx(pickCoinFxId);
@@ -212,7 +221,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::MOVING_PLATFORM:
 		saltando = false;
 		jumpAnim.Reset();
-		LOG("Collision UNKNOWN");
+		LOG("Collision MOVING_PLATFORM");
 		break;
 	}
 }

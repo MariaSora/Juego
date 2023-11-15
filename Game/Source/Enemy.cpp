@@ -1,4 +1,4 @@
-#include "Item.h"
+#include "Enemy.h"
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -9,14 +9,14 @@
 #include "Point.h"
 #include "Physics.h"
 
-Item::Item() : Entity(EntityType::ITEM)
+Enemy::Enemy() : Entity(EntityType::ENEMY)
 {
-	name.Create("item");
+	name.Create("enemy");
 }
 
-Item::~Item() {}
+Enemy::~Enemy() {}
 
-bool Item::Awake() {
+bool Enemy::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
@@ -25,17 +25,17 @@ bool Item::Awake() {
 	return true;
 }
 
-bool Item::Start() {
+bool Enemy::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
-	pbody->ctype = ColliderType::ITEM;
+	pbody->ctype = ColliderType::ENEMY;
 
 	return true;
 }
 
-bool Item::Update(float dt)
+bool Enemy::Update(float dt)
 {
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -46,7 +46,31 @@ bool Item::Update(float dt)
 	return true;
 }
 
-bool Item::CleanUp()
+bool Enemy::CleanUp()
 {
 	return true;
+}
+
+void Enemy::OnCollision(PhysBody* physA, PhysBody* physB) {
+	switch (physB->ctype)
+	{
+	case ColliderType::PLAYER:
+		LOG("Collision PLAYER");
+		break;
+	case ColliderType::ITEM:
+		LOG("Collision ITEM");
+		break;
+	case ColliderType::PLATFORM:
+		LOG("Collision PLATFORM");
+		break;
+	case ColliderType::STAIRS:
+		LOG("Collision STAIRS");
+		break;
+	case ColliderType::UNKNOWN:
+		LOG("Collision UNKNOWN");
+		break;
+	case ColliderType::MOVING_PLATFORM:
+		LOG("Collision MOVING_PLATFORM");
+		break;
+	}
 }

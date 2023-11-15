@@ -1,5 +1,5 @@
-#ifndef __ITEM_H__
-#define __ITEM_H__
+#ifndef __ENEMY_H__
+#define __ENEMY_H__
 
 #include "Entity.h"
 #include "Point.h"
@@ -7,12 +7,12 @@
 
 struct SDL_Texture;
 
-class Item : public Entity
+class Enemy : public Entity
 {
 public:
 
-	Item();
-	virtual ~Item();
+	Enemy();
+	virtual ~Enemy();
 
 	bool Awake();
 
@@ -22,6 +22,7 @@ public:
 
 	bool CleanUp();
 
+	void OnCollision(PhysBody* physA, PhysBody* physB);
 public:
 
 	bool isPicked = false;

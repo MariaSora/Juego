@@ -53,7 +53,10 @@ public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;
+
+	//audios Fx
 	int pickCoinFxId;
+	int attackFx, jumpFx, killFx;
 
 	bool saltando = false;
 	bool muere = false;
