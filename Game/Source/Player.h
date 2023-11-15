@@ -68,7 +68,7 @@ public:
 	SDL_Texture* player = nullptr; 
 
 	Animation* currentAnimation = nullptr; 
-	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim;
+	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim, attackAnim;
 
 	bool isFacingRight; 
 

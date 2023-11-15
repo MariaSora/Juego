@@ -32,6 +32,7 @@ bool Player::Awake() {
 	walkAnim.LoadAnimation("walkAnim");
 	climbAnim.LoadAnimation("climbAnim");
 	climbIdleAnim.LoadAnimation("climbIdleAnim");
+	attackAnim.LoadAnimation("attackAnim");
 
 	return true;
 }
@@ -150,6 +151,14 @@ bool Player::Update(float dt)
 		if (position.y >= 630) {
 			pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 			muere = true;
+		}
+
+		//ataque personaje
+		if (app->input->GetKey(SDL_SCANCODE_P) == KEY_REPEAT) { 
+
+			//isFacingRight;
+			//vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
+			currentAnimation = &attackAnim;
 		}
 	}
 
