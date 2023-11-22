@@ -196,7 +196,7 @@ bool Player::CleanUp()
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
-	case ColliderType::ENEMY:
+	case ColliderType::FLYINGENEMY:
 		app->audio->PlayFx(killFx);
 		LOG("Collision ENEMY");
 		break;

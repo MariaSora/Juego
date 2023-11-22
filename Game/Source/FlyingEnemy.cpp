@@ -1,4 +1,4 @@
-#include "Enemy.h"
+#include "FlyingEnemy.h"
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -9,14 +9,14 @@
 #include "Point.h"
 #include "Physics.h"
 
-Enemy::Enemy() : Entity(EntityType::ENEMY)
+FlyingEnemy::FlyingEnemy() : Entity(EntityType::FLYINGENEMY)
 {
 	name.Create("enemy");
 }
 
-Enemy::~Enemy() {}
+FlyingEnemy::~FlyingEnemy() {}
 
-bool Enemy::Awake() {
+bool FlyingEnemy::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
@@ -25,17 +25,17 @@ bool Enemy::Awake() {
 	return true;
 }
 
-bool Enemy::Start() {
+bool FlyingEnemy::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
-	pbody->ctype = ColliderType::ENEMY;
+	pbody->ctype = ColliderType::FLYINGENEMY;
 
 	return true;
 }
 
-bool Enemy::Update(float dt)
+bool FlyingEnemy::Update(float dt)
 {
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -46,12 +46,12 @@ bool Enemy::Update(float dt)
 	return true;
 }
 
-bool Enemy::CleanUp()
+bool FlyingEnemy::CleanUp()
 {
 	return true;
 }
 
-void Enemy::OnCollision(PhysBody* physA, PhysBody* physB) {
+void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:

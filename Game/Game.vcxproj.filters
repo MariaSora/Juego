@@ -24,7 +24,7 @@
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Source\Path.cpp" />
     <ClCompile Include="Source\movingPlatform.cpp" />
-    <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\FlyingEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -73,7 +73,7 @@
     <ClInclude Include="Source\Path.h" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\movingPlatform.h" />
-    <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\FlyingEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

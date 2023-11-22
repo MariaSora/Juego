@@ -1,5 +1,5 @@
-#ifndef __ENEMY_H__
-#define __ENEMY_H__
+#ifndef __FLYINGENEMY_H__
+#define __FLYINGENEMY_H__
 
 #include "Entity.h"
 #include "Point.h"
@@ -7,12 +7,12 @@
 
 struct SDL_Texture;
 
-class Enemy : public Entity
+class FlyingEnemy : public Entity
 {
 public:
 
-	Enemy();
-	virtual ~Enemy();
+	FlyingEnemy();
+	virtual ~FlyingEnemy();
 
 	bool Awake();
 
@@ -34,4 +34,4 @@ private:
 	PhysBody* pbody;
 };
 
-#endif // __ITEM_H__
+#endif // __FLYINGENEMY_H__

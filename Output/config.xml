@@ -76,6 +76,26 @@
 		  </attackAnim>
 	  </animations>
 	  </player>
+
+	  <flyingEnemy x="100" y="150" texturepath="Assets/Textures/Bat_Sprite_Sheet.png">
+		  <animations>
+			  <flyAnim loop ="true" speed ="0.2">
+				  <anim x ="0" y ="0" width ="15" height ="15"/>
+				  <anim x ="15" y ="0" width ="15" height ="15"/>
+				  <anim x ="30" y ="0" width ="15" height ="15"/>
+				  <anim x ="45" y ="0" width ="15" height ="15"/>
+				  <anim x ="60" y ="0" width ="15" height ="15"/> 
+			  </flyAnim>
+
+			  <deathAnim loop ="true" speed ="0.2">
+				  <anim x ="0" y ="50" width ="16" height ="20"/>
+				  <anim x ="39" y ="50" width ="16" height ="20"/>
+				  <anim x ="71" y ="50" width ="16" height ="20"/>
+				  <anim x ="101" y ="50" width ="16" height ="20"/> 
+				  <anim x ="170" y ="50" width ="16" height ="20"/>
+			  </deathAnim>
+		  </animations>
+	  </flyingEnemy>
 		  
     <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="384" y="352" texturepath="Assets/Textures/goldCoin.png"/>
