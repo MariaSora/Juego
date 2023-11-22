@@ -198,7 +198,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::FLYINGENEMY:
 		app->audio->PlayFx(killFx);
-		LOG("Collision ENEMY");
+		LOG("Collision FLYINGENEMY");
+		break;
+	case ColliderType::WALKINGENEMY:
+		app->audio->PlayFx(killFx);
+		LOG("Collision WALKINGENEMY");
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
