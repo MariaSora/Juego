@@ -59,13 +59,13 @@ public:
 		return frames[actualFrame];
 	}
 
-	void LoadAnimation(const char* nombre)
+	void LoadAnimation(const char* n, const char* nombre)
 	{
 		pugi::xml_document configFile; 
 		pugi::xml_node animationsNode; 
 		pugi::xml_node animNode; 
 		pugi::xml_parse_result parseResult = configFile.load_file("config.xml");
-		animationsNode = configFile.child("config").child("scene").child("player").child("animations").child(nombre);
+		animationsNode = configFile.child("config").child("scene").child(n).child("animations").child(nombre);
 
 		animNode = animationsNode.child("anim");
 

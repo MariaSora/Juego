@@ -11,7 +11,7 @@
 
 FlyingEnemy::FlyingEnemy() : Entity(EntityType::FLYINGENEMY)
 {
-	name.Create("enemy");
+	name.Create("FlyingEnemy");
 }
 
 FlyingEnemy::~FlyingEnemy() {}
@@ -21,6 +21,9 @@ bool FlyingEnemy::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+
+	flyAnim.LoadAnimation("flyingEnemy", "flyAnim");
+	deathAnim.LoadAnimation("flyingEnemy", "deathAnim");
 
 	return true;
 }
@@ -37,11 +40,18 @@ bool FlyingEnemy::Start() {
 
 bool FlyingEnemy::Update(float dt)
 {
+	/*pbody->body->SetGravityScale(0);
+	pbody->body->GetFixtureList()[0].SetSensor(true);*/
+	currentAnimation = &flyAnim; 
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
-	app->render->DrawTexture(texture, position.x, position.y);
+	currentAnimation->Update();
+	SDL_Rect rect = currentAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture, position.x + 8, position.y, &rect);
+
+
 
 	return true;
 }

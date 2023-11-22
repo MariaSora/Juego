@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Point.h"
+#include "Animation.h"
 #include "SDL/include/SDL.h"
 
 struct SDL_Texture;
@@ -24,14 +25,16 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 public:
-
-	bool isPicked = false;
-
-private:
-
+	float speed = 0.2f;
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
+
+	SDL_Texture* flyingEnemy = nullptr; 
+
+	Animation* currentAnimation = nullptr;
+	Animation flyAnim, deathAnim; 
+
 };
 
 #endif // __FLYINGENEMY_H__

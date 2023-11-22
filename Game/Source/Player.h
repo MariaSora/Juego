@@ -10,24 +10,6 @@
 
 struct SDL_Texture;
 
-//struct jumpAnim {
-//	uint x;
-//	uint y;
-//	uint width;
-//	uint height;
-//
-//};
-//
-//struct jumpAnims
-//{
-//	SString name;
-//	int x;
-//	int y;
-//	int width;
-//	int height;
-//	List<jumpAnims*> jump; 
-//};
-
 class Player : public Entity
 {
 public:

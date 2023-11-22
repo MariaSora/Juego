@@ -88,6 +88,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::ITEM:
 		entity = new Item();
 		break;
+	case EntityType::FLYINGENEMY:
+		entity = new FlyingEnemy();
+		break;
 	case EntityType::MOVINGPLATFORM:
 		entity = new MovingPlatform();
 		break;

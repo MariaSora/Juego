@@ -39,6 +39,11 @@ bool Scene::Awake(pugi::xml_node& config)
 		player->parameters = config.child("player");
 	}
 	
+	if (config.child("flyingEnemy")) {
+		flyingEnemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY);
+		flyingEnemy->parameters = config.child("flyingEnemy");
+	}
+
 	for (pugi::xml_node platformNode = config.child("movingplatform"); platformNode; platformNode = platformNode.next_sibling("movingplatform")) {
 		MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::MOVINGPLATFORM);
 		movingplatform->parameters = platformNode;

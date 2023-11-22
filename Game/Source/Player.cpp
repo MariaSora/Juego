@@ -27,12 +27,12 @@ bool Player::Awake() {
 	texturePath = parameters.attribute("texturepath").as_string();
 	
 
-	idleAnim.LoadAnimation("idleAnim");
-	jumpAnim.LoadAnimation("jumpAnim");
-	walkAnim.LoadAnimation("walkAnim");
-	climbAnim.LoadAnimation("climbAnim");
-	climbIdleAnim.LoadAnimation("climbIdleAnim");
-	attackAnim.LoadAnimation("attackAnim");
+	idleAnim.LoadAnimation("player", "idleAnim");
+	jumpAnim.LoadAnimation("player", "jumpAnim");
+	walkAnim.LoadAnimation("player", "walkAnim");
+	climbAnim.LoadAnimation("player", "climbAnim");
+	climbIdleAnim.LoadAnimation("player", "climbIdleAnim");
+	attackAnim.LoadAnimation("player", "attackAnim");
 
 	return true;
 }
