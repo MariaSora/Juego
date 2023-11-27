@@ -26,6 +26,7 @@
     <ClCompile Include="Source\movingPlatform.cpp" />
     <ClCompile Include="Source\FlyingEnemy.cpp" />
     <ClCompile Include="Source\WalkingEnemy.cpp" />
+    <ClCompile Include="Source\Particles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -76,6 +77,7 @@
     <ClInclude Include="Source\movingPlatform.h" />
     <ClInclude Include="Source\FlyingEnemy.h" />
     <ClInclude Include="Source\WalkingEnemy.h" />
+    <ClInclude Include="Source\Particles.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

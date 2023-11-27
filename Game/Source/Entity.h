@@ -15,6 +15,7 @@ enum class EntityType
 	WALKINGENEMY,
 	ITEM,
 	MOVINGPLATFORM,
+	PARTICLES,
 	UNKNOWN
 };
 

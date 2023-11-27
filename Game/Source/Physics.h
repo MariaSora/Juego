@@ -31,6 +31,7 @@ enum class ColliderType {
 	PLATFORM,
 	MOVING_PLATFORM,
 	STAIRS,
+	PARTICLES,
 	UNKNOWN
 	// ..
 };

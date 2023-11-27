@@ -27,7 +27,7 @@
 	<movingplatform x="1300" y="180" type="true" distance="80" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
 	<movingplatform x="2256" y="180" type="false" distance="50" direction="false" texturepath="Assets/Textures/movingPlatform.png"/>
 	<movingplatform x="2368" y="80" type="false" distance="50" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
-    <player x="100" y="150" texturepath="Assets/Textures/Pink_Monster.png">
+  <player x="100" y="150" texturepath="Assets/Textures/Pink_Monster.png">
 	    <animations>
 		  <idleAnim loop ="false" speed ="1.0">
 			<anim x ="7" y ="4" width ="17" height ="28"/>
@@ -76,7 +76,22 @@
 		  </attackAnim>
 	    </animations>
 	  </player>
-
+	  <particles x ="100" y="120" texturepath="Assets/Textures/Ice.png">
+		 <animations>
+			 <shootAnim loop ="true" speed ="0.2">
+				 <anim x ="0" y ="0" width ="32" height ="44"/>
+				 <anim x ="0" y ="44" width ="32" height ="44"/>
+				 <anim x ="0" y ="88" width ="32" height ="44"/>
+				 <anim x ="0" y ="132" width ="32" height ="44"/>
+				 <anim x ="0" y ="176" width ="32" height ="44"/>
+				 <anim x ="0" y ="220" width ="32" height ="44"/>
+				 <anim x ="0" y ="264" width ="32" height ="44"/>
+				 <anim x ="0" y ="308" width ="32" height ="44"/>
+				 <anim x ="0" y ="352" width ="32" height ="44"/>
+				 <anim x ="0" y ="396" width ="32" height ="44"/>
+			 </shootAnim>
+		 </animations>
+	  </particles>
 	  <flyingEnemy x="100" y="100" texturepath="Assets/Textures/Bat_Sprite_Sheet.png">
 		  <animations>
 			  <flyAnim loop ="true" speed ="0.2">

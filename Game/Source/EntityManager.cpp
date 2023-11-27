@@ -4,6 +4,7 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "movingPlatform.h"
+#include "Particles.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -96,6 +97,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::MOVINGPLATFORM:
 		entity = new MovingPlatform();
+		break;
+	case EntityType::PARTICLES:
+		entity = new Particles();
 		break;
 	default:
 		break;

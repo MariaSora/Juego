@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Map.h"
 #include "movingPlatform.h"
+#include "Particles.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -42,6 +43,11 @@ bool Scene::Awake(pugi::xml_node& config)
 	if (config.child("flyingEnemy")) {
 		flyingEnemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY);
 		flyingEnemy->parameters = config.child("flyingEnemy");
+	}
+
+	if (config.child("particles")) {
+		particles = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
+		particles->parameters = config.child("particles");
 	}
 
 	if (config.child("walkingEnemy")) {
