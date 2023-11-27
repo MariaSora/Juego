@@ -1,5 +1,5 @@
 #ifndef __WALKINGENEMY_H__
-#define __WLAKINGENEMY_H__
+#define __WALKINGENEMY_H__
 
 #include "Entity.h"
 #include "Point.h"
@@ -27,16 +27,15 @@ public:
 
 public:
 
-	bool isPicked = false;
-
-	Animation* currentAnimation = nullptr;
-	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim;
-
-private:
-
+	float speed = 0.2f;
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
+
+	SDL_Texture* walkingEnemy = nullptr;
+
+	Animation* currentAnimation = nullptr;
+	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim;
 };
 
 #endif // __WALKINGENEMY_H__

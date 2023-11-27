@@ -98,15 +98,15 @@
 	  </flyingEnemy>
 
 
-	  <walkingEnemy x="130" y="150" texturepath="Assets/Textures/Purple_Enemy.png">
+	  <walkingEnemy x="120" y="150" texturepath="Assets/Textures/Purple_Slime.png">
 		  <animations>
 
-			  <idleAnim loop ="false" speed ="1.0">
-				  <anim x ="48" y ="3" width ="14" height ="12"/>
-				  <anim x ="64" y ="4" width ="14" height ="11"/>
-				  <anim x ="80" y ="6" width ="14" height ="10"/>
-				  <anim x ="96" y ="6" width ="14" height ="10"/>
-				  <anim x ="112" y ="4" width ="14" height ="11"/>
+			  <idleAnim loop ="true" speed ="0.2">
+				  <anim x ="48" y ="3" width ="15" height ="12"/>
+				  <anim x ="64" y ="4" width ="15" height ="11"/>
+				  <anim x ="80" y ="6" width ="15" height ="10"/>
+				  <anim x ="96" y ="6" width ="15" height ="10"/>
+				  <anim x ="112" y ="4" width ="15" height ="11"/>
 			  </idleAnim>
 
 			  <walkAnim loop ="true" speed ="0.2">
@@ -127,7 +127,7 @@
 				  <anim x ="112" y ="40" width ="14" height ="7"/>
 			  </deathAnim>
 
-			  <attackAnim loop ="true" speed ="0.2">
+			  <attackAnim loop ="false" speed ="0.2">
 				  <anim x ="56" y ="83" width ="14" height ="12"/>
 				  <anim x ="88" y ="84" width ="14" height ="11"/>
 				  <anim x ="120" y ="85" width ="14" height ="10"/>

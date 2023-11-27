@@ -11,7 +11,7 @@
 
 WalkingEnemy::WalkingEnemy() : Entity(EntityType::WALKINGENEMY)
 {
-	name.Create("enemy");
+	name.Create("WalkingEnemy");
 }
 
 WalkingEnemy::~WalkingEnemy() {}
@@ -22,11 +22,11 @@ bool WalkingEnemy::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
-	idleAnim.LoadAnimation("idleAnim");
-	walkAnim.LoadAnimation("walkAnim");
-	deathAnim.LoadAnimation("deathAnim");
-	attackAnim.LoadAnimation("attackAnim");
-	jumpAnim.LoadAnimation("jumpAnim");
+	idleAnim.LoadAnimation("walkingEnemy", "idleAnim");
+	walkAnim.LoadAnimation("walkingEnemy", "walkAnim");
+	deathAnim.LoadAnimation("walkingEnemy", "deathAnim");
+	attackAnim.LoadAnimation("walkingEnemy", "attackAnim");
+	jumpAnim.LoadAnimation("walkingEnemy", "jumpAnim");
 
 	return true;
 }
@@ -35,7 +35,7 @@ bool WalkingEnemy::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x + 8, position.y + 8, 8, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::WALKINGENEMY;
 
 	return true;
@@ -43,11 +43,17 @@ bool WalkingEnemy::Start() {
 
 bool WalkingEnemy::Update(float dt)
 {
+	currentAnimation = &idleAnim;
+
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
-	app->render->DrawTexture(texture, position.x, position.y);
+	//app->render->DrawTexture(texture, position.x, position.y);
+
+	currentAnimation->Update();
+	SDL_Rect rect = currentAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture, position.x + 8, position.y + 13, &rect);
 
 	return true;
 }
