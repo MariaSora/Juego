@@ -32,7 +32,7 @@ bool FlyingEnemy::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateCircle(position.x + 16, position.y + 16, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, bodyType::KINEMATIC);
 	pbody->ctype = ColliderType::FLYINGENEMY;
 
 	return true;
@@ -49,9 +49,12 @@ bool FlyingEnemy::Update(float dt)
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	app->render->DrawTexture(texture, position.x + 8, position.y, &rect);
 
+	app->render->DrawTexture(texture, position.x + 8, position.y + 50, &rect);
+	//app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
+	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
+	pbody->body->ApplyForce(b2Vec2(0.0f, -app->physics->world->GetGravity().y * pbody->body->GetMass()), pbody->body->GetWorldCenter(), true);
 
 	return true;
 }
