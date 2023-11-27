@@ -454,12 +454,11 @@ bool Map::LoadCollisionsObject()
     return ret;
 }
 
-bool Map::MovingPlatform()
+bool Map::PortalZone()
 {
-    //Para hacer las plataformas que se mueven
+    //Falta hacer una pared que cuando el personaje se acerque, pueda atravesarla, la opacidad baje y se encuentre con un portal para teletransportarse en la plataforma final
 
-    PhysBody* c1 = app->physics->CreateRectangle(85 , 150, 48, 16, DYNAMIC);
-    c1->ctype = ColliderType::MOVING_PLATFORM;
+   // app->render->DrawTexture(texture, 0, 0);
 
 
 
