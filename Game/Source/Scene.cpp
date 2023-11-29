@@ -170,3 +170,23 @@ Player* Scene::GetPlayer()
 
 	return player;
 }
+bool Scene::LoadState(pugi::xml_node node) {
+
+	//Updates the camera position using the state in the xml file
+	player->position.x = node.child("position").attribute("x").as_int();
+	player->position.y = node.child("position").attribute("y").as_int();
+
+	return true;
+}
+
+// L14: TODO 8: Create a method to save the state of the renderer
+// using append_child and append_attribute
+bool Scene::SaveState(pugi::xml_node node) {
+
+	//append on node of a new child Camera and add attributtes x,y of the camera position
+	pugi::xml_node camNode = node.append_child("position");
+	camNode.append_attribute("x").set_value(player->position.x);
+	camNode.append_attribute("y").set_value(player->position.y);
+
+	return true;
+}

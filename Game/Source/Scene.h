@@ -39,6 +39,9 @@ public:
 
 	Player* GetPlayer();
 
+	bool LoadState(pugi::xml_node node);
+	bool SaveState(pugi::xml_node node);
+
 private:
 	SDL_Texture* img;
 	float textPosX, textPosY = 0;
