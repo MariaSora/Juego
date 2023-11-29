@@ -175,7 +175,11 @@ bool Scene::LoadState(pugi::xml_node node) {
 	//Updates the camera position using the state in the xml file
 	player->position.x = node.child("position").attribute("x").as_int();
 	player->position.y = node.child("position").attribute("y").as_int();
-
+	//player->setPost();
+	
+	player->pbody->body->SetTransform(b2Vec2(player->position.x, player->position.y), 0); 
+	/*player->position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+	player->position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;*/
 	return true;
 }
 
