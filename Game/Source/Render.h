@@ -7,6 +7,14 @@
 
 #include "SDL/include/SDL.h"
 
+#include "Box2D/Box2D/Box2D.h"
+
+// Tell the compiler to reference the compiled Box2D libraries
+#ifdef _DEBUG
+#pragma comment( lib, "../Game/Source/External/Box2D/libx86/DebugLib/Box2D.lib" )
+#else
+#pragma comment( lib, "../Game/Source/External/Box2D/libx86/ReleaseLib/Box2D.lib" )
+#endif
 class Render : public Module
 {
 public:
@@ -42,12 +50,16 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	bool LoadState(pugi::xml_node node);
+	bool SaveState(pugi::xml_node node);
+
 public:
 
 	SDL_Renderer* renderer;
 	SDL_Rect camera;
 	SDL_Rect viewport;
 	SDL_Color background;
+
 };
 
 #endif // __RENDER_H__
