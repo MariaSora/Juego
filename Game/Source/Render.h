@@ -7,6 +7,14 @@
 
 #include "SDL/include/SDL.h"
 
+#include "Box2D/Box2D/Box2D.h"
+
+// Tell the compiler to reference the compiled Box2D libraries
+#ifdef _DEBUG
+#pragma comment( lib, "../Game/Source/External/Box2D/libx86/DebugLib/Box2D.lib" )
+#else
+#pragma comment( lib, "../Game/Source/External/Box2D/libx86/ReleaseLib/Box2D.lib" )
+#endif
 class Render : public Module
 {
 public:
@@ -48,6 +56,8 @@ public:
 	SDL_Rect camera;
 	SDL_Rect viewport;
 	SDL_Color background;
+
+	b2Vec2 InitialCamPos = b2Vec2(0.0f, 0.0f); 
 };
 
 #endif // __RENDER_H__

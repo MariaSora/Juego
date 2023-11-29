@@ -94,6 +94,7 @@ bool Scene::Start()
 		app->map->mapData.tileHeight,
 		app->map->mapData.tilesets.Count());
 
+
 	return true;
 }
 
@@ -106,33 +107,38 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-	float camSpeed = 1; 
 
-	//if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-	//	app->render->camera.y -= (int)ceil(camSpeed * dt);
+	if (app->godmode) {
+		float camSpeed = 1;
+		if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+			app->render->camera.y -= (int)ceil(camSpeed * dt);
 
-	//if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	//	app->render->camera.y += (int)ceil(camSpeed * dt);
+		if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+			app->render->camera.y += (int)ceil(camSpeed * dt);
 
-	if(app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		app->render->camera.x -= (int)ceil(camSpeed * dt);
+		if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+			app->render->camera.x -= (int)ceil(camSpeed * dt);
 
-	if(app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		app->render->camera.x += (int)ceil(camSpeed * dt);
+		if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+			app->render->camera.x += (int)ceil(camSpeed * dt);
+	}
+	else {
+		if (app->render->camera.x != player->position.x * app->win->GetScale()) {
+			app->render->camera.x = -player->position.x * app->win->GetScale() + 200;
+		} 
+		if (app->render->camera.y != player->position.y * app->win->GetScale()) { 
+			app->render->camera.y = 0;
+			//app->render->camera.y = app->render->InitialCamPos.y * app->win->GetScale() + 200; 
+		}
+		
+		if (app->render->camera.x >= 0) {
+			app->render->camera.x = 0;
+		}
+		if (app->render->camera.x <= -5500) {
+			app->render->camera.x = -5500;
+		}
+	}
 	
-	//if (player->position.x * app->win->GetScale() < 100) {
-	//	player->position.x = 100;
-	//}
-	if (app->render->camera.x != player->position.x * app->win->GetScale()) {
-		app->render->camera.x = -player->position.x * app->win->GetScale() + 200;
-	}
-
-	if (app->render->camera.x >= 0) {
-		app->render->camera.x = 0;
-	}
-	if (app->render->camera.x <= -5500) {
-		app->render->camera.x = -5500;
-	}
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 

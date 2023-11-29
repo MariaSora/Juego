@@ -72,7 +72,11 @@ bool Player::Update(float dt)
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) { 
-		app->godmode = !app->godmode;
+		app->godmode = !app->godmode; 
+		if (app->godmode) {
+			LOG("GODMODE ACTIVATED");
+		}
+		else LOG("GODMODE DEACTIVATED");
 	}
 
 	if (app->godmode) {

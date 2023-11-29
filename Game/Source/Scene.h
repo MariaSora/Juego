@@ -48,6 +48,7 @@ private:
 	FlyingEnemy* flyingEnemy; 
 	WalkingEnemy* walkingEnemy;
 	Particles* particles; 
+
 };
 
 #endif // __SCENE_H__
