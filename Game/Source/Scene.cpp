@@ -128,7 +128,6 @@ bool Scene::Update(float dt)
 		} 
 		if (app->render->camera.y != player->position.y * app->win->GetScale()) { 
 			app->render->camera.y = 0;
-			//app->render->camera.y = app->render->InitialCamPos.y * app->win->GetScale() + 200; 
 		}
 		
 		if (app->render->camera.x >= 0) {
@@ -139,9 +138,11 @@ bool Scene::Update(float dt)
 		}
 	}
 	
+	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest(); 
+	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest(); 
+	 
 	// Renders the image in the center of the screen 
 	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
-
 	return true;
 }
 

@@ -50,6 +50,9 @@ public:
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
 
+	bool LoadState(pugi::xml_node node);
+	bool SaveState(pugi::xml_node node);
+
 public:
 
 	SDL_Renderer* renderer;
@@ -57,7 +60,6 @@ public:
 	SDL_Rect viewport;
 	SDL_Color background;
 
-	b2Vec2 InitialCamPos = b2Vec2(0.0f, 0.0f); 
 };
 
 #endif // __RENDER_H__
