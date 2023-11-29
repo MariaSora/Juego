@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "FlyingEnemy.h"
 
 Particles::Particles() : Entity(EntityType::PARTICLES)
 {
@@ -31,7 +32,7 @@ bool Particles::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, bodyType::KINEMATIC);
+	pbody = app->physics->CreateRectangle(position.x + 20, position.y, 12, 32, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::PARTICLES;
 
 	return true;
@@ -49,7 +50,7 @@ bool Particles::Update(float dt)
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 
-	app->render->DrawTexture(texture, position.x + 8, position.y + 50, &rect);
+	app->render->DrawTexture(texture, app->scene->flyingEnemy->position.x, position.y, &rect);
 	//app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 

@@ -51,6 +51,11 @@ public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 
+	bool LoadRequest();
+	bool SaveRequest();
+	bool Load();
+	bool Save();
+
 private:
 
 	// Load config file
@@ -117,6 +122,8 @@ private:
 
 	uint32 maxFrameDuration = 16;
 
+	bool saveRequest = false;
+	bool loadRequest = false;
 };
 
 extern App* app;
