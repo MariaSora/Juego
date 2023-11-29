@@ -49,10 +49,16 @@ bool Particles::Update(float dt)
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-
+	
 	app->render->DrawTexture(texture, app->scene->flyingEnemy->position.x, position.y, &rect);
+
 	//app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
+
+	if (!alive) {
+		position.x = app->scene->flyingEnemy->position.x;
+		position.y = position.y;
+	}
 
 	return true;
 }
@@ -67,6 +73,11 @@ void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
+		alive = false; 
 		break;
+	case ColliderType::PLATFORM:
+		LOG("Collision PLATFORM");
+		alive = false;
+		break; 
 	}
 }

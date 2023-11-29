@@ -35,6 +35,8 @@ public:
 	Animation* currentAnimation = nullptr;
 	Animation shootAnim; 
 
+	bool alive = true; 
+
 };
 
 #endif // __PARTICLES_H__

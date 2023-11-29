@@ -55,7 +55,7 @@ bool FlyingEnemy::Update(float dt)
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
 	//pbody->body->ApplyForce(b2Vec2(0.0f, -app->physics->world->GetGravity().y * pbody->body->GetMass()), pbody->body->GetWorldCenter(), true);
-
+	position.x++;
 
 	return true;
 }
