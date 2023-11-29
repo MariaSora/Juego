@@ -39,13 +39,13 @@ bool FlyingEnemy::Start() {
 }
 
 bool FlyingEnemy::Update(float dt)
-{
+{	
 	/*pbody->body->SetGravityScale(0);
 	pbody->body->GetFixtureList()[0].SetSensor(true);*/
 	currentAnimation = &flyAnim; 
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+	//position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+	//position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
@@ -54,7 +54,8 @@ bool FlyingEnemy::Update(float dt)
 	//app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
-	pbody->body->ApplyForce(b2Vec2(0.0f, -app->physics->world->GetGravity().y * pbody->body->GetMass()), pbody->body->GetWorldCenter(), true);
+	//pbody->body->ApplyForce(b2Vec2(0.0f, -app->physics->world->GetGravity().y * pbody->body->GetMass()), pbody->body->GetWorldCenter(), true);
+
 
 	return true;
 }
