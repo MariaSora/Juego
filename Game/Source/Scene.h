@@ -38,6 +38,8 @@ public:
 	bool CleanUp();
 
 	Player* GetPlayer();
+	Particles* particles;
+	FlyingEnemy* flyingEnemy;
 
 private:
 	SDL_Texture* img;
@@ -45,9 +47,7 @@ private:
 	uint texW, texH;
 	uint windowW, windowH;
 	Player* player;
-	FlyingEnemy* flyingEnemy; 
 	WalkingEnemy* walkingEnemy;
-	Particles* particles; 
 };
 
 #endif // __SCENE_H__
