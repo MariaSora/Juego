@@ -36,7 +36,6 @@ public:
 public:
 
 	List<Entity*> entities;
-
 };
 
 #endif // __ENTITYMANAGER_H__

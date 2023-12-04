@@ -19,7 +19,7 @@ Particles::~Particles() {}
 
 bool Particles::Awake() {
 
-	position.x = parameters.attribute("x").as_int();
+	position.x = parameters .attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
@@ -40,24 +40,27 @@ bool Particles::Start() {
 
 bool Particles::Update(float dt)
 {
-	/*pbody->body->SetGravityScale(0);
-	pbody->body->GetFixtureList()[0].SetSensor(true);*/
+	///*pbody->body->SetGravityScale(0);
+	//pbody->body->GetFixtureList()[0].SetSensor(true);*/
 	currentAnimation = &shootAnim; 
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
 
+	position.y++;
+
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	
-	app->render->DrawTexture(texture, app->scene->flyingEnemy->position.x, position.y, &rect);
+	//
+	app->render->DrawTexture(texture, position.x, position.y, &rect);
 
-	//app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
-	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
+	////app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
+	////app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
-	//if (!alive) {
-	//	position.x = app->scene->flyingEnemy->position.x;
-	//	position.y = position.y;
-	//}
+	if (!alive) {
+		position.x = app->scene->flyingEnemy->position.x;
+		position.y = app->scene->flyingEnemy->position.y;
+		alive = true;
+	}
 
 	return true;
 }

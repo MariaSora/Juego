@@ -22,7 +22,7 @@ public:
 
 	bool CleanUp();
 
-private:
+public:
 
 	SDL_Texture* texture;
 	const char* texturePath;

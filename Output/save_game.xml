@@ -6,11 +6,13 @@
 	<audio />
 	<:anonymous />
 	<scene>
-		<position x="418" y="165" />
+		<position_player x="921" y="164" />
+		<position_walkingenemy x="247" y="201" />
+		<position_flyingenemy x="1018" y="100" />
 	</scene>
 	<:anonymous />
 	<entitymanager />
 	<renderer>
-		<camera x="-636" y="0" />
+		<camera x="-1642" y="0" />
 	</renderer>
 </game_state>
