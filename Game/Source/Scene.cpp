@@ -173,13 +173,21 @@ Player* Scene::GetPlayer()
 bool Scene::LoadState(pugi::xml_node node) {
 
 	//Updates the camera position using the state in the xml file
-	player->position.x = node.child("position").attribute("x").as_int();
-	player->position.y = node.child("position").attribute("y").as_int();
-	//player->setPost();
+	player->position.x = node.child("position_player").attribute("x").as_int();
+	player->position.y = node.child("position_player").attribute("y").as_int();
+
+	player->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(player->position.x, player->position.y)), 0); 
 	
-	//player->pbody->body->SetTransform(b2Vec2(player->position.x, player->position.y), 0); 
-	/*player->position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	player->position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;*/
+	walkingEnemy->position.x = node.child("position_walkingenemy").attribute("x").as_int();
+	walkingEnemy->position.y = node.child("position_walkingenemy").attribute("y").as_int();
+	
+	walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
+	
+	flyingEnemy->position.x = node.child("position_flyingenemy").attribute("x").as_int();
+	flyingEnemy->position.y = node.child("position_flyingenemy").attribute("y").as_int();
+
+	flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
+
 	return true;
 }
 
@@ -188,9 +196,23 @@ bool Scene::LoadState(pugi::xml_node node) {
 bool Scene::SaveState(pugi::xml_node node) {
 
 	//append on node of a new child Camera and add attributtes x,y of the camera position
-	pugi::xml_node camNode = node.append_child("position");
-	camNode.append_attribute("x").set_value(player->position.x);
-	camNode.append_attribute("y").set_value(player->position.y);
+	pugi::xml_node camNode = node.append_child("position_player"); 
+	camNode.append_attribute("x").set_value(player->position.x); 
+	camNode.append_attribute("y").set_value(player->position.y); 
+	
+	player->pbody->body->GetTransform();
+
+	pugi::xml_node camNode1 = node.append_child("position_walkingenemy");
+	camNode1.append_attribute("x").set_value(walkingEnemy->position.x);
+	camNode1.append_attribute("y").set_value(walkingEnemy->position.y);
+
+	walkingEnemy->pbody->body->GetTransform();
+
+	pugi::xml_node camNode2 = node.append_child("position_flyingenemy");
+	camNode2.append_attribute("x").set_value(flyingEnemy->position.x);
+	camNode2.append_attribute("y").set_value(flyingEnemy->position.y);
+
+	flyingEnemy->pbody->body->GetTransform();
 
 	return true;
 }

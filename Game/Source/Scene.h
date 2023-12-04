@@ -38,8 +38,6 @@ public:
 	bool CleanUp();
 
 	Player* GetPlayer();
-	Particles* particles;
-	FlyingEnemy* flyingEnemy;
 
 	bool LoadState(pugi::xml_node node);
 	bool SaveState(pugi::xml_node node);
@@ -51,6 +49,10 @@ private:
 	uint windowW, windowH;
 	Player* player;
 	WalkingEnemy* walkingEnemy;
+
+public:
+	Particles* particles;
+	FlyingEnemy* flyingEnemy;
 };
 
 #endif // __SCENE_H__

@@ -19,7 +19,7 @@ Particles::~Particles() {}
 
 bool Particles::Awake() {
 
-	position.x = parameters.attribute("x").as_int();
+	position.x = parameters .attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
@@ -47,6 +47,7 @@ bool Particles::Update(float dt)
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
+	position.y += 50;
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 	
@@ -55,10 +56,11 @@ bool Particles::Update(float dt)
 	//app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
-	//if (!alive) {
-	//	position.x = app->scene->flyingEnemy->position.x;
-	//	position.y = position.y;
-	//}
+	if (!alive) {
+		position.x = app->scene->flyingEnemy->position.x;
+		position.y = position.y;
+		alive = true;
+	}
 
 	return true;
 }
