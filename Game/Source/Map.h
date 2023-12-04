@@ -4,6 +4,9 @@
 #include "Module.h"
 #include "List.h"
 #include "Point.h"
+#include "Pathfinding.h"
+#include "DynArray.h"
+#include "Queue.h"
 
 #include "PugiXml\src\pugixml.hpp"
 
@@ -20,7 +23,18 @@ struct TileSet
 	int tilecount;
 
 	SDL_Texture* texture;
-	SDL_Rect GetTileRect(int gid) const;
+	SDL_Rect GetRect(uint gid) const
+	{
+		SDL_Rect rect = { 0 };
+		int relativeIndex = gid - firstgid;
+
+		rect.w = tileWidth;
+		rect.h = tileHeight;
+		rect.x = margin + (tileWidth + spacing) * (relativeIndex % columns);
+		rect.y = margin + (tileWidth + spacing) * (relativeIndex / columns);
+
+		return rect;
+	}
 };
 
 //  We create an enum for map type, just for convenience,
@@ -29,7 +43,6 @@ enum MapTypes
 {
 	MAPTYPE_UNKNOWN = 0,
 	MAPTYPE_ORTHOGONAL,
-	MAPTYPE_ISOMETRIC,
 	MAPTYPE_STAGGERED
 };
 
@@ -69,20 +82,12 @@ struct MapLayer
 	int height;
 	float parallax;
 	uint* data;
-
+	uint* tiles;
 	Properties properties;
 
-	MapLayer() : data(NULL)
-	{}
-
-	~MapLayer()
+	uint Get(int x, int y) const
 	{
-		RELEASE(data);
-	}
-
-	inline uint Get(int x, int y) const
-	{
-		return data[(y * width) + x];
+		return tiles[(y * width) + x];
 	}
 };
 
@@ -153,6 +158,8 @@ public:
 	iPoint MapToWorld(int x, int y) const;
 	iPoint Map::WorldToMap(int x, int y);
 
+	void CreateNavigationMap(int& width, int& height, uchar** buffer) const;
+
 private:
 
 	bool LoadMap(pugi::xml_node mapFile);
@@ -173,10 +180,12 @@ public:
 	SString path;
 	PhysBody* platform;
 	PhysBody* stairs;
+	PathFinding* pathfinding; 
 
 private:
-
+	MapLayer* navigationLayer;
 	bool mapLoaded;
+	int blockedGid = 49;
 };
 
 #endif // __MAP_H__

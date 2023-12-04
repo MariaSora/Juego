@@ -44,8 +44,7 @@ bool Particles::Update(float dt)
 	pbody->body->GetFixtureList()[0].SetSensor(true);*/
 	currentAnimation = &shootAnim; 
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();

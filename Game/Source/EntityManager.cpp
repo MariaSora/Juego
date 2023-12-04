@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "movingPlatform.h"
 #include "Particles.h"
+#include "Pathfinding.h"
 
 #include "Defs.h"
 #include "Log.h"
