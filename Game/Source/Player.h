@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Point.h"
 #include "Animation.h"
+#include "movingPlatform.h"
 #include "SDL/include/SDL.h"
 
 #include "Physics.h"
@@ -62,6 +63,10 @@ private:
 	//bool LoadAllJumpAnims(pugi::xml_node animNode);
 
 	b2Transform Ipos;
+
+	MovingPlatform* movingplatform;
+	bool inmovplat = false;
+	int algo = 0;
 };
 
 #endif // __PLAYER_H__

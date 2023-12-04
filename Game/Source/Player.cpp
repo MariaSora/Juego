@@ -112,12 +112,18 @@ bool Player::Update(float dt)
 			isFacingRight = false;
 			vel = b2Vec2((-speed / 2) * dt, pbody->body->GetLinearVelocity().y);
 			currentAnimation = &walkAnim;
+			if (inmovplat) {
+				algo--;
+			}
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 			isFacingRight = true;
 			vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
 			currentAnimation = &walkAnim;
+			if (inmovplat) {
+				algo++;
+			}
 		}
 	
 		if ((touchingP && touchingS) || touchingS)
@@ -147,6 +153,8 @@ bool Player::Update(float dt)
 				pbody->body->SetLinearVelocity(vel);
 				pbody->body->ApplyLinearImpulse(b2Vec2(0, GRAVITY_Y * 0.1), pbody->body->GetWorldCenter(), true);
 				saltando = true;
+				inmovplat = false;
+				algo = 0;
 			}
 		}
 
@@ -187,6 +195,15 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
 	}
 
+	if (inmovplat) {
+		b2Vec2 algo1 = movingplatform->pbody->body->GetTransform().p;
+		algo1.x += PIXEL_TO_METERS(algo);
+		pbody->body->SetTransform(algo1, 0);
+		if (pbody->body->GetLinearVelocity().y > 0) {
+			inmovplat = false;
+		}
+	}
+	
 
 	return true;
 }
@@ -229,6 +246,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::MOVING_PLATFORM:
 		saltando = false;
 		jumpAnim.Reset();
+		movingplatform = (MovingPlatform*)physB->listener;
+		inmovplat = true;
 		LOG("Collision MOVING_PLATFORM");
 		break;
 	}

@@ -34,6 +34,7 @@ bool MovingPlatform::Start() {
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangle(position.x + 16, position.y + 16, 48, 16, bodyType::KINEMATIC);
 	pbody->ctype = ColliderType::MOVING_PLATFORM;
+	pbody->listener = this;
 	initialPos.x = position.x;
 	initialPos.y = position.y;
 
