@@ -32,7 +32,7 @@ bool Particles::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangle(position.x + 20, position.y, 12, 32, bodyType::DYNAMIC);
+	pbody = app->physics->CreateRectangle(position.x + 20, position.y + 50, 12, 32, bodyType::KINEMATIC);
 	pbody->ctype = ColliderType::PARTICLES;
 
 	return true;
@@ -55,10 +55,10 @@ bool Particles::Update(float dt)
 	//app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
-	if (!alive) {
-		position.x = app->scene->flyingEnemy->position.x;
-		position.y = position.y;
-	}
+	//if (!alive) {
+	//	position.x = app->scene->flyingEnemy->position.x;
+	//	position.y = position.y;
+	//}
 
 	return true;
 }

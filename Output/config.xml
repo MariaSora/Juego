@@ -34,14 +34,14 @@
 		  </idleAnim>
 	
 		  <jumpAnim loop ="false" speed ="0.3">
-			  <anim x ="6" y ="295" width ="10" height ="32"/>
-			  <anim x ="39" y ="295" width ="10" height ="32"/>
-			  <anim x ="72" y ="295" width ="10" height ="32"/>
-			  <anim x ="102" y ="295" width ="10" height ="32"/>
-			  <anim x ="134" y ="295" width ="10" height ="32"/>
-			  <anim x ="167" y ="295" width ="10" height ="32"/>
-			  <anim x ="200" y ="295" width ="10" height ="32"/>
-			  <anim x ="230" y ="295" width ="10" height ="32"/>
+			  <anim x ="6" y ="295" width ="22" height ="32"/>
+			  <anim x ="39" y ="295" width ="22" height ="32"/>
+			  <anim x ="72" y ="295" width ="22" height ="32"/>
+			  <anim x ="102" y ="295" width ="22" height ="32"/>
+			  <anim x ="134" y ="295" width ="22" height ="32"/>
+			  <anim x ="167" y ="295" width ="22" height ="32"/>
+			  <anim x ="200" y ="295" width ="22" height ="32"/>
+			  <anim x ="230" y ="295" width ="22" height ="32"/>
 			  <anim x ="6" y ="295" width ="22" height ="32"/>
 		  </jumpAnim>
 
