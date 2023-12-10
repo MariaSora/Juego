@@ -115,25 +115,6 @@ bool Map::Update(float dt)
     return true;
 }
 
-iPoint Map::MapToWorld(int x, int y) const
-{
-    iPoint ret;
-
-    ret.x = x * mapData.tileWidth;
-    ret.y = y * mapData.tileHeight;
-
-    return ret;
-}
-
-iPoint Map::WorldToMap(int x, int y) 
-{
-    iPoint ret(0, 0);
-
-    //
-
-    return ret;
-}
-
 TileSet* Map::GetTilesetFromTileId(int gid) const
 {  
     TileSet* set = NULL;
@@ -254,6 +235,9 @@ bool Map::Load(SString mapFileName)
             mapData.maplayers.Add(mapLayer);
         }
 
+        if (ret == true) {
+            ret = LoadCollisionsObject();
+        }
 
         // L07 DONE 3: Create colliders      
         // L07 DONE 7: Assign collider type
@@ -329,11 +313,101 @@ bool Map::Load(SString mapFileName)
     //{
     //    ret = LoadAllObjectGroup(mapFileXML.child("map"));
     //}
-
-    if(mapFileXML) mapFileXML.reset();
-
     mapLoaded = ret;
     return ret;
+}
+
+iPoint Map::MapToWorld(int x, int y) const
+{
+    iPoint ret;
+
+    ret.x = x * mapData.tileWidth;
+    ret.y = y * mapData.tileHeight;
+
+    return ret;
+}
+
+bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
+{
+    bool ret = false;
+
+    for (pugi::xml_node propertieNode = node.child("properties").child("property"); propertieNode; propertieNode = propertieNode.next_sibling("property"))
+    {
+        Properties::Property* p = new Properties::Property();
+        p->name = propertieNode.attribute("name").as_string();
+        p->value = propertieNode.attribute("value").as_bool(); // (!!) I'm assuming that all values are bool !!
+
+        properties.list.Add(p);
+    }
+
+    return ret;
+}
+
+Properties::Property* Properties::GetProperty(const char* name)
+{
+    ListItem<Property*>* item = list.start;
+    Property* p = NULL;
+
+    while (item)
+    {
+        if (item->data->name == name) {
+            p = item->data;
+            break;
+        }
+        item = item->next;
+    }
+
+    return p;
+}
+
+iPoint Map::WorldToMap(int x, int y)
+{
+    iPoint ret(0, 0);
+
+    ret.x = x / mapData.tileWidth;
+    ret.y = y / mapData.tileHeight;
+
+    return ret;
+}
+
+int Map::GetTileWidth() {
+    return mapData.tileWidth;
+}
+
+int Map::GetTileHeight() {
+    return mapData.tileHeight;
+}
+
+void Map::CreateNavigationMap(int& width, int& height, uchar** buffer) const
+{
+    bool ret = false;
+
+    //Sets the size of the map. The navigation map is a unidimensional array 
+    uchar* navigationMap = new uchar[navigationLayer->width * navigationLayer->height];
+    //reserves the memory for the navigation map
+    memset(navigationMap, 1, navigationLayer->width * navigationLayer->height);
+
+    for (int x = 0; x < mapData.width; x++)
+    {
+        for (int y = 0; y < mapData.height; y++)
+        {
+            //i is the index of x,y coordinate in a unidimensional array that represents the navigation map
+            int i = (y * navigationLayer->width) + x;
+
+            //Gets the gid of the map in the navigation layer
+            int gid = navigationLayer->Get(x, y);
+
+            //If the gid is a blockedGid is an area that I cannot navigate, so is set in the navigation map as 0, all the other areas can be navigated
+            //!!!! make sure that you assign blockedGid according to your map
+            if (gid == blockedGid) navigationMap[i] = 0;
+            else navigationMap[i] = 1;
+        }
+    }
+
+    *buffer = navigationMap;
+    width = mapData.width;
+    height = mapData.height;
+
 }
 
 bool Map::LoadMap(pugi::xml_node mapFile)
@@ -542,69 +616,3 @@ bool Map::PortalZone()
 
     return false;
 }
-
-bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
-{
-    bool ret = false;
-
-    for (pugi::xml_node propertieNode = node.child("properties").child("property"); propertieNode; propertieNode = propertieNode.next_sibling("property"))
-    {
-        Properties::Property* p = new Properties::Property();
-        p->name = propertieNode.attribute("name").as_string();
-        p->value = propertieNode.attribute("value").as_bool(); // (!!) I'm assuming that all values are bool !!
-
-        properties.list.Add(p);
-    }
-
-    return ret;
-}
-
-Properties::Property* Properties::GetProperty(const char* name)
-{
-    ListItem<Property*>* item = list.start;
-    Property* p = NULL;
-
-    while (item)
-    {
-        if (item->data->name == name) {
-            p = item->data;
-            break;
-        }
-        item = item->next;
-    }
-
-    return p;
-}
-
-void Map::CreateNavigationMap(int& width, int& height, uchar** buffer) const
-{
-    bool ret = false;
-
-    //Sets the size of the map. The navigation map is a unidimensional array 
-    uchar* navigationMap = new uchar[navigationLayer->width * navigationLayer->height];
-    //reserves the memory for the navigation map
-    memset(navigationMap, 1, navigationLayer->width * navigationLayer->height);
-
-    for (int x = 0; x < mapData.width; x++)
-    {
-        for (int y = 0; y < mapData.height; y++)
-        {
-            //i is the index of x,y coordinate in a unidimensional array that represents the navigation map
-            int i = (y * navigationLayer->width) + x;
-
-            //Gets the gid of the map in the navigation layer
-            int gid = navigationLayer->Get(x, y);
-
-            //If the gid is a blockedGid is an area that I cannot navigate, so is set in the navigation map as 0, all the other areas can be navigated
-            //!!!! make sure that you assign blockedGid according to your map
-            if (gid == blockedGid) navigationMap[i] = 0;
-            else navigationMap[i] = 1;
-        }
-    }
-
-    *buffer = navigationMap;
-    width = mapData.width;
-    height = mapData.height;
-
-}
-

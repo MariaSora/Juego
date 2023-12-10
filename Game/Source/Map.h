@@ -54,6 +54,8 @@ struct Properties
 		bool value;
 	};
 
+	List<Property*> list;
+
 	~Properties()
 	{
 		//...
@@ -70,8 +72,6 @@ struct Properties
 	}
 
 	Property* GetProperty(const char* name);
-
-	List<Property*> list;
 };
 
 struct MapLayer
@@ -160,8 +160,6 @@ public:
 
 	void CreateNavigationMap(int& width, int& height, uchar** buffer) const;
 
-private:
-
 	bool LoadMap(pugi::xml_node mapFile);
 	bool LoadTileSet(pugi::xml_node mapFile);
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
@@ -173,9 +171,10 @@ private:
 	TileSet* GetTilesetFromTileId(int gid) const;
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 
-public: 
+	int GetTileWidth();
+	int GetTileHeight();
 
-	MapData mapData;
+public: 
 	SString name;
 	SString path;
 	PhysBody* platform;
@@ -183,6 +182,7 @@ public:
 	PathFinding* pathfinding; 
 
 private:
+	MapData mapData;
 	MapLayer* navigationLayer;
 	bool mapLoaded;
 	int blockedGid = 49;
