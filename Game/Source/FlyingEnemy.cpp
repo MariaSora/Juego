@@ -21,6 +21,9 @@ bool FlyingEnemy::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	dir = parameters.attribute("direction").as_bool();
+	distance = parameters.attribute("distance").as_int();
+	type = parameters.attribute("type").as_bool();
 
 	flyAnim.LoadAnimation("flyingEnemy", "flyAnim");
 	deathAnim.LoadAnimation("flyingEnemy", "deathAnim");
@@ -34,6 +37,9 @@ bool FlyingEnemy::Start() {
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, bodyType::KINEMATIC);
 	pbody->ctype = ColliderType::FLYINGENEMY;
+
+	initialPos.x = position.x;
+	initialPos.y = position.y;
 
 	return true;
 }
@@ -50,12 +56,53 @@ bool FlyingEnemy::Update(float dt)
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 
-	app->render->DrawTexture(texture, position.x + 8, position.y + 50, &rect);
-	//app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
+
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
 	//pbody->body->ApplyForce(b2Vec2(0.0f, -app->physics->world->GetGravity().y * pbody->body->GetMass()), pbody->body->GetWorldCenter(), true);
-	position.x++;
+	//position.x++;
+
+	if (type)
+	{	
+		app->render->DrawTexture(texture, position.x, position.y, &rect);
+		if (!dir)
+		{
+			position.x++;
+			if (position.x >= initialPos.x + distance)
+			{
+				dir = true;
+			}
+		}
+		else
+		{
+			position.x--;
+			if (position.x <= initialPos.x - distance)
+			{
+			 dir = false;
+			}
+		}
+	}
+
+	if (!type)
+	{
+		app->render->DrawTexture(texture, position.x, position.y, &rect);
+		if (!dir)
+		{
+			position.y++;
+			if (position.y >= initialPos.y + distance)
+			{
+				dir = true;
+			}
+		}
+		else
+		{
+			position.y--;
+			if (position.y <= initialPos.y - distance)
+			{
+				dir = false;
+			}
+		}
+	}
 
 	return true;
 }
@@ -82,9 +129,6 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
-		break;
-	case ColliderType::MOVING_PLATFORM:
-		LOG("Collision MOVING_PLATFORM");
 		break;
 	}
 }
