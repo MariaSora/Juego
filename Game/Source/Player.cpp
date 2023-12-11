@@ -33,6 +33,7 @@ bool Player::Awake() {
 	climbAnim.LoadAnimation("player", "climbAnim");
 	climbIdleAnim.LoadAnimation("player", "climbIdleAnim");
 	attackAnim.LoadAnimation("player", "attackAnim");
+	dieAnim.LoadAnimation("player", "dieAnim");
 
 	return true;
 }
@@ -64,11 +65,17 @@ bool Player::Update(float dt)
 	currentAnimation = &idleAnim;
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) { 
+		app->godmode = false;
 		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
-
+	}
+	//hacer nivel 2
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		app->godmode = false;
+		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { 
+		app->godmode = false;
 		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0); 
 	}
 
@@ -165,12 +172,18 @@ bool Player::Update(float dt)
 		}
 			
 
-		if (app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
-			muere = true;
+		if (position.y >= 630 || app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
+			die = true;
 		}
-		if (position.y >= 630) {
-			pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
-			muere = true;
+
+		if (die) {
+			LOG("PLAYER DIES");
+			currentAnimation = &dieAnim;
+			if (currentAnimation->HasFinished()) { 
+				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+				die = false;
+				dieAnim.Reset();  
+			}
 		}
 
 		//ataque personaje
@@ -224,6 +237,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::WALKINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
+		die = true;
 		LOG("Collision WALKINGENEMY");
 		break;
 	case ColliderType::ITEM:
@@ -232,7 +246,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLATFORM:
 		saltando = false;
-		muere = false;
 		touchingP = true;
 		jumpAnim.Reset();
 		LOG("Collision PLATFORM");

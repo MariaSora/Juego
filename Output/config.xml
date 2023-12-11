@@ -74,6 +74,18 @@
 			  <anim x ="136" y ="84" width ="21" height ="29"/>
 			  <anim x ="166" y ="84" width ="20" height ="29"/>
 		  </attackAnim>
+
+			<dieAnim loop ="false" speed ="0.1">
+				<anim x ="6" y ="164" width ="22" height ="32"/>
+				<anim x ="39" y ="164" width ="22" height ="32"/>
+				<anim x ="71" y ="164" width ="28" height ="32"/>
+				<anim x ="102" y ="164" width ="28" height ="32"/>
+				<anim x ="132" y ="164" width ="33" height ="32"/>
+				<anim x ="173" y ="164" width ="24" height ="32"/>
+				<anim x ="205" y ="164" width ="24" height ="32"/>
+				<anim x ="230" y ="295" width ="22" height ="32"/>
+			</dieAnim>
+			
 	    </animations>
 	  </player>
 	  <particles x ="100" y="120" texturepath="Assets/Textures/Ice.png">
