@@ -65,7 +65,7 @@
 			  <anim x ="6" y ="122" width ="20" height ="29"/>
 		  </climbIdleAnim>
 		  
-		  <attackAnim loop ="true" speed ="0.2">
+		  <attackAnim loop ="true" speed ="0.25">
 			  <anim x ="6" y ="44" width ="20" height ="29"/>
 			  <anim x ="39" y ="44" width ="20" height ="29"/>
 			  <anim x ="70" y ="44" width ="25" height ="29"/>
@@ -75,7 +75,7 @@
 			  <anim x ="166" y ="84" width ="20" height ="29"/>
 		  </attackAnim>
 
-			<dieAnim loop ="false" speed ="0.1">
+			<dieAnim loop ="false" speed ="0.2">
 				<anim x ="6" y ="164" width ="22" height ="32"/>
 				<anim x ="39" y ="164" width ="22" height ="32"/>
 				<anim x ="71" y ="164" width ="28" height ="32"/>
@@ -91,17 +91,17 @@
 	  
 	  <particles x ="100" y="120" texturepath="Assets/Textures/Ice.png">
 		 <animations>
-			 <shootAnim loop ="true" speed ="0.2">
-				 <anim x ="0" y ="10" width ="32" height ="29"/>
-				 <anim x ="0" y ="58" width ="32" height ="29"/>
-				 <anim x ="0" y ="106" width ="32" height ="29"/>
-				 <anim x ="0" y ="154" width ="32" height ="29"/>
-				 <anim x ="0" y ="202" width ="32" height ="29"/>
-				 <anim x ="0" y ="250" width ="32" height ="29"/>
-				 <anim x ="0" y ="295" width ="32" height ="29"/>
-				 <anim x ="0" y ="343" width ="32" height ="29"/>
-				 <anim x ="0" y ="391" width ="32" height ="29"/>
-				 <anim x ="0" y ="442" width ="32" height ="29"/>
+			 <shootAnim loop ="true" speed ="0.3">
+				 <anim x ="0" y ="0" width ="9" height ="18"/>
+				 <anim x ="0" y ="22" width ="9" height ="18"/>
+				 <anim x ="0" y ="44" width ="9" height ="18"/>
+				 <anim x ="0" y ="65" width ="9" height ="18"/>
+				 <anim x ="0" y ="87" width ="9" height ="18"/>
+				 <anim x ="0" y ="111" width ="9" height ="18"/>
+				 <anim x ="0" y ="131" width ="9" height ="18"/>
+				 <anim x ="0" y ="154" width ="9" height ="18"/>
+				 <anim x ="0" y ="175" width ="9" height ="18"/>
+				 <anim x ="0" y ="199" width ="9 " height ="18"/>
 			 </shootAnim>
 		 </animations>
 	  </particles>
