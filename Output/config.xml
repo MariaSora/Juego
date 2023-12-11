@@ -174,7 +174,19 @@
 		  </animations>
 	  </walkingEnemy>
 		  
-    <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
+    <tutorial x="216" y="150" texturepath="Assets/Textures/tutorial.jpg">
+		<animations>
+			<adAnim loop ="false" speed ="0.3">
+				<anim x ="56" y ="115" width ="14" height ="12"/>
+			</adAnim>
+			<wsAnim loop ="false" speed ="0.3">
+				<anim x ="56" y ="115" width ="14" height ="12"/>
+			</wsAnim>
+			<noAnim loop ="false" speed ="0.3">
+				<anim x ="1" y ="1" width ="20" height ="20"/>
+			</noAnim>
+		</animations>
+	</tutorial>
     <item x="384" y="352" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="200" y="672" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="500" y="672" texturepath="Assets/Textures/goldCoin.png"/>

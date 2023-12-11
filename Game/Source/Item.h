@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Point.h"
+
 #include "SDL/include/SDL.h"
 
 struct SDL_Texture;
@@ -23,11 +24,11 @@ public:
 	bool CleanUp();
 
 public:
+	
 
 	bool isPicked = false;
 
 private:
-
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
