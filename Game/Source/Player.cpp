@@ -10,6 +10,7 @@
 #include "Physics.h"
 #include "Map.h"
 
+
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
@@ -244,6 +245,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
 		//app->audio->PlayFx(pickCoinFxId);
+		break;
+	case ColliderType::TUTORIAL:
+		LOG("Collision TUTORIAL");
 		break;
 	case ColliderType::PLATFORM:
 		saltando = false;

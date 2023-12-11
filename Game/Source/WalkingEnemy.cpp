@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Player.h"
 
 WalkingEnemy::WalkingEnemy() : Entity(EntityType::WALKINGENEMY)
 {
@@ -35,7 +36,7 @@ bool WalkingEnemy::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateCircle(position.x + 8, position.y + 8, 8, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::WALKINGENEMY;
 
 	return true;
@@ -43,17 +44,34 @@ bool WalkingEnemy::Start() {
 
 bool WalkingEnemy::Update(float dt)
 {
-	currentAnimation = &idleAnim;
-
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
 	//app->render->DrawTexture(texture, position.x, position.y);
+	if (!state) { 
+		idleAnim.Reset();
+		currentAnimation = &attackAnim; 
+		counter++; 
+		if (counter == 50) {
+			counter = 0;
+			state = true;
+		}
+	}
+	if (state) {
+		attackAnim.Reset();
+		currentAnimation = &idleAnim; 
+		counter++;
+		if (counter == 50) {
+			counter = 0;
+			state = false;
+		}
+	}
 
+	/*currentAnimation = &attackAnim;*/
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	app->render->DrawTexture(texture, position.x + 8, position.y + 13, &rect);
+	app->render->DrawTexture(texture, position.x, position.y + 5, &rect);
 
 	return true;
 }
@@ -68,6 +86,7 @@ void WalkingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
+		/*if (!state) player.muere = true; */ //algo asi ns
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");

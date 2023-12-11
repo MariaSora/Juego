@@ -1,5 +1,5 @@
-#ifndef __WALKINGENEMY_H__
-#define __WALKINGENEMY_H__
+#ifndef __TUTORIAL_H__
+#define __TUTORIAL_H__
 
 #include "Entity.h"
 #include "Point.h"
@@ -8,12 +8,12 @@
 
 struct SDL_Texture;
 
-class WalkingEnemy : public Entity
+class Tutorial : public Entity
 {
 public:
 
-	WalkingEnemy();
-	virtual ~WalkingEnemy();
+	Tutorial();
+	virtual ~Tutorial();
 
 	bool Awake();
 
@@ -24,21 +24,17 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
-
 public:
-
-	float speed = 0.2f;
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
 
-	SDL_Texture* walkingEnemy = nullptr;
-
+	bool isPicked = false;
 	Animation* currentAnimation = nullptr;
-	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim;
-	
-	int counter = 0; 
-	bool state = true; 
+	Animation adAnim, wsAnim, noAnim;
+
+private:
+
 };
 
-#endif // __WALKINGENEMY_H__
+#endif // __TUTORIAL_H__
