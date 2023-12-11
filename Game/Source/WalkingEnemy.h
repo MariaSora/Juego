@@ -36,6 +36,9 @@ public:
 
 	Animation* currentAnimation = nullptr;
 	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim;
+	
+	int counter = 0; 
+	bool state = true; 
 };
 
 #endif // __WALKINGENEMY_H__
