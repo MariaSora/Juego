@@ -74,6 +74,18 @@
 			  <anim x ="136" y ="84" width ="21" height ="29"/>
 			  <anim x ="166" y ="84" width ="20" height ="29"/>
 		  </attackAnim>
+
+			<dieAnim loop ="false" speed ="0.1">
+				<anim x ="6" y ="164" width ="22" height ="32"/>
+				<anim x ="39" y ="164" width ="22" height ="32"/>
+				<anim x ="71" y ="164" width ="28" height ="32"/>
+				<anim x ="102" y ="164" width ="28" height ="32"/>
+				<anim x ="132" y ="164" width ="33" height ="32"/>
+				<anim x ="173" y ="164" width ="24" height ="32"/>
+				<anim x ="205" y ="164" width ="24" height ="32"/>
+				<anim x ="230" y ="295" width ="22" height ="32"/>
+			</dieAnim>
+			
 	    </animations>
 	  </player>
 	  <particles x ="100" y="120" texturepath="Assets/Textures/Ice.png">
@@ -162,7 +174,19 @@
 		  </animations>
 	  </walkingEnemy>
 		  
-    <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
+    <tutorial x="216" y="150" texturepath="Assets/Textures/tutorial.jpg">
+		<animations>
+			<adAnim loop ="false" speed ="0.3">
+				<anim x ="56" y ="115" width ="14" height ="12"/>
+			</adAnim>
+			<wsAnim loop ="false" speed ="0.3">
+				<anim x ="56" y ="115" width ="14" height ="12"/>
+			</wsAnim>
+			<noAnim loop ="false" speed ="0.3">
+				<anim x ="1" y ="1" width ="20" height ="20"/>
+			</noAnim>
+		</animations>
+	</tutorial>
     <item x="384" y="352" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="200" y="672" texturepath="Assets/Textures/goldCoin.png"/>
     <item x="500" y="672" texturepath="Assets/Textures/goldCoin.png"/>

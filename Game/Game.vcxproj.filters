@@ -28,6 +28,7 @@
     <ClCompile Include="Source\WalkingEnemy.cpp" />
     <ClCompile Include="Source\Particles.cpp" />
     <ClCompile Include="Source\Pathfinding.cpp" />
+    <ClCompile Include="Source\Tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -83,6 +84,7 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Pathfinding.h" />
+    <ClInclude Include="Source\Tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
