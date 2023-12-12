@@ -35,6 +35,11 @@ public:
 	Animation* currentAnimation = nullptr;
 	Animation flyAnim, deathAnim; 
 
+	iPoint initialPos;
+	int distance;
+	bool dir = false;
+	bool type = true;
+
 };
 
 #endif // __FLYINGENEMY_H__
