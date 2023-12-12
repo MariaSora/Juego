@@ -176,14 +176,15 @@ bool Player::Update(float dt)
 		if (position.y >= 630 || app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			die = true;
 		}
-
+		if (app->vida == 0) die = true; /*holis = true;*/
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
 			if (currentAnimation->HasFinished()) { 
-				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
-				die = false;
-				dieAnim.Reset();  
+				dieAnim.Reset();
+				//pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+				die = false;	
+
 			}
 		}
 
@@ -218,7 +219,7 @@ bool Player::Update(float dt)
 			inmovplat = false;
 		}
 	}
-	
+
 	return true;
 }
 
@@ -234,11 +235,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::FLYINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
 		LOG("Collision FLYINGENEMY");
-		die = true;
+		/*die = true;*/
 		break;
 	case ColliderType::WALKINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
-		die = true;
 		LOG("Collision WALKINGENEMY");
 		break;
 	case ColliderType::ITEM:
@@ -255,6 +255,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		saltando = false;
 		touchingP = true;
 		jumpAnim.Reset();
+	/*	if (holis) {
+			dieAnim.Reset();
+			holis = false;
+		}*/
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::STAIRS:

@@ -43,6 +43,7 @@ public:
 
 	bool saltando = false;
 	bool die = false;
+	bool holis = false;
 	bool climb = false; 
 	bool touchingP = false;
 	bool touchingS = false;

@@ -32,7 +32,8 @@ bool Particles::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangle(position.x, position.y, 8, 12, bodyType::KINEMATIC);
+	pbody = app->physics->CreateRectangle(position.x, position.y, 8, 12, bodyType::DYNAMIC);
+	pbody->listener = this; 
 	pbody->ctype = ColliderType::PARTICLES;
 
 	return true;
@@ -47,7 +48,9 @@ bool Particles::Update(float dt)
 
 
 	if (!alive) {	
-		pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->scene->flyingEnemy->position.x), PIXEL_TO_METERS(app->scene->flyingEnemy->position.y)), 0);
+		//pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->scene->flyingEnemy->position.x), PIXEL_TO_METERS(app->scene->flyingEnemy->position.y)), 0);
+		position.y = app->scene->flyingEnemy->position.y + 20;
+		position.x = app->scene->flyingEnemy->position.x + 10;
 		alive = true;
 	}
 	else position.y++; pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
@@ -55,7 +58,7 @@ bool Particles::Update(float dt)
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	app->render->DrawTexture(texture, position.x, position.y, &rect);
+	app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
 
 	////app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
 	////app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
@@ -69,11 +72,16 @@ bool Particles::CleanUp()
 }
 
 void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
+	
+	
+	
+	
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
 		alive = false; 
+		app->vida--;
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
