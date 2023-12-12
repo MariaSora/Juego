@@ -180,11 +180,11 @@ bool Player::Update(float dt)
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
-			if (currentAnimation->HasFinished()) { 
+			if (dieAnim.HasFinished()) {
 				dieAnim.Reset();
 				//pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
-				die = false;	
-
+				app->vida = 5; 
+				die = false;
 			}
 		}
 
@@ -198,7 +198,6 @@ bool Player::Update(float dt)
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
-
 
 	currentAnimation->Update();
 

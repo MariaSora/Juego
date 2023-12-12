@@ -167,7 +167,6 @@ bool Scene::CleanUp()
 
 Player* Scene::GetPlayer()
 {
-
 	return player;
 }
 bool Scene::LoadState(pugi::xml_node node) {

@@ -47,12 +47,13 @@ private:
 	float textPosX, textPosY = 0;
 	uint texW, texH;
 	uint windowW, windowH;
-	Player* player;
-	WalkingEnemy* walkingEnemy;
+	
 
 public:
 	Particles* particles;
 	FlyingEnemy* flyingEnemy;
+	Player* player;
+	WalkingEnemy* walkingEnemy;
 };
 
 #endif // __SCENE_H__
