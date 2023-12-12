@@ -485,17 +485,6 @@ bool Map::LoadCollisionsObject()
     return ret;
 }
 
-bool Map::PortalZone()
-{
-    //Falta hacer una pared que cuando el personaje se acerque, pueda atravesarla, la opacidad baje y se encuentre con un portal para teletransportarse en la plataforma final
-
-   // app->render->DrawTexture(texture, 0, 0);
-
-
-
-    return false;
-}
-
 bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
     bool ret = false;
