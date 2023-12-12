@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Map.h"
 
 FlyingEnemy::FlyingEnemy() : Entity(EntityType::FLYINGENEMY)
 {
@@ -45,17 +46,42 @@ bool FlyingEnemy::Start() {
 }
 
 bool FlyingEnemy::Update(float dt)
-{	
+{
 	/*pbody->body->SetGravityScale(0);
 	pbody->body->GetFixtureList()[0].SetSensor(true);*/
-	currentAnimation = &flyAnim; 
+	currentAnimation = &flyAnim;
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 
 	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
 
+	b2Vec2 vel = pbody->body->GetLinearVelocity();
+
+	if (position.x - app->scene->player->position.x <= 400 && position.x - app->scene->player->position.y >= -400)
+	{
+		playerFound = true;
+		app->map->pathfinding->CreatePath(enemyPos, app->scene->player->position);
+		path = app->map->pathfinding->GetLastPath(); 
+		/*if (app->physics->debug)
+		{
+			for (uint i = 0; i < path->Count(); i++)
+			{
+				iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+				app->render->DrawTexture(HAY QUE BUSCAR UNA TEXTURA PARA QUE DIBUJE EL PATH, pos.x, pos.y)
+			}
+		}*/
+	}
+	else
+	{
+		playerFound = false; 
+	}
+
+	if(position.x - app->scene->player->position.x <= 40 && position.x - app->scene->player->position.x >= -40) MoveToPlayer(enemyPos, 1.0f, path);
+
+
+	enemyPos = app->map->WorldToMap(20 + position.x, 30 + position.y - app->render->camera.y);
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-
+	app->render->DrawTexture(texture, position.x, position.y, &rect);
 
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
@@ -83,28 +109,55 @@ bool FlyingEnemy::Update(float dt)
 		}
 	}
 
-	if (!type)
-	{
-		app->render->DrawTexture(texture, position.x, position.y, &rect);
-		if (!dir)
-		{
-			position.y++;
-			if (position.y >= initialPos.y + distance)
-			{
-				dir = true;
-			}
-		}
-		else
-		{
-			position.y--;
-			if (position.y <= initialPos.y - distance)
-			{
-				dir = false;
-			}
-		}
-	}
+	//if (!type)
+	//{
+	//	app->render->DrawTexture(texture, position.x, position.y, &rect);
+	//	if (!dir)
+	//	{
+	//		position.y++;
+	//		if (position.y >= initialPos.y + distance)
+	//		{
+	//			dir = true;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		position.y--;
+	//		if (position.y <= initialPos.y - distance)
+	//		{
+	//			dir = false;
+	//		}
+	//	}
+	//}
 
 	return true;
+}
+
+void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path)
+{
+	b2Vec2 vel = pbody->body->GetLinearVelocity();
+
+	if (path->Count() > 0)
+	{
+		iPoint nextNode;
+		if (app->map->pathfinding->IsWalkable(enemyPos)) //if (app->map->pathfinding->Move(enemyPos, nextNode))
+		{
+			int dx = nextNode.x - enemyPos.x;
+			int dy = nextNode.y - enemyPos.y;
+
+			if (dx > 0)
+			{
+				vel = { speed, 0 };
+			}
+			else if (dx < 0)
+			{
+				vel = { -speed, 0 };
+			}
+
+			enemyPos = nextNode; 
+		}
+	}
+	pbody->body->SetLinearVelocity(vel);
 }
 
 bool FlyingEnemy::CleanUp()

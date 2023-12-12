@@ -5,6 +5,7 @@
 #include "Point.h"
 #include "Animation.h"
 #include "SDL/include/SDL.h"
+#include "DynArray.h"
 
 struct SDL_Texture;
 
@@ -24,6 +25,9 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
+
+	void MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path);
+
 public:
 	float speed = 0.2f;
 	SDL_Texture* texture;
@@ -39,6 +43,10 @@ public:
 	int distance;
 	bool dir = false;
 	bool type = true;
+	bool playerFound = false; 
+	iPoint enemyPos; 
+	iPoint playerPos; 
+	const DynArray<iPoint>* path; 
 
 };
 
