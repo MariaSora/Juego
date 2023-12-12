@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene.h"
+#include "portalZone.h"
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
@@ -172,7 +173,6 @@ bool Player::Update(float dt)
 			//app->audio->PlayFx(jumpFx);
 		}
 			
-
 		if (position.y >= 630 || app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			die = true;
 		}
@@ -246,7 +246,20 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		//app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::WALL:
-		LOG("Collision WALL");
+	{
+		ListItem<Entity*>* item;
+		Entity* pEntity = NULL;
+
+		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+		{
+			pEntity = item->data;
+			if (pEntity->type == EntityType::WALL)
+			{
+				((portalZone*) pEntity)->touchingW = true;
+				LOG("Collision WALL");
+			}
+		}
+	}
 		break;
 	case ColliderType::TUTORIAL:
 		LOG("Collision TUTORIAL");
@@ -263,7 +276,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::STAIRS:
 		touchingS = true; 
-		LOG("Collision STAIRS");
+		LOG("Collision STAIRS"); 
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
@@ -285,6 +298,20 @@ void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
 	case ColliderType::ITEM:
 		break;
 	case ColliderType::WALL:
+	{
+		ListItem<Entity*>* item;
+		Entity* pEntity = NULL;
+
+		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+		{
+			pEntity = item->data;
+			if (pEntity->type == EntityType::WALL)
+			{
+				((portalZone*)pEntity)->touchingW = false;
+				LOG("Collision WALL");
+			}
+		}
+	}
 		break;
 	case ColliderType::PLATFORM:
 		touchingP = false;

@@ -23,14 +23,17 @@ public:
 
 	bool CleanUp();
 
+	bool touchingW = false;
+
 public:
-	
 
 
 private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
+
+
 };
 
 #endif // __PORTALZONE_H__

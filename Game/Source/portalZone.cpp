@@ -45,6 +45,15 @@ bool portalZone::Update(float dt)
 
 
 
+	if (touchingW)
+	{
+		SDL_SetTextureAlphaMod(texture, 100);
+	}
+	else
+	{
+		SDL_SetTextureAlphaMod(texture, 255);
+	}
+
 
 
 	return true;

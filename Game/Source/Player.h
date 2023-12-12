@@ -5,6 +5,7 @@
 #include "Point.h"
 #include "Animation.h"
 #include "movingPlatform.h"
+#include "portalZone.h"
 #include "SDL/include/SDL.h"
 
 #include "Physics.h"
