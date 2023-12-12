@@ -244,6 +244,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision ITEM");
 		//app->audio->PlayFx(pickCoinFxId);
 		break;
+	case ColliderType::WALL:
+		LOG("Collision WALL");
+		break;
 	case ColliderType::TUTORIAL:
 		LOG("Collision TUTORIAL");
 		break;
@@ -279,6 +282,8 @@ void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
+		break;
+	case ColliderType::WALL:
 		break;
 	case ColliderType::PLATFORM:
 		touchingP = false;

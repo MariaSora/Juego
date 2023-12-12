@@ -167,8 +167,6 @@ private:
 	bool LoadObject(pugi::xml_node& node, MapObjects* layer);
 	bool LoadAllObjectGroup(pugi::xml_node mapNode);
 	bool LoadCollisionsObject();
-	//bool MovingPlatform();
-	bool PortalZone();
 	TileSet* GetTilesetFromTileId(int gid) const;
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	
