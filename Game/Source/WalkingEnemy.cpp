@@ -86,7 +86,7 @@ void WalkingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
-		/*if (!state) player.muere = true; */ //algo asi ns
+		app->vida--;
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
