@@ -39,10 +39,9 @@ bool FlyingEnemy::Start() {
 	texture = app->tex->Load(texturePath);	
 	texture2 = app->tex->Load(drawPath);
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, bodyType::KINEMATIC);
+	pbody->listener = this;
 	pbody->ctype = ColliderType::FLYINGENEMY;
 
-
-	initialPos.x = position.x;
 	initialPos.y = position.y;
 
 	return true;
@@ -50,19 +49,20 @@ bool FlyingEnemy::Start() {
 
 bool FlyingEnemy::Update(float dt)
 {
-	/*pbody->body->SetGravityScale(0);
-	pbody->body->GetFixtureList()[0].SetSensor(true);*/
+	/*pbody->body->SetGravityScale(0);*/
+	/*pbody->body->GetFixtureList()[0].SetSensor(true);*/
 	currentAnimation = &flyAnim;
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 
-	pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
-
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 
-	if (position.x - app->scene->GetPlayer()->position.x <= 200 && position.x - app->scene->GetPlayer()->position.y >= -200)
+	enemyPos = app->map->WorldToMap(position.x - 30, position.y - 30);
+	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 40);
+
+	if (position.x - playerPos.x <= 200 && position.x - playerPos.x >= -200)
 	{
 		/*playerFound = true;*/
-		app->map->pathfinding->CreatePath(enemyPos, app->scene->GetPlayer()->position);
+		app->map->pathfinding->CreatePath(enemyPos, playerPos);
 		path = app->map->pathfinding->GetLastPath(); 
 		if (app->physics->debug)
 		{
@@ -75,16 +75,21 @@ bool FlyingEnemy::Update(float dt)
 	}
 	/*else playerFound = false;*/
 
-	if (position.x - app->scene->player->position.x <= 40 && position.x - app->scene->player->position.x >= -40) {
+	if (position.x - app->scene->player->position.x <= 80 && position.x - app->scene->player->position.x >= -80) {
 		Attack(); 
 	}
-	else app->attack = false; 
+	else {
+		app->attack = false;
+		vel = { 0,0 };
+		pbody->body->SetLinearVelocity(vel);
+	}
 
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
-	enemyPos = app->map->WorldToMap(20 + position.x, 30 + position.y - app->render->camera.y);
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	app->render->DrawTexture(texture, position.x, position.y, &rect);
+	app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
 
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
@@ -112,7 +117,7 @@ bool FlyingEnemy::Update(float dt)
 		}
 	}*/
 
-	if (!type)
+	/*if (!type)
 	{
 		app->render->DrawTexture(texture, position.x, position.y, &rect);
 		if (!dir)
@@ -131,7 +136,7 @@ bool FlyingEnemy::Update(float dt)
 				dir = false;
 			}
 		}
-	}
+	}*/
 
 	return true;
 }
@@ -148,24 +153,19 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 			int dx = nextNode.x - enemyPos.x;
 			int dy = nextNode.y - enemyPos.y;
 
-			if (dx > 0)
-			{
-				vel = { speed, 0 };
-			}
-			else if (dx < 0)
-			{
-				vel = { -speed, 0 };
-			}
+			vel = { dx * speed, dy * speed };
 
 			enemyPos = nextNode; 
 		}
 	}
-	pbody->body->SetLinearVelocity(vel);
+   	pbody->body->SetLinearVelocity(vel);
 }
 
 void FlyingEnemy::Attack()
 {
 	MoveToPlayer(enemyPos, 1.0f, path);
+	//enemyPos.x += vel.x; 
+	//enemyPos.y += vel.y; 
 	app->attack = true; 
 
 }
