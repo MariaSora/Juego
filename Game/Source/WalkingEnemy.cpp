@@ -21,6 +21,7 @@ bool WalkingEnemy::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
+	type = parameters.attribute("type").as_bool(); 
 	texturePath = parameters.attribute("texturepath").as_string();
 
 	idleAnim.LoadAnimation("walkingEnemy", "idleAnim");
@@ -53,7 +54,7 @@ bool WalkingEnemy::Update(float dt)
 		idleAnim.Reset();
 		currentAnimation = &attackAnim; 
 		counter++; 
-		if (counter == 100) {
+		if (counter == 50) {
 			counter = 0;
 			app->statewalkingenemy = true;
 		}
@@ -62,7 +63,7 @@ bool WalkingEnemy::Update(float dt)
 		attackAnim.Reset();
 		currentAnimation = &idleAnim; 
 		counter++;
-		if (counter == 100) {
+		if (counter == 50) {
 			counter = 0;
 			app->statewalkingenemy = false;
 		}
@@ -72,7 +73,17 @@ bool WalkingEnemy::Update(float dt)
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y + 5, &rect);
-	//app->render->DrawTexture(texture, position.x + 15, position.y + 5, &rect);
+
+	if (type) {
+		app->render->DrawTexture(texture, position.x + 15, position.y + 5, &rect);
+		
+	}
+	
+	if (type == false) {
+		app->render->DrawTexture(texture, position.x + 35, position.y + 5, &rect);
+
+	}
+
 	return true;
 }
 
