@@ -4,7 +4,8 @@
 #include "Textures.h"
 #include "Scene.h"
 #include "movingPlatform.h"
-#include "portalZone.h"
+#include "transparentWall.h"
+#include "Portal.h"
 #include "Particles.h"
 #include "Pathfinding.h"
 
@@ -101,7 +102,10 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		entity = new MovingPlatform();
 		break;
 	case EntityType::WALL:
-		entity = new portalZone();
+		entity = new transparentWall();
+		break;
+	case EntityType::PORTAL:
+		entity = new Portal();
 		break;
 	case EntityType::PARTICLES:
 		entity = new Particles();

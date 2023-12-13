@@ -1,4 +1,4 @@
-#include "portalZone.h"
+#include "transparentWall.h"
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -8,43 +8,34 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
-#include "Animation.h"
 
-portalZone::portalZone() : Entity(EntityType::WALL)
+transparentWall::transparentWall() : Entity(EntityType::WALL)
 {
-	name.Create("portalZone");
+	name.Create("transparentWall");
 }
 
-portalZone::~portalZone() {}
+transparentWall::~transparentWall() {}
 
-bool portalZone::Awake() {
+bool transparentWall::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
-	type = parameters.attribute("type").as_bool();
-
-	turn.LoadAnimation("portalZone", "turn");
 
 	return true;
 }
 
-bool portalZone::Start() {
+bool transparentWall::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 150, 32, bodyType::KINEMATIC); 
 	pbody->ctype = ColliderType::WALL;
 
-	texture = app->tex->Load(texturePath);
-	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, bodyType::KINEMATIC);
-	pbody->ctype = ColliderType::PORTAL;
-
-
 	return true;
 }
 
-bool portalZone::Update(float dt)
+bool transparentWall::Update(float dt)
 {
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -52,10 +43,8 @@ bool portalZone::Update(float dt)
 
 	app->render->DrawTexture(texture, position.x, position.y);
 
-	//currentAnimation->Update();
 
-
-	if (touchingW && type)
+	if (touchingW)
 	{
 		SDL_SetTextureAlphaMod(texture, 100);
 	}
@@ -64,15 +53,10 @@ bool portalZone::Update(float dt)
 		SDL_SetTextureAlphaMod(texture, 255);
 	}
 
-	if (!type)
-	{
-		//currentAnimation = &turn;
-	}
-
 	return true;
 }
 
-bool portalZone::CleanUp()
+bool transparentWall::CleanUp()
 {
 	return true;
 }
