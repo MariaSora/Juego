@@ -39,6 +39,7 @@ public:
 	
 	int counter = 0; 
 	
+	bool type;
 };
 
 #endif // __WALKINGENEMY_H__

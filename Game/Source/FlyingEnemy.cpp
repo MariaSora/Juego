@@ -112,26 +112,26 @@ bool FlyingEnemy::Update(float dt)
 		}
 	}*/
 
-	//if (!type)
-	//{
-	//	app->render->DrawTexture(texture, position.x, position.y, &rect);
-	//	if (!dir)
-	//	{
-	//		position.y++;
-	//		if (position.y >= initialPos.y + distance)
-	//		{
-	//			dir = true;
-	//		}
-	//	}
-	//	else
-	//	{
-	//		position.y--;
-	//		if (position.y <= initialPos.y - distance)
-	//		{
-	//			dir = false;
-	//		}
-	//	}
-	//}
+	if (!type)
+	{
+		app->render->DrawTexture(texture, position.x, position.y, &rect);
+		if (!dir)
+		{
+			position.y++;
+			if (position.y >= initialPos.y + distance)
+			{
+				dir = true;
+			}
+		}
+		else
+		{
+			position.y--;
+			if (position.y <= initialPos.y - distance)
+			{
+				dir = false;
+			}
+		}
+	}
 
 	return true;
 }

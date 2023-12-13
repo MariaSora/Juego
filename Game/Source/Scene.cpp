@@ -193,6 +193,8 @@ bool Scene::LoadState(pugi::xml_node node) {
 
 	flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
 
+	app->vida = node.child("vidaPlayer").attribute("Vida").as_int();
+
 	return true;
 }
 
@@ -218,6 +220,9 @@ bool Scene::SaveState(pugi::xml_node node) {
 	camNode2.append_attribute("y").set_value(flyingEnemy->position.y);
 
 	flyingEnemy->pbody->body->GetTransform();
+
+	pugi::xml_node vidaNode = node.append_child("vidaPlayer");
+	vidaNode.append_attribute("Vida").set_value(app->vida); 
 
 	return true;
 }
