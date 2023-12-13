@@ -85,6 +85,7 @@ void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("PARTICLES COLLIDE WITH PLAYER");
 		alive = false; 
 		app->vida--;
+		app->scene->player->damage = true;
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");

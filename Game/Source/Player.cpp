@@ -36,7 +36,7 @@ bool Player::Awake() {
 	climbIdleAnim.LoadAnimation("player", "climbIdleAnim");
 	attackAnim.LoadAnimation("player", "attackAnim");
 	dieAnim.LoadAnimation("player", "dieAnim");
-	damageAnim.LoadAnimation("player", "damageAnim");
+	damagedAnim.LoadAnimation("player", "damagedAnim");
 
 	return true;
 }
@@ -188,10 +188,15 @@ bool Player::Update(float dt)
 				die = false;
 			}
 		}
-		int vidaafterdies = app->vida - 1;
-		if (app->vida == vidaafterdies) {
-			currentAnimation = &damageAnim;
+
+		if (damage) {
+			currentAnimation = &damagedAnim;
+			if (damagedAnim.HasFinished()) {
+				damagedAnim.Reset();
+				damage = false; 
+			}
 		}
+		
 		//ataque personaje
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {   
 			//app->audio->PlayFx(attackFx); 
@@ -245,6 +250,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision WALKINGENEMY");
 		if (app->statewalkingenemy == false) {
 			app->vida--;
+			damage = true; 
 		}
 		break;
 	case ColliderType::ITEM:

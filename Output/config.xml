@@ -87,9 +87,12 @@
 				<anim x ="230" y ="295" width ="22" height ="32"/>
 			</dieAnim>
 			
-			<damageAnim loop ="false" speed ="0.2">
-				<anim x ="6" y ="164" width ="22" height ="32"/>
-			</damageAnim>
+			<damagedAnim loop ="false" speed ="0.2">
+				<anim x ="6" y ="210" width ="21" height ="29"/>
+				<anim x ="38" y ="210" width ="21" height ="29"/>
+				<anim x ="70" y ="210" width ="21" height ="29"/>
+				<anim x ="102" y ="210" width ="21" height ="29"/>
+			</damagedAnim>
 	    </animations>
 	  </player>
 	  
