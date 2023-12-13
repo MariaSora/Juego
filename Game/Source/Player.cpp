@@ -36,6 +36,7 @@ bool Player::Awake() {
 	climbIdleAnim.LoadAnimation("player", "climbIdleAnim");
 	attackAnim.LoadAnimation("player", "attackAnim");
 	dieAnim.LoadAnimation("player", "dieAnim");
+	damageAnim.LoadAnimation("player", "damageAnim");
 
 	return true;
 }
@@ -176,7 +177,7 @@ bool Player::Update(float dt)
 		if (position.y >= 630 || app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			die = true;
 		}
-		if (app->vida == 0) die = true; /*holis = true;*/
+		if (app->vida == 0) die = true;
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
@@ -187,7 +188,10 @@ bool Player::Update(float dt)
 				die = false;
 			}
 		}
-
+		int vidaafterdies = app->vida - 1;
+		if (app->vida == vidaafterdies) {
+			currentAnimation = &damageAnim;
+		}
 		//ataque personaje
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {   
 			//app->audio->PlayFx(attackFx); 
@@ -239,6 +243,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WALKINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
 		LOG("Collision WALKINGENEMY");
+		if (app->statewalkingenemy == false) {
+			app->vida--;
+		}
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
@@ -267,10 +274,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		saltando = false;
 		touchingP = true;
 		jumpAnim.Reset();
-	/*	if (holis) {
-			dieAnim.Reset();
-			holis = false;
-		}*/
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::STAIRS:

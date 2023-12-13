@@ -49,22 +49,22 @@ bool WalkingEnemy::Update(float dt)
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
 	//app->render->DrawTexture(texture, position.x, position.y);
-	if (!state) { 
+	if (app->statewalkingenemy == false) { 
 		idleAnim.Reset();
 		currentAnimation = &attackAnim; 
 		counter++; 
-		if (counter == 50) {
+		if (counter == 100) {
 			counter = 0;
-			state = true;
+			app->statewalkingenemy = true;
 		}
 	}
-	if (state) {
+	if (app->statewalkingenemy) {
 		attackAnim.Reset();
 		currentAnimation = &idleAnim; 
 		counter++;
-		if (counter == 50) {
+		if (counter == 100) {
 			counter = 0;
-			state = false;
+			app->statewalkingenemy = false;
 		}
 	}
 
@@ -72,7 +72,7 @@ bool WalkingEnemy::Update(float dt)
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y + 5, &rect);
-
+	//app->render->DrawTexture(texture, position.x + 15, position.y + 5, &rect);
 	return true;
 }
 
@@ -86,7 +86,6 @@ void WalkingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
-		app->vida--;
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");

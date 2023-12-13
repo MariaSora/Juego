@@ -82,7 +82,7 @@ void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
-		LOG("Collision PLAYER");
+		LOG("PARTICLES COLLIDE WITH PLAYER");
 		alive = false; 
 		app->vida--;
 		break;

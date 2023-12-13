@@ -44,7 +44,6 @@ public:
 
 	bool saltando = false;
 	bool die = false;
-	bool holis = false;
 	bool climb = false; 
 	bool touchingP = false;
 	bool touchingS = false;
@@ -56,7 +55,7 @@ public:
 	SDL_Texture* player = nullptr; 
 
 	Animation* currentAnimation = nullptr; 
-	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim, attackAnim, dieAnim;
+	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim, attackAnim, dieAnim, damageAnim;
 
 	bool isFacingRight; 
 
