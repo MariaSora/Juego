@@ -74,12 +74,24 @@ bool WalkingEnemy::Update(float dt)
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y + 5, &rect);
 
+	//walkingenemy dies
+	if (app->livewalkingenemy == 0) die = true;
+	if (die) {
+		LOG("WALKINGENEMY DIES");
+		currentAnimation = &deathAnim;
+		if (deathAnim.HasFinished()) { 
+			deathAnim.Reset();
+			app->livewalkingenemy = 3;
+			die = false;
+		}
+	}
+
 	if (type) {
 		app->render->DrawTexture(texture, position.x + 15, position.y + 5, &rect);
 		
 	}
 	
-	if (type == false) {
+	if (!type) {
 		app->render->DrawTexture(texture, position.x + 35, position.y + 5, &rect);
 
 	}

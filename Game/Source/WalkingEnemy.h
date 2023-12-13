@@ -40,6 +40,8 @@ public:
 	int counter = 0; 
 	
 	bool type;
+
+	bool die = false;
 };
 
 #endif // __WALKINGENEMY_H__

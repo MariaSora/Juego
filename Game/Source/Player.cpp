@@ -208,11 +208,11 @@ bool Player::Update(float dt)
 			}
 		}
 		
-		//ataque personaje
-		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {   
-			//app->audio->PlayFx(attackFx); 
-			currentAnimation = &attackAnim;
-		}
+		////ataque personaje
+		//if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {   
+		//	//app->audio->PlayFx(attackFx); 
+		//	currentAnimation = &attackAnim;
+		//}
 	}
 	
 	//Update player position in pixels
