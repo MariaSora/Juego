@@ -182,7 +182,7 @@ bool Player::Update(float dt)
 			currentAnimation = &dieAnim;
 			if (dieAnim.HasFinished()) {
 				dieAnim.Reset();
-				//pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 				app->vida = 5; 
 				die = false;
 			}

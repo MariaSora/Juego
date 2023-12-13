@@ -91,6 +91,7 @@ public:
 	int vida = 5;
 
 	bool godmode = false;
+	bool attack = false;
 
 private:
 

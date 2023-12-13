@@ -28,10 +28,14 @@ public:
 
 	void MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path);
 
+	void Attack();
+
 public:
 	float speed = 0.2f;
 	SDL_Texture* texture;
 	const char* texturePath;
+	SDL_Texture* texture2;
+	const char* drawPath;
 	PhysBody* pbody;
 
 	SDL_Texture* flyingEnemy = nullptr; 
