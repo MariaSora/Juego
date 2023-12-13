@@ -7,7 +7,8 @@
 #include "Scene.h"
 #include "Map.h"
 #include "movingPlatform.h"
-#include "portalZone.h"
+#include "transparentWall.h"
+#include "Portal.h"
 #include "Particles.h"
 
 #include "Defs.h"
@@ -61,9 +62,14 @@ bool Scene::Awake(pugi::xml_node& config)
 		movingplatform->parameters = platformNode;
 	}
 
-	for (pugi::xml_node platformNode = config.child("portalzone"); platformNode; platformNode = platformNode.next_sibling("portalzone")) {
-		portalZone* portalzone = (portalZone*)app->entityManager->CreateEntity(EntityType::WALL);
-		portalzone->parameters = platformNode;
+	for (pugi::xml_node platformNode = config.child("transparentWall"); platformNode; platformNode = platformNode.next_sibling("transparentWall")) {
+		transparentWall* transparentwall = (transparentWall*)app->entityManager->CreateEntity(EntityType::WALL);
+		transparentwall->parameters = platformNode;
+	}
+
+	for (pugi::xml_node platformNode = config.child("portal"); platformNode; platformNode = platformNode.next_sibling("portal")) {
+		Portal* portal = (Portal*)app->entityManager->CreateEntity(EntityType::PORTAL);
+		portal->parameters = platformNode;
 	}
 
 	if (config.child("map")) {

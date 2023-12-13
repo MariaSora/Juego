@@ -5,7 +5,8 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene.h"
-#include "portalZone.h"
+#include "transparentWall.h"
+#include "Portal.h"
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
@@ -239,6 +240,20 @@ bool Player::Update(float dt)
 		}
 	}
 
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+
+	for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+	{
+		pEntity = item->data;
+		if (pEntity->type == EntityType::PORTAL)
+		{
+			if (((Portal*)pEntity)->touchingPortal == true) 
+			{	
+				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+			}
+		}
+	}
 	return true;
 }
 
@@ -249,6 +264,9 @@ bool Player::CleanUp()
 }
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+
 	switch (physB->ctype)
 	{
 	case ColliderType::FLYINGENEMY:
@@ -274,16 +292,26 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::WALL:
 	{
-		ListItem<Entity*>* item;
-		Entity* pEntity = NULL;
-
 		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
 		{
 			pEntity = item->data;
 			if (pEntity->type == EntityType::WALL)
 			{
-				((portalZone*) pEntity)->touchingW = true;
+				((transparentWall*) pEntity)->touchingW = true;
 				LOG("Collision WALL");
+			}
+		}
+	}
+		break;
+	case ColliderType::PORTAL:
+	{
+		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+		{
+			pEntity = item->data;
+			if (pEntity->type == EntityType::PORTAL)
+			{
+				((Portal*)pEntity)->touchingPortal = true;
+				LOG("Collision PORTAL");
 			}
 		}
 	}
@@ -316,6 +344,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
 {
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
@@ -330,8 +361,21 @@ void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
 			pEntity = item->data;
 			if (pEntity->type == EntityType::WALL)
 			{
-				((portalZone*)pEntity)->touchingW = false;
+				((transparentWall*)pEntity)->touchingW = false;
 				LOG("Collision WALL");
+			}
+		}
+	}
+		break;
+	case ColliderType::PORTAL:
+	{
+		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+		{
+			pEntity = item->data;
+			if (pEntity->type == EntityType::PORTAL)
+			{
+				((Portal*)pEntity)->touchingPortal = false;
+				LOG("Collision PORTAL");
 			}
 		}
 	}

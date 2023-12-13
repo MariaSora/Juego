@@ -1,20 +1,19 @@
-#ifndef __PORTALZONE_H__
-#define __PORTALZONE_H__
+#ifndef __TRANSPARENTWALL_H__
+#define __TRANSPARENTWALL_H__
 
 #include "Entity.h"
 #include "Point.h"
-#include "Animation.h"
 
 #include "SDL/include/SDL.h"
 
 struct SDL_Texture;
 
-class portalZone : public Entity
+class transparentWall : public Entity
 {
 public:
 
-	portalZone();
-	virtual ~portalZone();
+	transparentWall();
+	virtual ~transparentWall();
 
 	bool Awake();
 
@@ -27,17 +26,12 @@ public:
 public:
 
 	bool touchingW = false;
-	bool touchingPortal = false;
-
-	Animation* currentAnimation = nullptr;
-	Animation turn;
 
 private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
 
-	bool type = true;
 };
 
-#endif // __PORTALZONE_H__
+#endif // __TRANSPARENTWALL_H__
