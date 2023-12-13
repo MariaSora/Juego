@@ -87,6 +87,9 @@
 				<anim x ="230" y ="295" width ="22" height ="32"/>
 			</dieAnim>
 			
+			<damageAnim loop ="false" speed ="0.2">
+				<anim x ="6" y ="164" width ="22" height ="32"/>
+			</damageAnim>
 	    </animations>
 	  </player>
 	  

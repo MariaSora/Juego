@@ -88,7 +88,9 @@ public:
 	EntityManager* entityManager;
 	Map* map;
 	Physics* physics;
+
 	int vida = 5;
+	bool statewalkingenemy = true;
 
 	bool godmode = false;
 
