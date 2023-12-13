@@ -39,6 +39,7 @@ bool WalkingEnemy::Start() {
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::WALKINGENEMY;
+	
 
 	return true;
 }
