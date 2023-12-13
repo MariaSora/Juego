@@ -34,6 +34,8 @@ public:
 	// Main function to request a path from A to B
 	int CreatePath(const iPoint& origin, const iPoint& destination);
 
+	bool Move(const iPoint& currentPos, iPoint& nextPos);
+
 	// To request all tiles involved in the last generated path
 	const DynArray<iPoint>* GetLastPath() const;
 

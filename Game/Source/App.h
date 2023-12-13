@@ -88,9 +88,13 @@ public:
 	EntityManager* entityManager;
 	Map* map;
 	Physics* physics;
+
 	int vida = 5;
+	bool statewalkingenemy = true;
+	int livewalkingenemy = 3;
 
 	bool godmode = false;
+	bool attack = false;
 
 private:
 

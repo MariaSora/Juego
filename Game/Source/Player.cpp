@@ -36,6 +36,7 @@ bool Player::Awake() {
 	climbIdleAnim.LoadAnimation("player", "climbIdleAnim");
 	attackAnim.LoadAnimation("player", "attackAnim");
 	dieAnim.LoadAnimation("player", "dieAnim");
+	damagedAnim.LoadAnimation("player", "damagedAnim");
 
 	return true;
 }
@@ -76,13 +77,13 @@ bool Player::Update(float dt)
 		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) { 
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
 		app->godmode = false;
-		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0); 
+		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 	}
 
-	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) { 
-		app->godmode = !app->godmode; 
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+		app->godmode = !app->godmode;
 		if (app->godmode) {
 			LOG("GODMODE ACTIVATED");
 		}
@@ -91,17 +92,17 @@ bool Player::Update(float dt)
 
 	if (app->godmode) {
 
-		b2Vec2 vel = b2Vec2(0,0); 
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { 
-			vel = b2Vec2((-speed / 2) * dt, 0); 
+		b2Vec2 vel = b2Vec2(0, 0);
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			vel = b2Vec2((-speed / 2) * dt, 0);
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { 
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 			vel = b2Vec2((speed / 2) * dt, 0);
 		}
 
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) { 
-			vel = b2Vec2(0, (-speed / 2) * dt); 
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			vel = b2Vec2(0, (-speed / 2) * dt);
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
@@ -112,8 +113,8 @@ bool Player::Update(float dt)
 		pbody->body->GetFixtureList()[0].SetSensor(true);
 
 	}
-	
-	if (app->godmode == false) {
+
+	if (app->godmode == false && !die) {
 
 		pbody->body->SetGravityScale(1);
 		pbody->body->GetFixtureList()[0].SetSensor(false);
@@ -135,11 +136,11 @@ bool Player::Update(float dt)
 				algo++;
 			}
 		}
-	
+
 		if ((touchingP && touchingS) || touchingS)
 		{
 			pbody->body->SetGravityScale(0);
-			vel.y = 0; 
+			vel.y = 0;
 			currentAnimation = &climbIdleAnim;
 			if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 				vel = b2Vec2(GRAVITY_X, (-speed / 2) * dt);
@@ -172,29 +173,48 @@ bool Player::Update(float dt)
 			currentAnimation = &jumpAnim;
 			//app->audio->PlayFx(jumpFx);
 		}
-			
+
+		//ataque personaje
+		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
+			//app->audio->PlayFx(attackFx); 
+			currentAnimation = &attackAnim;
+			if(app->statewalkingenemy){
+				app->livewalkingenemy--;
+			}
+		}
+	}
+
+	if (app->godmode == false) {
 		if (position.y >= 630 || app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			die = true;
 		}
-		if (app->vida == 0) die = true; /*holis = true;*/
+		if (app->vida == 0) die = true;
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
 			if (dieAnim.HasFinished()) {
 				dieAnim.Reset();
-				//pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
-				app->vida = 5; 
+				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+				app->vida = 5;
 				die = false;
 			}
 		}
 
-		//ataque personaje
-		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {   
-			//app->audio->PlayFx(attackFx); 
-			currentAnimation = &attackAnim;
+		if (damage) {
+			currentAnimation = &damagedAnim;
+			if (damagedAnim.HasFinished()) {
+				damagedAnim.Reset();
+				damage = false; 
+			}
 		}
+		
+		////ataque personaje
+		//if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {   
+		//	//app->audio->PlayFx(attackFx); 
+		//	currentAnimation = &attackAnim;
+		//}
 	}
-
+	
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
@@ -239,6 +259,14 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WALKINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
 		LOG("Collision WALKINGENEMY");
+		if (app->statewalkingenemy == false) {
+			app->vida--;
+			damage = true; 
+		}
+		break;
+	case ColliderType::PARTICLES: 
+		LOG("Collision PARTICLES");
+		currentAnimation = &damagedAnim;
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
@@ -267,10 +295,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		saltando = false;
 		touchingP = true;
 		jumpAnim.Reset();
-	/*	if (holis) {
-			dieAnim.Reset();
-			holis = false;
-		}*/
 		LOG("Collision PLATFORM");
 		break;
 	case ColliderType::STAIRS:

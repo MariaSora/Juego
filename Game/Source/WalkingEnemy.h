@@ -38,7 +38,10 @@ public:
 	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim;
 	
 	int counter = 0; 
-	bool state = true; 
+	
+	bool type;
+
+	bool die = false;
 };
 
 #endif // __WALKINGENEMY_H__

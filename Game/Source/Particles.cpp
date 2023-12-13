@@ -43,26 +43,29 @@ bool Particles::Update(float dt)
 {
 	///*pbody->body->SetGravityScale(0);
 	//pbody->body->GetFixtureList()[0].SetSensor(true);*/
-	currentAnimation = &shootAnim; 
-	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
+	if (app->attack) {
+		currentAnimation = &shootAnim;
+		// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 
 
-	if (!alive) {	
-		//pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->scene->flyingEnemy->position.x), PIXEL_TO_METERS(app->scene->flyingEnemy->position.y)), 0);
-		position.y = app->scene->flyingEnemy->position.y + 20;
-		position.x = app->scene->flyingEnemy->position.x + 10;
-		alive = true;
+		if (!alive) {
+			//pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->scene->flyingEnemy->position.x), PIXEL_TO_METERS(app->scene->flyingEnemy->position.y)), 0);
+			position.y = app->scene->flyingEnemy->position.y + 20;
+			position.x = app->scene->flyingEnemy->position.x + 10;
+			alive = true;
+		}
+		else position.y++; pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
+
+
+		currentAnimation->Update();
+		SDL_Rect rect = currentAnimation->GetCurrentFrame();
+		app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
+
+		////app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
+		////app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
+
 	}
-	else position.y++; pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
-
-
-	currentAnimation->Update();
-	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
-
-	////app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
-	////app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
-
+	
 	return true;
 }
 
@@ -79,9 +82,10 @@ void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
-		LOG("Collision PLAYER");
+		LOG("PARTICLES COLLIDE WITH PLAYER");
 		alive = false; 
 		app->vida--;
+		app->scene->player->damage = true;
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");

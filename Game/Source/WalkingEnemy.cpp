@@ -21,6 +21,7 @@ bool WalkingEnemy::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
+	type = parameters.attribute("type").as_bool(); 
 	texturePath = parameters.attribute("texturepath").as_string();
 
 	idleAnim.LoadAnimation("walkingEnemy", "idleAnim");
@@ -38,6 +39,7 @@ bool WalkingEnemy::Start() {
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
 	pbody->ctype = ColliderType::WALKINGENEMY;
+	
 
 	return true;
 }
@@ -49,22 +51,22 @@ bool WalkingEnemy::Update(float dt)
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
 	//app->render->DrawTexture(texture, position.x, position.y);
-	if (!state) { 
+	if (app->statewalkingenemy == false) { 
 		idleAnim.Reset();
 		currentAnimation = &attackAnim; 
 		counter++; 
 		if (counter == 50) {
 			counter = 0;
-			state = true;
+			app->statewalkingenemy = true;
 		}
 	}
-	if (state) {
+	if (app->statewalkingenemy) {
 		attackAnim.Reset();
 		currentAnimation = &idleAnim; 
 		counter++;
 		if (counter == 50) {
 			counter = 0;
-			state = false;
+			app->statewalkingenemy = false;
 		}
 	}
 
@@ -72,6 +74,28 @@ bool WalkingEnemy::Update(float dt)
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y + 5, &rect);
+
+	//walkingenemy dies
+	if (app->livewalkingenemy == 0) die = true;
+	if (die) {
+		LOG("WALKINGENEMY DIES");
+		currentAnimation = &deathAnim;
+		if (deathAnim.HasFinished()) { 
+			deathAnim.Reset();
+			app->livewalkingenemy = 3;
+			die = false;
+		}
+	}
+
+	if (type) {
+		app->render->DrawTexture(texture, position.x + 15, position.y + 5, &rect);
+		
+	}
+	
+	if (!type) {
+		app->render->DrawTexture(texture, position.x + 35, position.y + 5, &rect);
+
+	}
 
 	return true;
 }
@@ -86,7 +110,6 @@ void WalkingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
-		app->vida--;
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");

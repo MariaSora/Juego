@@ -235,3 +235,31 @@ int PathNode::CalculateF(const iPoint& destination)
 
 	return g + h;
 }
+
+bool PathFinding::Move(const iPoint& currentPos, iPoint& nextPos)
+{
+	if (lastPath.Count() == 0) {
+		LOG("Path unavailable");
+		return false; 
+	}
+
+	if (currentPos != lastPath[0]) {
+		LOG("Position unavailable");
+		return false;
+	}
+
+	if (lastPath.Count() > 1) {
+		nextPos = lastPath[1];
+
+		for (size_t i = 0; i < lastPath.Count() - 1; ++i) {
+			lastPath[i] = lastPath[i + 1];
+		}
+
+		return true;
+	}
+	else {
+		LOG("End of path reached");
+		lastPath.Clear();
+		return false; 
+	}
+}

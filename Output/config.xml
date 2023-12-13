@@ -104,6 +104,12 @@
 				<anim x ="230" y ="295" width ="22" height ="32"/>
 			</dieAnim>
 			
+			<damagedAnim loop ="false" speed ="0.2">
+				<anim x ="6" y ="210" width ="21" height ="29"/>
+				<anim x ="38" y ="210" width ="21" height ="29"/>
+				<anim x ="70" y ="210" width ="21" height ="29"/>
+				<anim x ="102" y ="210" width ="21" height ="29"/>
+			</damagedAnim>
 	    </animations>
 	  </player>
 	  
@@ -124,7 +130,7 @@
 		 </animations>
 	  </particles>
 	  
-	  <flyingEnemy x="150" y="100" type="true" distance="100" direction="false" texturepath="Assets/Textures/Bat_Sprite_Sheet.png">
+	  <flyingEnemy x="150" y="100" type="true" distance="100" direction="false" texturepath="Assets/Textures/Bat_Sprite_Sheet.png" path="Assets/Textures/path.png">
 		<animations>
 			  <flyAnim loop ="true" speed ="0.2">
 				  <anim x ="0" y ="0" width ="16" height ="15"/>
@@ -164,7 +170,7 @@
 		  </animations>
 	  </flyingEnemy>
 	  
-	  <walkingEnemy x="120" y="150" texturepath="Assets/Textures/Purple_Slime.png">
+	  <walkingEnemy x="120" y="150" type="true" texturepath="Assets/Textures/Purple_Slime.png">
 		  <animations>
 
 			  <idleAnim loop ="true" speed ="0.2">
@@ -213,7 +219,57 @@
 
 		  </animations>
 	  </walkingEnemy>
-		  
+	  
+	  <walkingEnemy x="120" y="150" type="false" texturepath="Assets/Textures/Purple_Slime.png">
+		  <animations>
+
+			  <idleAnim loop ="true" speed ="0.2">
+				  <anim x ="41" y ="16" width ="22" height ="20"/>
+				  <anim x ="70" y ="16" width ="22" height ="20"/>
+				  <anim x ="99" y ="16" width ="22" height ="20"/>
+				  <anim x ="128" y ="16" width ="22" height ="20"/>
+				  <anim x ="157" y ="16" width ="22" height ="20"/>
+			  </idleAnim>
+
+			  <walkAnim loop ="true" speed ="0.2">
+				  <anim x ="48" y ="20" width ="14" height ="12"/>
+				  <anim x ="63" y ="20" width ="14" height ="12"/>
+				  <anim x ="79" y ="20" width ="14" height ="12"/>
+				  <anim x ="96" y ="20" width ="14" height ="12"/>
+				  <anim x ="113" y ="20" width ="14" height ="12"/>
+				  <anim x ="129" y ="20" width ="14" height ="12"/>
+				  <anim x ="144" y ="20" width ="14" height ="12"/>
+			  </walkAnim>
+
+			  <deathAnim loop ="true" speed ="0.2">
+				  <anim x ="48" y ="37" width ="14" height ="10"/>
+				  <anim x ="64" y ="40" width ="14" height ="7"/>
+				  <anim x ="80" y ="40" width ="14" height ="7"/>
+				  <anim x ="96" y ="40" width ="14" height ="7"/>
+				  <anim x ="112" y ="40" width ="14" height ="7"/>
+			  </deathAnim>
+
+			  <attackAnim loop ="false" speed ="0.2">
+				  <anim x ="49" y ="96" width ="22" height ="20"/>
+				  <anim x ="81" y ="96" width ="22" height ="20"/>
+				  <anim x ="113" y ="96" width ="22" height ="20"/>
+				  <anim x ="145" y ="96" width ="27" height ="20"/>
+				  <anim x ="176" y ="96" width ="32" height ="20"/>
+			  </attackAnim>
+
+			  <jumpAnim loop ="false" speed ="0.3">
+				  <anim x ="56" y ="115" width ="14" height ="12"/>
+				  <anim x ="88" y ="117" width ="14" height ="10"/>
+				  <anim x ="120" y ="111" width ="14" height ="15"/>
+				  <anim x ="152" y ="107" width ="14" height ="13"/>
+				  <anim x ="184" y ="105" width ="14" height ="12"/>
+				  <anim x ="216" y ="107" width ="14" height ="13"/>
+				  <anim x ="248" y ="110" width ="14" height ="15"/>
+			  </jumpAnim>
+
+		  </animations>
+	  </walkingEnemy>
+	  
     <tutorial x="216" y="150" texturepath="Assets/Textures/tutorial.jpg">
 		<animations>
 			<adAnim loop ="false" speed ="0.3">
