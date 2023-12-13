@@ -75,6 +75,12 @@ bool Render::Update(float dt)
 
 bool Render::PostUpdate()
 {
+	SetViewPort({
+		0,
+		0,
+		camera.w,
+		camera.h
+		});
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 	SDL_RenderPresent(renderer);
 	return true;

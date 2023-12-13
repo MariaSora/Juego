@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Point.h"
+#include "Animation.h"
 
 #include "SDL/include/SDL.h"
 
@@ -23,17 +24,20 @@ public:
 
 	bool CleanUp();
 
-	bool touchingW = false;
-
 public:
 
+	bool touchingW = false;
+	bool touchingPortal = false;
+
+	Animation* currentAnimation = nullptr;
+	Animation turn;
 
 private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
 
-
+	bool type = true;
 };
 
 #endif // __PORTALZONE_H__

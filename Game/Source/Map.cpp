@@ -87,12 +87,8 @@ bool Map::Update(float dt)
 
         if (mapLayerItem->data->properties.GetProperty("Parallax") != NULL && mapLayerItem->data->properties.GetProperty("Parallax")->value)
         {
-            iPoint playerPos = app->scene->GetPlayer()->position;
-            int xToTiledLeft = MAX((playerPos.x / 16) - 30, 0);
-            int xToTiledRight = MIN((playerPos.x / 16) + 30, mapLayerItem->data->width); 
-
-            for (int x = xToTiledLeft * 3; x < xToTiledRight * 3; x++)
-            
+    
+            for (int x = 0; x < mapLayerItem->data->width; x++)
             {
                 for (int y = 0; y < mapLayerItem->data->height; y++)
                 {

@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Animation.h"
 
 portalZone::portalZone() : Entity(EntityType::WALL)
 {
@@ -21,6 +22,9 @@ bool portalZone::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	type = parameters.attribute("type").as_bool();
+
+	turn.LoadAnimation("portalZone", "turn");
 
 	return true;
 }
@@ -31,6 +35,11 @@ bool portalZone::Start() {
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 150, 32, bodyType::KINEMATIC); 
 	pbody->ctype = ColliderType::WALL;
+
+	texture = app->tex->Load(texturePath);
+	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, bodyType::KINEMATIC);
+	pbody->ctype = ColliderType::PORTAL;
+
 
 	return true;
 }
@@ -43,9 +52,10 @@ bool portalZone::Update(float dt)
 
 	app->render->DrawTexture(texture, position.x, position.y);
 
+	//currentAnimation->Update();
 
 
-	if (touchingW)
+	if (touchingW && type)
 	{
 		SDL_SetTextureAlphaMod(texture, 100);
 	}
@@ -54,7 +64,10 @@ bool portalZone::Update(float dt)
 		SDL_SetTextureAlphaMod(texture, 255);
 	}
 
-
+	if (!type)
+	{
+		//currentAnimation = &turn;
+	}
 
 	return true;
 }

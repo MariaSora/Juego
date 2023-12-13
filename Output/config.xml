@@ -23,11 +23,28 @@
 
   <scene>
     <map path="Assets/Maps/" name="Map.tmx"/>
-	<portalzone x="2560" y="225" texturepath="Assets/Textures/wall.png"/>
+
+	<portalzone x="2560" y="225" type="true" texturepath="Assets/Textures/wall.png"/>
+	<portalzone x="2555" y="225" type="false" texturepath="Assets/Textures/PurplePortal.png">
+		 <animations>
+			 <turn loop ="true" speed="0.2">
+				 <anim x="11" y="13" width="27" height="41"/>
+				 <anim x="82" y="15" width="19" height="39"/>
+				 <anim x="142" y="13" width="25" height="41"/>
+				  <anim x="200" y="15" width="28" height="39"/>
+				  <anim x="264" y="15" width="23" height="40"/>
+				  <anim x="321" y="15" width="24" height="42"/>
+				  <anim x="387" y="16" width="16" height="38"/>
+				  <anim x="446" y="15" width="19" height="39"/>
+			  </turn>
+		  </animations>
+	</portalzone>
+	  
 	<movingplatform x="1090" y="180" type="true" distance="60" direction="false" texturepath="Assets/Textures/movingPlatform.png"/>
 	<movingplatform x="1300" y="180" type="true" distance="80" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
 	<movingplatform x="2256" y="180" type="false" distance="50" direction="false" texturepath="Assets/Textures/movingPlatform.png"/>
 	<movingplatform x="2368" y="80" type="false" distance="50" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
+	  
   <player x="100" y="150" texturepath="Assets/Textures/Pink_Monster.png">
 	    <animations>
 		  <idleAnim loop ="false" speed ="1.0">

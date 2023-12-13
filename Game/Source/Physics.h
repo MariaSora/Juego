@@ -29,6 +29,7 @@ enum class ColliderType {
 	WALKINGENEMY,
 	ITEM,
 	WALL,
+	PORTAL,
 	TUTORIAL,
 	PLATFORM,
 	MOVING_PLATFORM,
