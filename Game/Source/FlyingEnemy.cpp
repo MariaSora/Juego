@@ -91,6 +91,15 @@ bool FlyingEnemy::Update(float dt)
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
 
+
+	//vida del flyingenemy
+	if (app->liveflyingenemy == 0) die = true;
+	if (die) {
+		LOG("FLYINGENEMY DIES");
+		currentAnimation = &deathAnim;
+		
+		//falta destruir la textura + collider
+	}
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
 	//pbody->body->ApplyForce(b2Vec2(0.0f, -app->physics->world->GetGravity().y * pbody->body->GetMass()), pbody->body->GetWorldCenter(), true);
@@ -172,6 +181,7 @@ void FlyingEnemy::Attack()
 
 bool FlyingEnemy::CleanUp()
 {
+	
 	return true;
 }
 

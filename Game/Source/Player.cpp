@@ -27,6 +27,7 @@ bool Player::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
+	app->vida = parameters.attribute("vida").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	
 
@@ -125,7 +126,7 @@ bool Player::Update(float dt)
 			vel = b2Vec2((-speed / 2) * dt, pbody->body->GetLinearVelocity().y);
 			currentAnimation = &walkAnim;
 			if (inmovplat) {
-				algo--;
+				moving--;
 			}
 		}
 
@@ -134,7 +135,7 @@ bool Player::Update(float dt)
 			vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
 			currentAnimation = &walkAnim;
 			if (inmovplat) {
-				algo++;
+				moving++;
 			}
 		}
 
@@ -166,7 +167,16 @@ bool Player::Update(float dt)
 				pbody->body->ApplyLinearImpulse(b2Vec2(0, GRAVITY_Y * 0.1), pbody->body->GetWorldCenter(), true);
 				saltando = true;
 				inmovplat = false;
-				algo = 0;
+				moving = 0;
+			}
+		}
+
+		if (inmovplat) {
+			b2Vec2 algo1 = movingplatform->pbody->body->GetTransform().p;
+			algo1.x += PIXEL_TO_METERS(moving);
+			pbody->body->SetTransform(algo1, 0);
+			if (pbody->body->GetLinearVelocity().y > 0) {
+				inmovplat = false;
 			}
 		}
 
@@ -179,9 +189,6 @@ bool Player::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
 			//app->audio->PlayFx(attackFx); 
 			currentAnimation = &attackAnim;
-			if(app->statewalkingenemy){
-				app->livewalkingenemy--;
-			}
 		}
 	}
 
@@ -231,14 +238,7 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
 	}
 
-	if (inmovplat) {
-		b2Vec2 algo1 = movingplatform->pbody->body->GetTransform().p;
-		algo1.x += PIXEL_TO_METERS(algo);
-		pbody->body->SetTransform(algo1, 0);
-		if (pbody->body->GetLinearVelocity().y > 0) {
-			inmovplat = false;
-		}
-	}
+	
 
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
@@ -250,7 +250,7 @@ bool Player::Update(float dt)
 		{
 			if (((Portal*)pEntity)->touchingPortal == true) 
 			{	
-				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+				pbody->body->SetTransform(b2Vec2(app->positionportal2.x, app->positionportal2.y), 0);
 			}
 		}
 	}
@@ -280,6 +280,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (app->statewalkingenemy == false) {
 			app->vida--;
 			damage = true; 
+		}
+		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) { 
+			if (app->statewalkingenemy) {
+				app->livewalkingenemy--;
+			}
 		}
 		break;
 	case ColliderType::PARTICLES: 

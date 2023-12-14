@@ -89,9 +89,12 @@ public:
 	Map* map;
 	Physics* physics;
 
-	int vida = 5;
+	int vida;
 	bool statewalkingenemy = true;
 	int livewalkingenemy = 3;
+	int liveflyingenemy = 5;
+
+	iPoint positionportal2; 
 
 	bool godmode = false;
 	bool attack = false;

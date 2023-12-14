@@ -82,8 +82,7 @@ bool WalkingEnemy::Update(float dt)
 		currentAnimation = &deathAnim;
 		if (deathAnim.HasFinished()) { 
 			deathAnim.Reset();
-			app->livewalkingenemy = 3;
-			die = false;
+			//cuando acabe la animacion falta destruir la textura + collider cuando se muere
 		}
 	}
 

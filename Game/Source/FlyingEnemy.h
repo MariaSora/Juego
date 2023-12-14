@@ -52,6 +52,7 @@ public:
 	iPoint playerPos; 
 	const DynArray<iPoint>* path; 
 
+	bool die = false;
 };
 
 #endif // __FLYINGENEMY_H__

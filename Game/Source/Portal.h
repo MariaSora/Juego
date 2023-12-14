@@ -35,9 +35,7 @@ private:
 	const char* texturePath;
 	PhysBody* pbody;
 
-	b2Transform Ipos;
-
-
+	
 };
 
 #endif // __PORTAL_H__

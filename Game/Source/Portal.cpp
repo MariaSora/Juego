@@ -23,6 +23,8 @@ bool Portal::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
+	app->positionportal2.x  = parameters.attribute("x2").as_int(); 
+	app->positionportal2.y = parameters.attribute("y2").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
 	turn.LoadAnimation("portal", "turn");
@@ -64,7 +66,7 @@ bool Portal::Update(float dt)
 			}
 		}
 	}
-
+	
 	return true;
 }
 

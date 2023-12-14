@@ -133,6 +133,10 @@ bool Scene::Update(float dt)
 
 		if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 			app->render->camera.x += (int)ceil(camSpeed * dt);
+
+		//Si estoy en godmode puedo restaurar la vida del player y enemigos
+		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT)
+			app->vida = 5; app->livewalkingenemy = 3; app->liveflyingenemy = 5;
 	}
 	else {
 		if (app->render->camera.x != player->position.x * app->win->GetScale()) {
@@ -184,23 +188,24 @@ Player* Scene::GetPlayer()
 bool Scene::LoadState(pugi::xml_node node) {
 
 	//Updates the camera position using the state in the xml file
-	player->position.x = node.child("position_player").attribute("x").as_int();
-	player->position.y = node.child("position_player").attribute("y").as_int();
+	player->position.x = node.child("Player").attribute("x").as_int();
+	player->position.y = node.child("Player").attribute("y").as_int();
+	app->vida = node.child("Player").attribute("Vida").as_int();
 
 	player->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(player->position.x, player->position.y)), 0); 
 	
-	walkingEnemy->position.x = node.child("position_walkingenemy").attribute("x").as_int();
-	walkingEnemy->position.y = node.child("position_walkingenemy").attribute("y").as_int();
-	
+	walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
+	walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
+	app->livewalkingenemy = node.child("WalkingEnemy").attribute("Vida").as_int();
+
 	walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
 	
-	flyingEnemy->position.x = node.child("position_flyingenemy").attribute("x").as_int();
-	flyingEnemy->position.y = node.child("position_flyingenemy").attribute("y").as_int();
+	flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
+	flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
+	app->liveflyingenemy = node.child("WalkingEnemy").attribute("Vida").as_int();
 
 	flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
-
-	app->vida = node.child("vidaPlayer").attribute("Vida").as_int();
-
+	
 	return true;
 }
 
@@ -209,26 +214,27 @@ bool Scene::LoadState(pugi::xml_node node) {
 bool Scene::SaveState(pugi::xml_node node) {
 
 	//append on node of a new child Camera and add attributtes x,y of the camera position
-	pugi::xml_node camNode = node.append_child("position_player"); 
+	pugi::xml_node camNode = node.append_child("Player"); 
 	camNode.append_attribute("x").set_value(player->position.x); 
 	camNode.append_attribute("y").set_value(player->position.y); 
-	
+	camNode.append_attribute("Vida").set_value(app->vida); 
+
 	player->pbody->body->GetTransform();
 
-	pugi::xml_node camNode1 = node.append_child("position_walkingenemy");
+	pugi::xml_node camNode1 = node.append_child("WalkingEnemy");
 	camNode1.append_attribute("x").set_value(walkingEnemy->position.x);
 	camNode1.append_attribute("y").set_value(walkingEnemy->position.y);
+	camNode1.append_attribute("Vida").set_value(app->livewalkingenemy);
 
 	walkingEnemy->pbody->body->GetTransform();
 
-	pugi::xml_node camNode2 = node.append_child("position_flyingenemy");
+	pugi::xml_node camNode2 = node.append_child("FlyingEnemy");
 	camNode2.append_attribute("x").set_value(flyingEnemy->position.x);
 	camNode2.append_attribute("y").set_value(flyingEnemy->position.y);
+	camNode2.append_attribute("Vida").set_value(app->liveflyingenemy);
 
 	flyingEnemy->pbody->body->GetTransform();
 
-	pugi::xml_node vidaNode = node.append_child("vidaPlayer");
-	vidaNode.append_attribute("Vida").set_value(app->vida); 
 
 	return true;
 }

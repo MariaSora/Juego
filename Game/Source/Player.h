@@ -67,7 +67,7 @@ private:
 
 	MovingPlatform* movingplatform;
 	bool inmovplat = false;
-	int algo = 0;
+	int moving = 0;
 };
 
 #endif // __PLAYER_H__
