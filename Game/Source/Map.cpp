@@ -38,11 +38,12 @@ bool Map::Start() {
     bool ret = Load(mapPath);
 
     pathfinding = new PathFinding();
-    //pathfinding2 = new PathFinding(); 
+    pathfinding2 = new PathFinding(); 
 
     uchar* navigationMap = NULL;
     CreateNavigationMap(mapData.width, mapData.height, &navigationMap); 
     pathfinding->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap); 
+    pathfinding2->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap); 
     RELEASE_ARRAY(navigationMap); 
 
     return ret;
@@ -171,6 +172,7 @@ bool Map::CleanUp()
     LOG("Unloading map");
 
     pathfinding->CleanUp();
+    pathfinding2->CleanUp();
 
     ListItem<TileSet*>* item;
     item = mapData.tilesets.start;

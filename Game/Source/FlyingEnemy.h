@@ -47,7 +47,9 @@ public:
 	int distance;
 	bool dir = false;
 	bool type = true;
-	bool playerFound = false; 
+	int temp;
+
+private: 
 	iPoint enemyPos; 
 	iPoint playerPos; 
 	const DynArray<iPoint>* path; 

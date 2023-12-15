@@ -205,6 +205,10 @@ bool Player::Update(float dt)
 				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 				app->vida = parameters.attribute("vida").as_int(); 
 				die = false;
+				app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
+				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;
+				app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
+				app->scene->walkingEnemy->position.y = app->scene->walkingEnemy->initialPos.y;
 			}
 		}
 
@@ -271,10 +275,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WALKINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
 		LOG("Collision WALKINGENEMY");
-		if (app->statewalkingenemy == false) {
+	/*	if (!app->statewalkingenemy) {
 			app->vida--;
 			damage = true; 
-		}
+		}*/
 		if (currentAnimation = &attackAnim) { 
 			if (app->statewalkingenemy) {
 				app->livewalkingenemy--;

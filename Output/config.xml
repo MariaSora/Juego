@@ -171,7 +171,7 @@
 	  </flyingEnemy>
 	  
   
-  <walkingEnemy x="190" y="200" vida ="3" type="true" distance="60" texturepath="Assets/Textures/Purple_Slime.png">
+  <walkingEnemy x="800" y="170" vida ="3" type="true" distance="60" texturepath="Assets/Textures/Purple_Slime.png" path2="Assets/Textures/path2.png">
 		  <animations>
 
 			  <idleAnim loop ="true" speed ="0.2">
@@ -206,6 +206,9 @@
 				  <anim x ="113" y ="96" width ="22" height ="20"/>
 				  <anim x ="145" y ="96" width ="27" height ="20"/>
 				  <anim x ="176" y ="96" width ="32" height ="20"/>
+				  <anim x ="215" y ="96" width ="32" height ="20"/>
+				  <anim x ="250" y ="96" width ="27" height ="20"/>
+				  <anim x ="281" y ="96" width ="22" height ="20"/>
 			  </attackAnim>
 
 			  <jumpAnim loop ="false" speed ="0.3">

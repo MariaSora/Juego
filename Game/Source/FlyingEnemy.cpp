@@ -43,6 +43,7 @@ bool FlyingEnemy::Start() {
 	pbody->ctype = ColliderType::FLYINGENEMY;
 
 	initialPos.y = position.y;
+	initialPos.x = position.x;
 
 	return true;
 }
@@ -56,12 +57,11 @@ bool FlyingEnemy::Update(float dt)
 
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 
-	enemyPos = app->map->WorldToMap(position.x - 30, position.y - 30);
-	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 40);
+	enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
+	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 
-	if (position.x - playerPos.x <= 200 && position.x - playerPos.x >= -200)
+	if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
 	{
-		/*playerFound = true;*/
 		app->map->pathfinding->CreatePath(enemyPos, playerPos);
 		path = app->map->pathfinding->GetLastPath(); 
 		if (app->physics->debug)
@@ -73,9 +73,8 @@ bool FlyingEnemy::Update(float dt)
 			}
 		}
 	}
-	/*else playerFound = false;*/
 
-	if (position.x - app->scene->player->position.x <= 80 && position.x - app->scene->player->position.x >= -80) {
+	if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
 		Attack(); 
 	}
 	else {
@@ -173,8 +172,6 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 void FlyingEnemy::Attack()
 {
 	MoveToPlayer(enemyPos, 1.0f, path);
-	//enemyPos.x += vel.x; 
-	//enemyPos.y += vel.y; 
 	app->attack = true; 
 
 }

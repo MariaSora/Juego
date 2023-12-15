@@ -9,6 +9,7 @@
 #include "Point.h"
 #include "Physics.h"
 #include "Player.h"
+#include "Map.h"
 
 WalkingEnemy::WalkingEnemy() : Entity(EntityType::WALKINGENEMY)
 {
@@ -23,7 +24,8 @@ bool WalkingEnemy::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	type = parameters.attribute("type").as_bool(); 
 	texturePath = parameters.attribute("texturepath").as_string();
-	distance = parameters.attribute("distance").as_int();
+	drawPath = parameters.attribute("path2").as_string(); 
+	//distance = parameters.attribute("distance").as_int();
 	app->livewalkingenemy = parameters.attribute("vida").as_int();
 
 	idleAnim.LoadAnimation("walkingEnemy", "idleAnim");
@@ -39,28 +41,59 @@ bool WalkingEnemy::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
+	texture2 = app->tex->Load(drawPath);
 	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
+	pbody->listener = this;
 	pbody->ctype = ColliderType::WALKINGENEMY;
 	
-
+	initialPos.y = position.y;
+	initialPos.x = position.x;
 	return true;
 }
 
 bool WalkingEnemy::Update(float dt)
 {
+	pbody->body->SetGravityScale(10);
+	currentAnimation = &idleAnim;
+
+	b2Vec2 vel = pbody->body->GetLinearVelocity();
+
+	enemyPos = app->map->WorldToMap(position.x, position.y);
+	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x - 10, position.y);
+
+	if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
+	{
+		app->map->pathfinding2->CreatePath(enemyPos, playerPos);
+		path = app->map->pathfinding2->GetLastPath();
+		if (app->physics->debug)
+		{
+			for (uint i = 0; i < path->Count(); i++)
+			{
+				iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+				app->render->DrawTexture(texture2, pos.x, pos.y);
+			}
+		}
+	}
+
+	if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
+		Attack();
+	}
+	else {
+	/*	app->attack = false;*/
+		vel = { 0,0 };
+		pbody->body->SetLinearVelocity(vel);
+	}
+
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
+
 	//app->render->DrawTexture(texture, position.x, position.y);
-	if (app->statewalkingenemy == false) { 
+	if (!app->statewalkingenemy) { 
 		idleAnim.Reset();
 		currentAnimation = &attackAnim; 
-		counter++; 
-		if (counter == 50) {
-			counter = 0;
-			app->statewalkingenemy = true;
-		}
+		if (attackAnim.HasFinished()) app->statewalkingenemy = true;
 	}
 	if (app->statewalkingenemy) {
 		attackAnim.Reset();
@@ -133,6 +166,33 @@ bool WalkingEnemy::Update(float dt)
 
 
 	return true;
+}
+
+void WalkingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path)
+{
+	b2Vec2 vel = pbody->body->GetLinearVelocity();
+
+	if (path->Count() > 0)
+	{
+		iPoint nextNode;
+		if (app->map->pathfinding2->Move(enemyPos, nextNode))
+		{
+			int dx = nextNode.x - enemyPos.x;
+			int dy = nextNode.y - enemyPos.y;
+
+			vel = { dx * speed, dy * speed };
+
+			enemyPos = nextNode;
+		}
+	}
+	pbody->body->SetLinearVelocity(vel);
+}
+
+void WalkingEnemy::Attack()
+{
+	MoveToPlayer(enemyPos, 1.0f, path);
+	/*app->attack = true;*/
+
 }
 
 bool WalkingEnemy::CleanUp()

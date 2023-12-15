@@ -5,6 +5,7 @@
 #include "Point.h"
 #include "Animation.h"
 #include "SDL/include/SDL.h"
+#include "DynArray.h"
 
 struct SDL_Texture;
 
@@ -25,11 +26,17 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
+	void MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path);
+
+	void Attack();
+
 public:
 
 	float speed = 0.2f;
 	SDL_Texture* texture;
 	const char* texturePath;
+	SDL_Texture* texture2;
+	const char* drawPath;
 	PhysBody* pbody;
 
 	SDL_Texture* walkingEnemy = nullptr;
@@ -37,13 +44,17 @@ public:
 	Animation* currentAnimation = nullptr;
 	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim;
 	
-	iPoint initialpos;
+	iPoint initialPos;
 
 	int counter = 0; 
-	
 	bool type;
 	int distance;
-	bool direction = false; 
+	bool direction = false;
+
+private: 
+	iPoint enemyPos;
+	iPoint playerPos;
+	const DynArray<iPoint>* path;
 
 	bool die = false;
 };
