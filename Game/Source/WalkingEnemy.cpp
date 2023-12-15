@@ -70,7 +70,7 @@ bool WalkingEnemy::Update(float dt)
 			for (uint i = 0; i < path->Count(); i++)
 			{
 				iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-				app->render->DrawTexture(texture, pos.x, pos.y);
+				app->render->DrawTexture(texture2, pos.x, pos.y);
 			}
 		}
 	}
