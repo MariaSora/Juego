@@ -84,6 +84,7 @@ public:
 
 	};
 
+
 public:
 
 	SString name;

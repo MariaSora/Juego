@@ -23,6 +23,8 @@ bool WalkingEnemy::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	type = parameters.attribute("type").as_bool(); 
 	texturePath = parameters.attribute("texturepath").as_string();
+	distance = parameters.attribute("distance").as_int();
+	app->livewalkingenemy = parameters.attribute("vida").as_int();
 
 	idleAnim.LoadAnimation("walkingEnemy", "idleAnim");
 	walkAnim.LoadAnimation("walkingEnemy", "walkAnim");
@@ -69,7 +71,49 @@ bool WalkingEnemy::Update(float dt)
 			app->statewalkingenemy = false;
 		}
 	}
-
+	/*if (type)
+	{
+		if (!direction)
+		{
+			currentAnimation = &jumpAnim;
+			if (jumpAnim.HasFinished()) {
+				jumpAnim.Reset();
+			}
+			position.x++;
+			if (position.x >= initialpos.x + distance)
+			{
+				direction = true;
+				jumpAnim.Reset();
+			}
+		}
+		else
+		{
+			position.x--;
+			if (position.x <= initialpos.x - distance)
+			{
+				direction = false;
+			}
+		}
+	}
+	else
+	{
+		if (!direction)
+		{
+			position.y++;
+			if (position.y >= initialpos.y + distance)
+			{
+				direction = true;
+			}
+		}
+		else
+		{
+			position.y--;
+			if (position.y <= initialpos.y - distance)
+			{
+				direction = false;
+			}
+		}
+	}*/
 	/*currentAnimation = &attackAnim;*/
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame();
@@ -86,15 +130,7 @@ bool WalkingEnemy::Update(float dt)
 		}
 	}
 
-	if (type) {
-		app->render->DrawTexture(texture, position.x + 15, position.y + 5, &rect);
-		
-	}
-	
-	if (!type) {
-		app->render->DrawTexture(texture, position.x + 35, position.y + 5, &rect);
 
-	}
 
 	return true;
 }

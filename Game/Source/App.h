@@ -91,7 +91,7 @@ public:
 
 	int vida;
 	bool statewalkingenemy = true;
-	int livewalkingenemy = 3;
+	int livewalkingenemy;
 	int liveflyingenemy = 5;
 
 	iPoint positionportal2; 
@@ -132,6 +132,7 @@ private:
 
 	bool saveRequest = false;
 	bool loadRequest = false;
+
 };
 
 extern App* app;

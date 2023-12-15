@@ -6,13 +6,13 @@
 	<audio />
 	<:anonymous />
 	<scene>
-		<Player x="2255" y="220" Vida="-31" />
-		<WalkingEnemy x="232" y="201" Vida="3" />
-		<FlyingEnemy x="287" y="149" Vida="5" />
+		<Player x="145" y="196" Vida="5" />
+		<WalkingEnemy x="190" y="200" Vida="1" />
+		<FlyingEnemy x="223" y="178" Vida="5" />
 	</scene>
 	<:anonymous />
 	<entitymanager />
 	<renderer>
-		<camera x="-4310" y="0" />
+		<camera x="-90" y="0" />
 	</renderer>
 </game_state>

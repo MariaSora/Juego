@@ -37,9 +37,13 @@ public:
 	Animation* currentAnimation = nullptr;
 	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim;
 	
+	iPoint initialpos;
+
 	int counter = 0; 
 	
 	bool type;
+	int distance;
+	bool direction = false; 
 
 	bool die = false;
 };

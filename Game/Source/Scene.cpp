@@ -57,6 +57,8 @@ bool Scene::Awake(pugi::xml_node& config)
 		walkingEnemy->parameters = config.child("walkingEnemy");
 	}
 
+	
+
 	for (pugi::xml_node platformNode = config.child("movingplatform"); platformNode; platformNode = platformNode.next_sibling("movingplatform")) {
 		MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::MOVINGPLATFORM);
 		movingplatform->parameters = platformNode;
@@ -133,10 +135,12 @@ bool Scene::Update(float dt)
 
 		if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 			app->render->camera.x += (int)ceil(camSpeed * dt);
-
+		pugi::xml_node parameters;
 		//Si estoy en godmode puedo restaurar la vida del player y enemigos
-		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT)
-			app->vida = 5; app->livewalkingenemy = 3; app->liveflyingenemy = 5;
+		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT) {
+			app->vida = parameters.attribute("vida").as_int(); app->livewalkingenemy = parameters.attribute("vida").as_int(); app->liveflyingenemy = 5;
+		}
+			
 	}
 	else {
 		if (app->render->camera.x != player->position.x * app->win->GetScale()) {
@@ -202,7 +206,7 @@ bool Scene::LoadState(pugi::xml_node node) {
 	
 	flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
 	flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
-	app->liveflyingenemy = node.child("WalkingEnemy").attribute("Vida").as_int();
+	app->liveflyingenemy = node.child("FlyingEnemy").attribute("Vida").as_int();
 
 	flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
 	

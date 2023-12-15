@@ -196,14 +196,14 @@ bool Player::Update(float dt)
 		if (position.y >= 630 || app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			die = true;
 		}
-		if (app->vida == 0) die = true;
+		if (app->vida <= 0) die = true;
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
 			if (dieAnim.HasFinished()) {
 				dieAnim.Reset();
 				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
-				app->vida = 5;
+				app->vida = parameters.attribute("vida").as_int(); 
 				die = false;
 			}
 		}
@@ -215,12 +215,6 @@ bool Player::Update(float dt)
 				damage = false; 
 			}
 		}
-		
-		////ataque personaje
-		//if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {   
-		//	//app->audio->PlayFx(attackFx); 
-		//	currentAnimation = &attackAnim;
-		//}
 	}
 	
 	//Update player position in pixels
@@ -281,7 +275,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			app->vida--;
 			damage = true; 
 		}
-		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) { 
+		if (currentAnimation = &attackAnim) { 
 			if (app->statewalkingenemy) {
 				app->livewalkingenemy--;
 			}
