@@ -86,6 +86,8 @@ public:
 
 	void EndContact(b2Contact* contact);
 
+
+
 	// Box2D World
 	b2World* world;
 	bool debug = false;

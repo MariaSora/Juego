@@ -275,10 +275,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WALKINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
 		LOG("Collision WALKINGENEMY");
-	/*	if (!app->statewalkingenemy) {
-			app->vida--;
-			damage = true; 
-		}*/
 		if (currentAnimation = &attackAnim) { 
 			if (app->statewalkingenemy) {
 				app->livewalkingenemy--;

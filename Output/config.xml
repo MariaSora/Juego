@@ -208,7 +208,6 @@
 				  <anim x ="176" y ="96" width ="32" height ="20"/>
 				  <anim x ="215" y ="96" width ="32" height ="20"/>
 				  <anim x ="250" y ="96" width ="27" height ="20"/>
-				  <anim x ="281" y ="96" width ="22" height ="20"/>
 			  </attackAnim>
 
 			  <jumpAnim loop ="false" speed ="0.3">
@@ -261,6 +260,7 @@
 				  <anim x ="113" y ="96" width ="22" height ="20"/>
 				  <anim x ="145" y ="96" width ="27" height ="20"/>
 				  <anim x ="176" y ="96" width ="32" height ="20"/>
+				  <anim x ="250" y ="96" width ="27" height ="20"/>
 			  </attackAnim>
 
 			  <jumpAnim loop ="false" speed ="0.3">

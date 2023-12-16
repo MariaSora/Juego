@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Map.h"
 
+
 WalkingEnemy::WalkingEnemy() : Entity(EntityType::WALKINGENEMY)
 {
 	name.Create("WalkingEnemy");
@@ -53,6 +54,7 @@ bool WalkingEnemy::Start() {
 
 bool WalkingEnemy::Update(float dt)
 {
+
 	pbody->body->SetGravityScale(10);
 	currentAnimation = &idleAnim;
 
@@ -93,7 +95,17 @@ bool WalkingEnemy::Update(float dt)
 	if (!app->statewalkingenemy) { 
 		idleAnim.Reset();
 		currentAnimation = &attackAnim; 
-		if (attackAnim.HasFinished()) app->statewalkingenemy = true;
+		if (attackAnim.HasFinished()) {
+			for (b2ContactEdge* ce = pbody->body->GetContactList(); ce; ce = ce->next) {
+				b2Contact* c = ce->contact;
+				if (c->GetFixtureA()->GetBody() == app->scene->player->pbody->body) {
+					LOG("Player contact");
+					app->vida--;
+					app->scene->player->damage = true; 
+				}
+			}
+			app->statewalkingenemy = true;
+		}
 	}
 	if (app->statewalkingenemy) {
 		attackAnim.Reset();
