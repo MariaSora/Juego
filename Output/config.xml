@@ -25,7 +25,7 @@
     <map path="Assets/Maps/" name="Map.tmx"/>
 
 	<transparentWall x="2560" y="225" type="true" texturepath="Assets/Textures/wall.png"/>
-	<portal x="2565" y="225" x2="3036" y2="196" type="false" texturepath="Assets/Textures/PurplePortal.png">
+	<portal x="2565" y="225" x2="2565" y2="133" type="false" texturepath="Assets/Textures/PurplePortal.png">
 		 <animations>
 			 <turn loop ="true" speed="0.1">
 				 <anim x="24" y="15" width="28" height="42"/>

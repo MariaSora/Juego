@@ -237,7 +237,6 @@ bool Player::Update(float dt)
 	}
 
 	
-
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
 
@@ -335,7 +334,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		saltando = false;
 		jumpAnim.Reset();
 		movingplatform = (MovingPlatform*)physB->listener;
-		inmovplat = true;
+		if (app->godmode == false) {
+			inmovplat = true;
+		}
 		LOG("Collision MOVING_PLATFORM");
 		break;
 	}

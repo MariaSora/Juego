@@ -76,16 +76,16 @@ bool Particles::CleanUp()
 
 void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 	
-	
-	
-	
+
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
 		LOG("PARTICLES COLLIDE WITH PLAYER");
 		alive = false; 
-		app->vida--;
-		app->scene->player->damage = true;
+		if (app->godmode == false) {
+			app->vida--;
+			app->scene->player->damage = true;
+		}
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");

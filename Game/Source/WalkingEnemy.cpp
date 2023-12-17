@@ -99,9 +99,11 @@ bool WalkingEnemy::Update(float dt)
 			for (b2ContactEdge* ce = pbody->body->GetContactList(); ce; ce = ce->next) {
 				b2Contact* c = ce->contact;
 				if (c->GetFixtureA()->GetBody() == app->scene->player->pbody->body) {
-					LOG("Player contact");
-					app->vida--;
-					app->scene->player->damage = true; 
+					if (app->godmode == false) {
+						LOG("Player contact");
+						app->vida--;
+						app->scene->player->damage = true;
+					}
 				}
 			}
 			app->statewalkingenemy = true;
