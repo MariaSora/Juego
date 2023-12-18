@@ -47,7 +47,6 @@ public:
 	int distance;
 	bool dir = false;
 	bool type = true;
-	bool die = false;
 	int temp;
 
 private: 

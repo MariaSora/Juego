@@ -118,7 +118,7 @@ bool WalkingEnemy::Update(float dt)
 			counter = 0;
 			app->statewalkingenemy = false;
 		}
-	}
+	} 
 	/*if (type)
 	{
 		if (!direction)
@@ -182,7 +182,10 @@ bool WalkingEnemy::Update(float dt)
 		if (deathAnim.HasFinished()) { 
 			deathAnim.Reset();
 			currentAnimation = &idleAnim;
+			//SDL_DestroyRenderer();
 			//cuando acabe la animacion falta destruir la textura + collider cuando se muere
+			SDL_DestroyTexture(texture); LOG("texture destroyed");
+			
 			die = false;
 		}
 	}
