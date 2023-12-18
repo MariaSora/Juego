@@ -39,6 +39,18 @@ bool Portal::Start() {
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 10, 25, bodyType::KINEMATIC); 
 	pbody->ctype = ColliderType::PORTAL;
 
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+
+	for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+	{
+		pEntity = item->data;
+		if (pEntity->type == EntityType::WALL)
+		{
+			wall = (transparentWall*)pEntity;
+		}
+	}
+
 	return true;
 }
 
@@ -49,21 +61,14 @@ bool Portal::Update(float dt)
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
 	//app->render->DrawTexture(texture, position.x, position.y);
-
-	ListItem<Entity*>* item;
-	Entity* pEntity = NULL;
-
-	for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+	
+	if (wall != NULL)
 	{
-		pEntity = item->data;
-		if (pEntity->type == EntityType::WALL)
-		{
-			if (((transparentWall*)pEntity)->touchingW) {
+		if (wall->touchingW) {
 
-				turn.Update();
-				SDL_Rect rect = turn.GetCurrentFrame();
-				app->render->DrawTexture(texture, position.x, position.y, &rect, 1, SDL_FLIP_NONE);
-			}
+			turn.Update();
+			SDL_Rect rect = turn.GetCurrentFrame();
+			app->render->DrawTexture(texture, position.x, position.y, &rect, 1, SDL_FLIP_NONE);
 		}
 	}
 	

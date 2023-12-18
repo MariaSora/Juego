@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Point.h"
 #include "Animation.h"
+#include "transparentWall.h"
 
 #include "SDL/include/SDL.h"
 
@@ -34,6 +35,7 @@ private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
+	transparentWall* wall;
 
 	
 };

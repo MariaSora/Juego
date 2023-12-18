@@ -5,6 +5,8 @@
 #include "Point.h"
 #include "Animation.h"
 #include "movingPlatform.h"
+#include "transparentWall.h"
+#include "Portal.h"
 #include "SDL/include/SDL.h"
 
 #include "Physics.h"
@@ -68,6 +70,9 @@ private:
 	MovingPlatform* movingplatform;
 	bool inmovplat = false;
 	int moving = 0;
+
+	transparentWall* wall;
+	Portal* portal;
 };
 
 #endif // __PLAYER_H__

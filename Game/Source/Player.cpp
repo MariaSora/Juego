@@ -61,6 +61,22 @@ bool Player::Start() {
 
 	Ipos = pbody->body->GetTransform(); //Pos inicial
 
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+
+	for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+	{
+		pEntity = item->data;
+		if (pEntity->type == EntityType::WALL)
+		{
+			wall = (transparentWall*)pEntity;
+		}
+		else if (pEntity->type == EntityType::PORTAL)
+		{
+			portal = (Portal*)pEntity;
+		}
+	}
+
 	return true;
 }
 
@@ -236,21 +252,16 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
 	}
 
-	
-	ListItem<Entity*>* item;
-	Entity* pEntity = NULL;
 
-	for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+	if (portal != NULL)
 	{
-		pEntity = item->data;
-		if (pEntity->type == EntityType::PORTAL)
-		{
-			if (((Portal*)pEntity)->touchingPortal == true) 
-			{	
-				pbody->body->SetTransform(b2Vec2(app->positionportal2.x, app->positionportal2.y), 0);
-			}
+		if (portal->touchingPortal == true) 
+		{	
+			pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->positionportal2.x), PIXEL_TO_METERS(app->positionportal2.y)), 0);
+			app->render->camera.x = app->positionportal2.x;
 		}
 	}
+
 	return true;
 }
 
@@ -289,30 +300,17 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		//app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::WALL:
-	{
-		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+
+		if (wall != NULL)
 		{
-			pEntity = item->data;
-			if (pEntity->type == EntityType::WALL)
-			{
-				((transparentWall*) pEntity)->touchingW = true;
-				LOG("Collision WALL");
-			}
-		}
-	}
+			wall->touchingW = true;
+		} 
 		break;
 	case ColliderType::PORTAL:
-	{
-		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+		if (portal != NULL)
 		{
-			pEntity = item->data;
-			if (pEntity->type == EntityType::PORTAL)
-			{
-				((Portal*)pEntity)->touchingPortal = true;
-				LOG("Collision PORTAL");
-			}
+			portal->touchingPortal = true;
 		}
-	}
 		break;
 	case ColliderType::TUTORIAL:
 		LOG("Collision TUTORIAL");
@@ -352,33 +350,18 @@ void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
 	case ColliderType::ITEM:
 		break;
 	case ColliderType::WALL:
-	{
-		ListItem<Entity*>* item;
-		Entity* pEntity = NULL;
 
-		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+		if (wall != NULL)
 		{
-			pEntity = item->data;
-			if (pEntity->type == EntityType::WALL)
-			{
-				((transparentWall*)pEntity)->touchingW = false;
-				LOG("Collision WALL");
-			}
+			wall->touchingW = false;
 		}
-	}
 		break;
 	case ColliderType::PORTAL:
-	{
-		for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+	
+		if (portal != NULL)
 		{
-			pEntity = item->data;
-			if (pEntity->type == EntityType::PORTAL)
-			{
-				((Portal*)pEntity)->touchingPortal = false;
-				LOG("Collision PORTAL");
-			}
+			portal->touchingPortal = false;
 		}
-	}
 		break;
 	case ColliderType::PLATFORM:
 		touchingP = false;
