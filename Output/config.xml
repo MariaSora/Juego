@@ -38,23 +38,22 @@
 				 <anim x="453" y="16" width="28" height="42"/>
 			  </idlePortal>
 			 
-			 <closePortal loop ="false" speed="0.1">
-				 <anim x="19" y="91" width="28" height="42"/>
-				 <anim x="77" y="91" width="28" height="42"/>
-				 <anim x="139" y="89" width="28" height="42"/>
-				 <anim x="205" y="86" width="28" height="42"/>
-				 <anim x="269" y="77" width="28" height="42"/>
-				 <anim x="330" y="74" width="28" height="42"/>
-				 <anim x="391" y="76" width="28" height="42"/>
-				 <anim x="453" y="75" width="28" height="42"/>
-				 <anim x="24" y="139" width="28" height="42"/>
-				 <anim x="82" y="148" width="28" height="42"/>
-				 <anim x="139" y="151" width="28" height="42"/>
-				 <anim x="200" y="153" width="28" height="42"/>
-				 <anim x="257" y="153" width="28" height="42"/>
-				 <anim x="257" y="153" width="28" height="42"/>
-				 <anim x="345" y="153" width="28" height="42"/>
-				 <anim x="380" y="153" width="28" height="42"/>
+			 <closePortal loop ="false" speed="0.25">
+				 <anim x="19" y="91" width="21" height="1"/>
+				 <anim x="77" y="91" width="26" height="3"/>
+				 <anim x="139" y="89" width="26" height="8"/>
+				 <anim x="205" y="86" width="16" height="17"/>
+				 <anim x="269" y="77" width="12" height="34"/>
+				 <anim x="330" y="74" width="13" height="41"/>
+				 <anim x="391" y="76" width="13" height="38"/>
+				 <anim x="453" y="75" width="13" height="40"/>
+				 <anim x="24" y="139" width="27" height="33"/>
+				 <anim x="82" y="148" width="25" height="15"/>
+				 <anim x="139" y="151" width="26" height="8"/>
+				 <anim x="200" y="153" width="26" height="3"/>
+				 <anim x="257" y="153" width="35" height="1"/>
+				 <anim x="315" y="153" width="41" height="1"/>
+				 <anim x="380" y="153" width="41" height="1"/>
 			 </closePortal>
 			 
 		  </animations>

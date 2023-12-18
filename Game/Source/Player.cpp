@@ -194,6 +194,7 @@ bool Player::Update(float dt)
 		if (inmovplat) {
 			b2Vec2 platformPos = movingplatform->pbody->body->GetTransform().p;
 			platformPos.x += PIXEL_TO_METERS(moving.x);
+			platformPos.y -= PIXEL_TO_METERS(20);
 			pbody->body->SetTransform(platformPos, 0);
 			if (pbody->body->GetLinearVelocity().y > 0) {
 				inmovplat = false;
@@ -273,7 +274,7 @@ bool Player::Update(float dt)
 
 	portal->closePortal.Update();
 	SDL_Rect rect2 = portal->closePortal.GetCurrentFrame();
-	app->render->DrawTexture(portal->texture, app->positionportal2.x, app->positionportal2.y, &rect2, 1, SDL_FLIP_NONE);
+	app->render->DrawTexture(portal->texture, app->positionportal2.x + 2, app->positionportal2.y - 5, &rect2, 1, SDL_FLIP_NONE);
 
 	return true;
 }
