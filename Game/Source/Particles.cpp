@@ -42,8 +42,9 @@ bool Particles::Start() {
 bool Particles::Update(float dt)
 {
 	///*pbody->body->SetGravityScale(0);
-	//pbody->body->GetFixtureList()[0].SetSensor(true);*/
+
 	if (app->attack) {
+		pbody->body->GetFixtureList()[0].SetSensor(false);
 		currentAnimation = &shootAnim;
 		// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 
@@ -60,10 +61,15 @@ bool Particles::Update(float dt)
 		currentAnimation->Update();
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
-
+	/*	SDL_UpdateTexture(texture, &rect,);*/
 		////app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
 		////app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
+	}
+	else
+	{	
+		pbody->body->GetFixtureList()[0].SetSensor(true);
+		SDL_DestroyTexture(texture); 
 	}
 	
 	return true;
