@@ -54,7 +54,7 @@ bool FlyingEnemy::Update(float dt)
 			position.x = initialPos.x;
 			position.y = initialPos.y;
 			app->scene->flyingEnemy->die = false;
-		}
+	}
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 	if(!die) {
 
@@ -99,6 +99,7 @@ bool FlyingEnemy::Update(float dt)
 		app->attack = false;
 		position.y += 2;
 		vel += { 0,0.5f };
+		if (deathAnim.HasFinished()) SDL_DestroyTexture(texture);
 		pbody->body->SetLinearVelocity(vel);
 		//falta destruir la textura + collider
 	}
