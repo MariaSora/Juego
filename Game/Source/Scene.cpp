@@ -138,7 +138,11 @@ bool Scene::Update(float dt)
 		pugi::xml_node parameters;
 		//Si estoy en godmode puedo restaurar la vida del player y enemigos
 		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT) {
-			app->vida = parameters.attribute("vida").as_int(); app->livewalkingenemy = parameters.attribute("vida").as_int(); app->scene->flyingEnemy->die = false;
+
+			app->vida = parameters.attribute("vida").as_int(); 
+			app->livewalkingenemy = parameters.attribute("vida").as_int(); 
+			app->scene->flyingEnemy->die = false; 
+
 		}
 			
 	}

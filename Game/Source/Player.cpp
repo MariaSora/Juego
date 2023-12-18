@@ -200,11 +200,15 @@ bool Player::Update(float dt)
 			currentAnimation = &jumpAnim;
 			//app->audio->PlayFx(jumpFx);
 		}
-
+		
 		//ataque personaje
+		
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
 			//app->audio->PlayFx(attackFx); 
 			currentAnimation = &attackAnim;
+			if (On) {
+				app->WEDamaged = true;
+			}
 		}
 	}
 
@@ -253,7 +257,7 @@ bool Player::Update(float dt)
 	}
 
 
-	if (portal != NULL)
+	if (portal != NULL) 
 	{
 		if (portal->touchingPortal == true) 
 		{	
@@ -285,10 +289,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WALKINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
 		LOG("Collision WALKINGENEMY");
-		if (currentAnimation = &attackAnim) { 
-			if (app->statewalkingenemy) {
-				app->livewalkingenemy--;
-			}
+		if (app->statewalkingenemy) {
+			On = true;
 		}
 		break;
 	case ColliderType::PARTICLES: 

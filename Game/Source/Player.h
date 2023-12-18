@@ -71,6 +71,7 @@ private:
 	bool inmovplat = false;
 	int moving = 0;
 
+	bool On = false;
 	transparentWall* wall;
 	Portal* portal;
 };

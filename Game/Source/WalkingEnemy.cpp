@@ -34,6 +34,7 @@ bool WalkingEnemy::Awake() {
 	deathAnim.LoadAnimation("walkingEnemy", "deathAnim");
 	attackAnim.LoadAnimation("walkingEnemy", "attackAnim");
 	jumpAnim.LoadAnimation("walkingEnemy", "jumpAnim");
+	damageAnim.LoadAnimation("walkingEnemy", "damageAnim");
 
 	return true;
 }
@@ -161,23 +162,34 @@ bool WalkingEnemy::Update(float dt)
 			}
 		}
 	}*/
-	/*currentAnimation = &attackAnim;*/
-	currentAnimation->Update();
-	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	app->render->DrawTexture(texture, position.x, position.y + 5, &rect);
+	
+	//walkingenemy damaged
+	if (app->WEDamaged) {
+		currentAnimation = &damageAnim; 
+		app->livewalkingenemy--;
+		if (damageAnim.HasFinished()) { 
+			currentAnimation = &idleAnim; 
+			app->WEDamaged = false;
+		}
+	}
 
 	//walkingenemy dies
-	if (app->livewalkingenemy == 0) die = true;
+	if (app->livewalkingenemy == 0 || position.y >= 630) die = true;
+
 	if (die) {
 		LOG("WALKINGENEMY DIES");
 		currentAnimation = &deathAnim;
 		if (deathAnim.HasFinished()) { 
 			deathAnim.Reset();
+			currentAnimation = &idleAnim;
 			//cuando acabe la animacion falta destruir la textura + collider cuando se muere
+			die = false;
 		}
 	}
 
-
+	currentAnimation->Update(); 
+	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
+	app->render->DrawTexture(texture, position.x, position.y + 5, &rect); 
 
 	return true;
 }

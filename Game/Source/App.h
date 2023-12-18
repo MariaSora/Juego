@@ -97,6 +97,7 @@ public:
 
 	bool godmode = false;
 	bool attack = false;
+	bool WEDamaged = false;
 
 private:
 
