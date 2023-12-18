@@ -71,6 +71,7 @@ private:
 	bool inmovplat = false;
 	iPoint moving = { 0,0 };
 
+	bool On = false;
 	transparentWall* wall;
 	Portal* portal;
 };

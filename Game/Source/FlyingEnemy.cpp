@@ -24,7 +24,7 @@ bool FlyingEnemy::Awake() {
 	texturePath = parameters.attribute("texturepath").as_string();
 	drawPath = parameters.attribute("path").as_string(); 
 	dir = parameters.attribute("direction").as_bool();
-	distance = parameters.attribute("distance").as_int();
+	//distance = parameters.attribute("distance").as_int();
 	type = parameters.attribute("type").as_bool();
 
 	flyAnim.LoadAnimation("flyingEnemy", "flyAnim");
@@ -49,56 +49,64 @@ bool FlyingEnemy::Start() {
 }
 
 bool FlyingEnemy::Update(float dt)
-{
-	/*pbody->body->SetGravityScale(0);*/
-	/*pbody->body->GetFixtureList()[0].SetSensor(true);*/
-	currentAnimation = &flyAnim;
-	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
-
+{		
+	if (app->scene->player->die) {
+			position.x = initialPos.x;
+			position.y = initialPos.y;
+			app->scene->flyingEnemy->die = false;
+		}
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
+	if(!die) {
 
-	enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
-	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
+		/*pbody->body->SetGravityScale(0);*/
+		/*pbody->body->GetFixtureList()[0].SetSensor(true);*/
+		currentAnimation = &flyAnim;
+		// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
 
-	if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
-	{
-		app->map->pathfinding->CreatePath(enemyPos, playerPos);
-		path = app->map->pathfinding->GetLastPath(); 
-		if (app->physics->debug)
+		enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
+		playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
+
+		if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
 		{
-			for (uint i = 0; i < path->Count(); i++)
+			app->map->pathfinding->CreatePath(enemyPos, playerPos);
+			path = app->map->pathfinding->GetLastPath();
+			if (app->physics->debug)
 			{
-				iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-				app->render->DrawTexture(texture2, pos.x, pos.y);
+				for (uint i = 0; i < path->Count(); i++)
+				{
+					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+					app->render->DrawTexture(texture2, pos.x, pos.y);
+				}
 			}
 		}
-	}
 
-	if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
-		Attack(); 
+		if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
+			Attack();
+		}
+		else {
+			app->attack = false;
+			vel = { 0,0 };
+			pbody->body->SetLinearVelocity(vel);
+		}
+
+		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+
 	}
 	else {
-		app->attack = false;
-		vel = { 0,0 };
-		pbody->body->SetLinearVelocity(vel);
-	}
-
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
-
-	currentAnimation->Update();
-	SDL_Rect rect = currentAnimation->GetCurrentFrame();
-	app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
-
-
-	//vida del flyingenemy
-	if (app->liveflyingenemy == 0) die = true;
-	if (die) {
 		LOG("FLYINGENEMY DIES");
 		currentAnimation = &deathAnim;
-		
+		app->attack = false;
+		position.y += 2;
+		vel += { 0,0.5f };
+		pbody->body->SetLinearVelocity(vel);
 		//falta destruir la textura + collider
 	}
+
+		currentAnimation->Update();
+		SDL_Rect rect = currentAnimation->GetCurrentFrame();
+		app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
+		
 	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
 	//pbody->body->ApplyForce(b2Vec2(0.0f, -app->physics->world->GetGravity().y * pbody->body->GetMass()), pbody->body->GetWorldCenter(), true);
@@ -186,6 +194,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
+		die = true; 
 		LOG("Collision PLAYER");
 		break;
 	case ColliderType::ITEM:

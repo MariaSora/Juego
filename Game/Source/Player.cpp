@@ -204,11 +204,15 @@ bool Player::Update(float dt)
 			currentAnimation = &jumpAnim;
 			//app->audio->PlayFx(jumpFx);
 		}
-
+		
 		//ataque personaje
+		
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
 			//app->audio->PlayFx(attackFx); 
 			currentAnimation = &attackAnim;
+			if (On) {
+				app->WEDamaged = true;
+			}
 		}
 	}
 
@@ -220,15 +224,15 @@ bool Player::Update(float dt)
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
-			if (dieAnim.HasFinished()) {
+			if (dieAnim.HasFinished()) {	
 				dieAnim.Reset();
 				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 				app->vida = parameters.attribute("vida").as_int(); 
-				die = false;
-				app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
-				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;
+	/*			app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
+				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;*/
 				app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
 				app->scene->walkingEnemy->position.y = app->scene->walkingEnemy->initialPos.y;
+				die = false;
 			}
 		}
 
@@ -294,10 +298,8 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WALKINGENEMY:
 	/*	app->audio->PlayFx(killFx);*/
 		LOG("Collision WALKINGENEMY");
-		if (currentAnimation = &attackAnim) { 
-			if (app->statewalkingenemy) {
-				app->livewalkingenemy--;
-			}
+		if (app->statewalkingenemy) {
+			On = true;
 		}
 		break;
 	case ColliderType::PARTICLES: 
