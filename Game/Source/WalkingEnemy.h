@@ -42,7 +42,7 @@ public:
 	SDL_Texture* walkingEnemy = nullptr;
 
 	Animation* currentAnimation = nullptr;
-	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim;
+	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim, damageAnim;
 	
 	iPoint initialPos;
 

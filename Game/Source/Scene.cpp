@@ -138,7 +138,12 @@ bool Scene::Update(float dt)
 		pugi::xml_node parameters;
 		//Si estoy en godmode puedo restaurar la vida del player y enemigos
 		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT) {
-			app->vida = parameters.attribute("vida").as_int(); app->livewalkingenemy = parameters.attribute("vida").as_int(); app->scene->flyingEnemy->die = false;
+
+			app->vida = parameters.attribute("vida").as_int(); 
+			app->livewalkingenemy = parameters.attribute("vida").as_int(); 
+			app->FlyingEnemyAlive = true;
+			//app->scene->flyingEnemy->die = false; 
+
 		}
 			
 	}
@@ -206,7 +211,7 @@ bool Scene::LoadState(pugi::xml_node node) {
 	
 	flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
 	flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
-	//app->liveflyingenemy = node.child("FlyingEnemy").attribute("Vida").as_int();
+	app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
 
 	flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
 	
@@ -235,7 +240,7 @@ bool Scene::SaveState(pugi::xml_node node) {
 	pugi::xml_node camNode2 = node.append_child("FlyingEnemy");
 	camNode2.append_attribute("x").set_value(flyingEnemy->position.x);
 	camNode2.append_attribute("y").set_value(flyingEnemy->position.y);
-	//camNode2.append_attribute("Vida").set_value(app->liveflyingenemy);
+	camNode2.append_attribute("Alive").set_value(app->FlyingEnemyAlive);
 
 	flyingEnemy->pbody->body->GetTransform();
 

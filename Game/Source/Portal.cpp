@@ -27,7 +27,8 @@ bool Portal::Awake() {
 	app->positionportal2.y = parameters.attribute("y2").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 
-	turn.LoadAnimation("portal", "turn");
+	idlePortal.LoadAnimation("portal", "idlePortal");
+	closePortal.LoadAnimation("portal", "closePortal");
 
 	return true;
 }
@@ -66,8 +67,8 @@ bool Portal::Update(float dt)
 	{
 		if (wall->touchingW) {
 
-			turn.Update();
-			SDL_Rect rect = turn.GetCurrentFrame();
+			idlePortal.Update();
+			SDL_Rect rect = idlePortal.GetCurrentFrame();
 			app->render->DrawTexture(texture, position.x, position.y, &rect, 1, SDL_FLIP_NONE);
 		}
 	}

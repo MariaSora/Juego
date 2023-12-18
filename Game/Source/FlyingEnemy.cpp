@@ -53,10 +53,11 @@ bool FlyingEnemy::Update(float dt)
 	if (app->scene->player->die) {
 			position.x = initialPos.x;
 			position.y = initialPos.y;
-			die = false;
-	}
+			app->FlyingEnemyAlive = true;
+			//app->scene->flyingEnemy->die = false;
+		}
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
-	if(!die) {
+	if(app->FlyingEnemyAlive) {
 
 		/*pbody->body->SetGravityScale(0);*/
 		/*pbody->body->GetFixtureList()[0].SetSensor(true);*/
@@ -195,7 +196,8 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
-		die = true;
+		app->FlyingEnemyAlive = false;
+		//die = true; 
 		LOG("Collision PLAYER");
 		break;
 	case ColliderType::ITEM:

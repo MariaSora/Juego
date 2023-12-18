@@ -92,11 +92,13 @@ public:
 	int vida;
 	bool statewalkingenemy = true;
 	int livewalkingenemy;
+	bool FlyingEnemyAlive = true;
 
 	iPoint positionportal2; 
 
 	bool godmode = false;
 	bool attack = false;
+	bool WEDamaged = false;
 
 private:
 

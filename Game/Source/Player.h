@@ -69,8 +69,9 @@ private:
 
 	MovingPlatform* movingplatform;
 	bool inmovplat = false;
-	int moving = 0;
+	iPoint moving = { 0,0 };
 
+	bool On = false;
 	transparentWall* wall;
 	Portal* portal;
 };
