@@ -1,4 +1,5 @@
 #include "Player.h"
+
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -29,7 +30,6 @@ bool Player::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	app->vida = parameters.attribute("vida").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
-	
 
 	idleAnim.LoadAnimation("player", "idleAnim");
 	jumpAnim.LoadAnimation("player", "jumpAnim");
@@ -53,11 +53,6 @@ bool Player::Start() {
 	pbody = app->physics->CreateCircle(position.x - 16, position.y + 16, 13, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::PLAYER;
-
-	//pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-	//attackFx = app->audio->LoadFx("---");
-	//jumpFx = app->audio->LoadFx("---");
-	//killFx = app->audio->LoadFx("---");
 
 	Ipos = pbody->body->GetTransform(); //Pos inicial
 
@@ -106,6 +101,7 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		app->godmode = !app->godmode;
+		//app->audio->PlayMusic("Assets/Audio/Music/godmode.ogg");
 		if (app->godmode) {
 			LOG("GODMODE ACTIVATED");
 		}
@@ -179,6 +175,7 @@ bool Player::Update(float dt)
 
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			if (!saltando) {
+				app->audio->PlayFx(app->audio->jumpFx);
 				if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) isFacingRight = true;
 				if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN) isFacingRight = false;
 
@@ -203,13 +200,12 @@ bool Player::Update(float dt)
 
 		if (saltando) {
 			currentAnimation = &jumpAnim;
-			//app->audio->PlayFx(jumpFx);
 		}
 		
 		//ataque personaje
 		
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
-			//app->audio->PlayFx(attackFx); 
+			app->audio->PlayFx(app->audio->attackFx); 
 			currentAnimation = &attackAnim;
 			if (On) {
 				app->WEDamaged = true;
@@ -221,7 +217,10 @@ bool Player::Update(float dt)
 		if (position.y >= 630 || app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			die = true;
 		}
-		if (app->vida <= 0) die = true;
+		if (app->vida <= 0) {
+			die = true;
+			app->audio->PlayFx(app->audio->deathFx);
+		};
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
@@ -232,8 +231,8 @@ bool Player::Update(float dt)
 	/*			app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
 				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;*/
 				app->WalkingEnemyAlive = true; app->FlyingEnemyAlive = true;
-				app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
-				app->scene->walkingEnemy->position.y = app->scene->walkingEnemy->initialPos.y;
+				//app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
+				//app->scene->walkingEnemy->position.y = app->scene->walkingEnemy->initialPos.y;
 				die = false;
 			}
 		}
@@ -293,7 +292,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::FLYINGENEMY:
-	/*	app->audio->PlayFx(killFx);*/
+		app->audio->PlayFx(app->audio->enemyDeath);
 		LOG("Collision FLYINGENEMY");
 		/*die = true;*/
 		break;
@@ -320,6 +319,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		} 
 		break;
 	case ColliderType::PORTAL:
+		app->audio->PlayFx(app->audio->teleportFx);
 		if (portal != NULL)
 		{
 			portal->touchingPortal = true;

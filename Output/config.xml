@@ -17,11 +17,11 @@
   </window>
 
   <audio>
-    <music volume="128"/>
-    <fx volume="128"/>
+	<music volume="75"/>
+	<fx volume="128"/>
   </audio>
-
-  <scene>
+	
+	<scene>
     <map path="Assets/Maps/" name="Map.tmx"/>
 
 	<transparentWall x="2560" y="225" type="true" texturepath="Assets/Textures/wall.png"/>
