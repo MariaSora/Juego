@@ -93,6 +93,7 @@ public:
 	bool statewalkingenemy = true;
 	int livewalkingenemy;
 	bool FlyingEnemyAlive = true;
+	bool WalkingEnemyAlive = true;
 
 	iPoint positionportal2; 
 

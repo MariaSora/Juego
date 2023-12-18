@@ -52,12 +52,11 @@ bool Scene::Awake(pugi::xml_node& config)
 		particles->parameters = config.child("particles");
 	}
 
-	if (config.child("walkingEnemy")) {
-		walkingEnemy = (WalkingEnemy*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
-		walkingEnemy->parameters = config.child("walkingEnemy");
-	}
 
-	
+	for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
+		MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
+		movingplatform->parameters = WalkingEnemyNode;
+	}
 
 	for (pugi::xml_node platformNode = config.child("movingplatform"); platformNode; platformNode = platformNode.next_sibling("movingplatform")) {
 		MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::MOVINGPLATFORM);
@@ -137,10 +136,12 @@ bool Scene::Update(float dt)
 			app->render->camera.x += (int)ceil(camSpeed * dt);
 		pugi::xml_node parameters;
 		//Si estoy en godmode puedo restaurar la vida del player y enemigos
-		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_REPEAT) {
+		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) { 
 
 			app->vida = parameters.attribute("vida").as_int(); 
 			app->livewalkingenemy = parameters.attribute("vida").as_int(); 
+			app->WalkingEnemyAlive = true;
+			walkingEnemy->position = walkingEnemy->initialPos;
 			app->FlyingEnemyAlive = true;
 			//app->scene->flyingEnemy->die = false; 
 
@@ -206,6 +207,7 @@ bool Scene::LoadState(pugi::xml_node node) {
 	walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
 	walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
 	app->livewalkingenemy = node.child("WalkingEnemy").attribute("Vida").as_int();
+	app->WalkingEnemyAlive = node.child("WalkingEnemy").attribute("Alive").as_bool();
 
 	walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
 	
@@ -234,6 +236,7 @@ bool Scene::SaveState(pugi::xml_node node) {
 	camNode1.append_attribute("x").set_value(walkingEnemy->position.x);
 	camNode1.append_attribute("y").set_value(walkingEnemy->position.y);
 	camNode1.append_attribute("Vida").set_value(app->livewalkingenemy);
+	camNode1.append_attribute("Alive").set_value(app->WalkingEnemyAlive);
 
 	walkingEnemy->pbody->body->GetTransform();
 

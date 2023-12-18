@@ -49,14 +49,12 @@ public:
 	int counter = 0; 
 	bool type;
 	int distance;
-	bool direction = false;
 
 private: 
 	iPoint enemyPos;
 	iPoint playerPos;
 	const DynArray<iPoint>* path;
 
-	bool die = false;
 };
 
 #endif // __WALKINGENEMY_H__

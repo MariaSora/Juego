@@ -231,6 +231,7 @@ bool Player::Update(float dt)
 				app->vida = parameters.attribute("vida").as_int(); 
 	/*			app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
 				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;*/
+				app->WalkingEnemyAlive = true; app->FlyingEnemyAlive = true;
 				app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
 				app->scene->walkingEnemy->position.y = app->scene->walkingEnemy->initialPos.y;
 				die = false;

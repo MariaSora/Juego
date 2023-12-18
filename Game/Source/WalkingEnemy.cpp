@@ -55,7 +55,6 @@ bool WalkingEnemy::Start() {
 
 bool WalkingEnemy::Update(float dt)
 {
-
 	pbody->body->SetGravityScale(10);
 	currentAnimation = &idleAnim;
 
@@ -82,7 +81,7 @@ bool WalkingEnemy::Update(float dt)
 		Attack();
 	}
 	else {
-	/*	app->attack = false;*/
+		/*	app->attack = false;*/
 		vel = { 0,0 };
 		pbody->body->SetLinearVelocity(vel);
 	}
@@ -93,9 +92,9 @@ bool WalkingEnemy::Update(float dt)
 
 
 	//app->render->DrawTexture(texture, position.x, position.y);
-	if (!app->statewalkingenemy) { 
+	if (!app->statewalkingenemy) {
 		idleAnim.Reset();
-		currentAnimation = &attackAnim; 
+		currentAnimation = &attackAnim;
 		if (attackAnim.HasFinished()) {
 			for (b2ContactEdge* ce = pbody->body->GetContactList(); ce; ce = ce->next) {
 				b2Contact* c = ce->contact;
@@ -112,87 +111,61 @@ bool WalkingEnemy::Update(float dt)
 	}
 	if (app->statewalkingenemy) {
 		attackAnim.Reset();
-		currentAnimation = &idleAnim; 
+		currentAnimation = &idleAnim;
 		counter++;
 		if (counter == 50) {
 			counter = 0;
 			app->statewalkingenemy = false;
 		}
-	} 
-	/*if (type)
+	}
+
+	if (type)
 	{
-		if (!direction)
-		{
-			currentAnimation = &jumpAnim;
-			if (jumpAnim.HasFinished()) {
-				jumpAnim.Reset();
-			}
-			position.x++;
-			if (position.x >= initialpos.x + distance)
-			{
-				direction = true;
-				jumpAnim.Reset();
-			}
+		currentAnimation = &jumpAnim;
+		if (jumpAnim.HasFinished()) {
+			jumpAnim.Reset();
 		}
-		else
-		{
-			position.x--;
-			if (position.x <= initialpos.x - distance)
-			{
-				direction = false;
-			}
-		}
+		
 	}
 	else
 	{
-		if (!direction)
-		{
-			position.y++;
-			if (position.y >= initialpos.y + distance)
-			{
-				direction = true;
-			}
-		}
-		else
-		{
-			position.y--;
-			if (position.y <= initialpos.y - distance)
-			{
-				direction = false;
-			}
-		}
-	}*/
-	
-	//walkingenemy damaged
-	if (app->WEDamaged) {
-		currentAnimation = &damageAnim; 
-		app->livewalkingenemy--;
-		if (damageAnim.HasFinished()) { 
-			currentAnimation = &idleAnim; 
-			app->WEDamaged = false;
+		currentAnimation = &idleAnim;
+		if (idleAnim.HasFinished()) {
+			idleAnim.Reset();
 		}
 	}
 
+	//walkingenemy damaged
+	if (app->WEDamaged) {
+		currentAnimation = &damageAnim;
+		app->livewalkingenemy--;
+		if (damageAnim.HasFinished()) {
+			currentAnimation = &idleAnim;
+			app->WEDamaged = false;
+		}
+	}
 	//walkingenemy dies
-	if (app->livewalkingenemy == 0 || position.y >= 630) die = true;
-
-	if (die) {
+	if (app->livewalkingenemy == 0) {
 		LOG("WALKINGENEMY DIES");
+		app->WalkingEnemyAlive = false;
+	}
+		
+	
+	if (!app->WalkingEnemyAlive) {
 		currentAnimation = &deathAnim;
 		if (deathAnim.HasFinished()) { 
 			deathAnim.Reset();
-			currentAnimation = &idleAnim;
-			//SDL_DestroyRenderer();
-			//cuando acabe la animacion falta destruir la textura + collider cuando se muere
-			SDL_DestroyTexture(texture); LOG("texture destroyed");
-			
-			die = false;
+			//currentAnimation = &idleAnim;
+			SDL_DestroyTexture(texture); 
+			//SDL_DestroyRenderer(this);
 		}
 	}
 
 	currentAnimation->Update(); 
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
-	app->render->DrawTexture(texture, position.x, position.y + 5, &rect); 
+	app->render->DrawTexture(texture, position.x, position.y + 5, &rect);  
+	
+	
 
 	return true;
 }
