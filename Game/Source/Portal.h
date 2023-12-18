@@ -29,15 +29,14 @@ public:
 
 	bool touchingPortal = false;
 
-	Animation turn;
+	Animation idlePortal, closePortal;
+	SDL_Texture* texture;
 
 private:
-	SDL_Texture* texture;
+
 	const char* texturePath;
 	PhysBody* pbody;
 	transparentWall* wall;
-
-	
 };
 
 #endif // __PORTAL_H__

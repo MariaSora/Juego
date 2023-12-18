@@ -75,6 +75,10 @@ bool Player::Start() {
 		{
 			portal = (Portal*)pEntity;
 		}
+		else if (pEntity->type == EntityType::MOVINGPLATFORM)
+		{
+			movingplatform = (MovingPlatform*)pEntity;
+		}
 	}
 
 	return true;
@@ -142,7 +146,7 @@ bool Player::Update(float dt)
 			vel = b2Vec2((-speed / 2) * dt, pbody->body->GetLinearVelocity().y);
 			currentAnimation = &walkAnim;
 			if (inmovplat) {
-				moving--;
+				moving.x--;
 			}
 		}
 
@@ -151,7 +155,7 @@ bool Player::Update(float dt)
 			vel = b2Vec2((speed / 2) * dt, pbody->body->GetLinearVelocity().y);
 			currentAnimation = &walkAnim;
 			if (inmovplat) {
-				moving++;
+				moving.x++;
 			}
 		}
 
@@ -183,14 +187,14 @@ bool Player::Update(float dt)
 				pbody->body->ApplyLinearImpulse(b2Vec2(0, GRAVITY_Y * 0.1), pbody->body->GetWorldCenter(), true);
 				saltando = true;
 				inmovplat = false;
-				moving = 0;
+				moving.x = 0;
 			}
 		}
 
 		if (inmovplat) {
-			b2Vec2 algo1 = movingplatform->pbody->body->GetTransform().p;
-			algo1.x += PIXEL_TO_METERS(moving);
-			pbody->body->SetTransform(algo1, 0);
+			b2Vec2 platformPos = movingplatform->pbody->body->GetTransform().p;
+			platformPos.x += PIXEL_TO_METERS(moving.x);
+			pbody->body->SetTransform(platformPos, 0);
 			if (pbody->body->GetLinearVelocity().y > 0) {
 				inmovplat = false;
 			}
@@ -256,15 +260,20 @@ bool Player::Update(float dt)
 		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
 	}
 
-
-	if (portal != NULL) 
+	//teleport to final position
+	if (portal != NULL)
 	{
 		if (portal->touchingPortal == true) 
 		{	
 			pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->positionportal2.x), PIXEL_TO_METERS(app->positionportal2.y)), 0);
 			app->render->camera.x = app->positionportal2.x;
+			portal->closePortal.Reset();
 		}
 	}
+
+	portal->closePortal.Update();
+	SDL_Rect rect2 = portal->closePortal.GetCurrentFrame();
+	app->render->DrawTexture(portal->texture, app->positionportal2.x, app->positionportal2.y, &rect2, 1, SDL_FLIP_NONE);
 
 	return true;
 }

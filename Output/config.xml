@@ -25,9 +25,9 @@
     <map path="Assets/Maps/" name="Map.tmx"/>
 
 	<transparentWall x="2560" y="225" type="true" texturepath="Assets/Textures/wall.png"/>
-	<portal x="2565" y="225" x2="3080" y2="133" type="false" texturepath="Assets/Textures/PurplePortal.png">
+	<portal x="2565" y="225" x2="3080" y2="200" type="false" texturepath="Assets/Textures/PurplePortal.png">
 		 <animations>
-			 <turn loop ="true" speed="0.1">
+			 <idlePortal loop ="true" speed="0.2">
 				 <anim x="24" y="15" width="28" height="42"/>
 				 <anim x="85" y="16" width="28" height="42"/>
 				 <anim x="146" y="17" width="28" height="42"/>
@@ -36,7 +36,27 @@
 				 <anim x="330" y="16" width="28" height="42"/>
 				 <anim x="391" y="17" width="28" height="42"/>
 				 <anim x="453" y="16" width="28" height="42"/>
-			  </turn>
+			  </idlePortal>
+			 
+			 <closePortal loop ="false" speed="0.1">
+				 <anim x="19" y="91" width="28" height="42"/>
+				 <anim x="77" y="91" width="28" height="42"/>
+				 <anim x="139" y="89" width="28" height="42"/>
+				 <anim x="205" y="86" width="28" height="42"/>
+				 <anim x="269" y="77" width="28" height="42"/>
+				 <anim x="330" y="74" width="28" height="42"/>
+				 <anim x="391" y="76" width="28" height="42"/>
+				 <anim x="453" y="75" width="28" height="42"/>
+				 <anim x="24" y="139" width="28" height="42"/>
+				 <anim x="82" y="148" width="28" height="42"/>
+				 <anim x="139" y="151" width="28" height="42"/>
+				 <anim x="200" y="153" width="28" height="42"/>
+				 <anim x="257" y="153" width="28" height="42"/>
+				 <anim x="257" y="153" width="28" height="42"/>
+				 <anim x="345" y="153" width="28" height="42"/>
+				 <anim x="380" y="153" width="28" height="42"/>
+			 </closePortal>
+			 
 		  </animations>
 	</portal>
 	  
@@ -84,13 +104,13 @@
 		  </climbIdleAnim>
 		  
 		  <attackAnim loop ="true" speed ="0.25">
-			  <anim x ="6" y ="44" width ="20" height ="29"/>
-			  <anim x ="39" y ="44" width ="20" height ="29"/>
-			  <anim x ="70" y ="44" width ="25" height ="29"/>
-			  <anim x ="103" y ="44" width ="20" height ="29"/>
-			  <anim x ="103" y ="85" width ="25" height ="29"/>
-			  <anim x ="136" y ="84" width ="21" height ="29"/>
-			  <anim x ="166" y ="84" width ="20" height ="29"/>
+			  <anim x ="7" y ="83" width ="20" height ="29"/>
+			  <anim x ="38" y ="83" width ="20" height ="29"/>
+			  <anim x ="70" y ="83" width ="27" height ="29"/>
+			  <anim x ="103" y ="83" width ="20" height ="29"/>
+			  <anim x ="103" y ="83" width ="26" height ="29"/>
+			  <anim x ="136" y ="83" width ="23" height ="29"/>
+			  <anim x ="166" y ="83" width ="20" height ="29"/>
 		  </attackAnim>
 
 			<dieAnim loop ="false" speed ="0.2">
