@@ -216,15 +216,15 @@ bool Player::Update(float dt)
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
-			if (dieAnim.HasFinished()) {
+			if (dieAnim.HasFinished()) {	
 				dieAnim.Reset();
 				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 				app->vida = parameters.attribute("vida").as_int(); 
-				die = false;
-				app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
-				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;
+	/*			app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
+				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;*/
 				app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
 				app->scene->walkingEnemy->position.y = app->scene->walkingEnemy->initialPos.y;
+				die = false;
 			}
 		}
 

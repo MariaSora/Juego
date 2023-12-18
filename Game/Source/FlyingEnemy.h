@@ -47,6 +47,7 @@ public:
 	int distance;
 	bool dir = false;
 	bool type = true;
+	bool die = false;
 	int temp;
 
 private: 
@@ -54,7 +55,7 @@ private:
 	iPoint playerPos; 
 	const DynArray<iPoint>* path; 
 
-	bool die = false;
+
 };
 
 #endif // __FLYINGENEMY_H__

@@ -92,7 +92,6 @@ public:
 	int vida;
 	bool statewalkingenemy = true;
 	int livewalkingenemy;
-	int liveflyingenemy = 5;
 
 	iPoint positionportal2; 
 
