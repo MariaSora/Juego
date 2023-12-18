@@ -53,7 +53,7 @@ bool FlyingEnemy::Update(float dt)
 	if (app->scene->player->die) {
 			position.x = initialPos.x;
 			position.y = initialPos.y;
-			app->scene->flyingEnemy->die = false;
+			die = false;
 	}
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 	if(!die) {
@@ -195,7 +195,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
-		die = true; 
+		die = true;
 		LOG("Collision PLAYER");
 		break;
 	case ColliderType::ITEM:
