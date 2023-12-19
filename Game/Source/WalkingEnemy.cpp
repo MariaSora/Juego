@@ -129,13 +129,12 @@ bool WalkingEnemy::Update(float dt)
 
 	//walkingenemy damaged
 	if (app->WEDamaged) {
-		/*currentAnimation = &damageAnim;
+		currentAnimation = &damageAnim;
 		app->livewalkingenemy--;
 		if (damageAnim.HasFinished()) {
 			currentAnimation = &idleAnim;
 			app->WEDamaged = false;
-		}*/
-		app->WalkingEnemyAlive = false;
+		}
 	}
 	//walkingenemy dies
 	if (app->livewalkingenemy == 0 || position.y >= 630) {
