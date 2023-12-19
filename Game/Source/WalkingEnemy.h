@@ -39,6 +39,10 @@ public:
 	const char* drawPath;
 	PhysBody* pbody;
 
+	bool isFacingRight;
+	bool isFacingLeft; 
+	bool saltando = false; 
+
 	SDL_Texture* walkingEnemy = nullptr;
 
 	Animation* currentAnimation = nullptr;

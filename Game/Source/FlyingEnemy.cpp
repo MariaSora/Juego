@@ -50,12 +50,6 @@ bool FlyingEnemy::Start() {
 
 bool FlyingEnemy::Update(float dt)
 {		
-	if (app->scene->player->die) {
-			position.x = initialPos.x;
-			position.y = initialPos.y;
-			app->FlyingEnemyAlive = true;
-			//app->scene->flyingEnemy->die = false;
-		}
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 	if(app->FlyingEnemyAlive) {
 
@@ -99,9 +93,12 @@ bool FlyingEnemy::Update(float dt)
 		currentAnimation = &deathAnim;
 		app->attack = false;
 		position.y += 2;
-		vel += { 0,0.5f };
-		if (deathAnim.HasFinished()) SDL_DestroyTexture(texture);
+		vel = { 0,0 };
 		pbody->body->SetLinearVelocity(vel);
+		/*vel += { 0,0.5f };*/
+		if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();/*SDL_DestroyTexture(texture);*/
+		//pbody->body->SetLinearVelocity(vel);
+	
 		//falta destruir la textura + collider
 	}
 

@@ -56,7 +56,6 @@ bool WalkingEnemy::Start() {
 bool WalkingEnemy::Update(float dt)
 {
 	pbody->body->SetGravityScale(10);
-	currentAnimation = &idleAnim;
 
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 
@@ -81,57 +80,46 @@ bool WalkingEnemy::Update(float dt)
 		Attack();
 	}
 	else {
-		/*	app->attack = false;*/
 		vel = { 0,0 };
 		pbody->body->SetLinearVelocity(vel);
 	}
 
-	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
-
-
 	//app->render->DrawTexture(texture, position.x, position.y);
-	if (!app->statewalkingenemy) {
-		idleAnim.Reset();
-		currentAnimation = &attackAnim;
-		if (attackAnim.HasFinished()) {
-			for (b2ContactEdge* ce = pbody->body->GetContactList(); ce; ce = ce->next) {
-				b2Contact* c = ce->contact;
-				if (c->GetFixtureA()->GetBody() == app->scene->player->pbody->body) {
-					if (app->godmode == false) {
-						LOG("Player contact");
-						app->vida--;
-						app->scene->player->damage = true;
-					}
-				}
-			}
-			app->statewalkingenemy = true;
-		}
-	}
-	if (app->statewalkingenemy) {
-		attackAnim.Reset();
-		currentAnimation = &idleAnim;
-		counter++;
-		if (counter == 50) {
-			counter = 0;
-			app->statewalkingenemy = false;
-		}
-	}
-
 	if (type)
 	{
-		currentAnimation = &jumpAnim;
-		if (jumpAnim.HasFinished()) {
-			jumpAnim.Reset();
-		}
-		
+		if (playerPos.x > enemyPos.x) isFacingRight = true;
+		if (playerPos.x < enemyPos.x) isFacingRight = false;
+		currentAnimation = &jumpAnim;	
+		//app->audio->PlayFx(jumpFx);
+		if (jumpAnim.HasFinished()) jumpAnim.Reset(); 
 	}
 	else
 	{
-		currentAnimation = &idleAnim;
-		if (idleAnim.HasFinished()) {
+		if (!app->statewalkingenemy) {
 			idleAnim.Reset();
+			currentAnimation = &attackAnim;
+			if (attackAnim.HasFinished()) {
+				for (b2ContactEdge* ce = pbody->body->GetContactList(); ce; ce = ce->next) {
+					b2Contact* c = ce->contact;
+					if (c->GetFixtureA()->GetBody() == app->scene->player->pbody->body) {
+						if (app->godmode == false) {
+							LOG("Player contact");
+							app->vida--;
+							app->scene->player->damage = true;
+						}
+					}
+				}
+				app->statewalkingenemy = true;
+			}
+		}
+		else {
+			attackAnim.Reset();
+			currentAnimation = &idleAnim;
+			counter++;
+			if (counter == 50) {
+				counter = 0;
+				app->statewalkingenemy = false;
+			}
 		}
 	}
 
@@ -145,27 +133,37 @@ bool WalkingEnemy::Update(float dt)
 		}
 	}
 	//walkingenemy dies
-	if (app->livewalkingenemy == 0) {
+	if (app->livewalkingenemy == 0 || position.y >= 630) {
 		LOG("WALKINGENEMY DIES");
 		app->WalkingEnemyAlive = false;
 	}
 		
-	
 	if (!app->WalkingEnemyAlive) {
 		currentAnimation = &deathAnim;
+		vel = { 0,0 };
+		pbody->body->SetLinearVelocity(vel);
 		if (deathAnim.HasFinished()) { 
 			deathAnim.Reset();
 			//currentAnimation = &idleAnim;
-			SDL_DestroyTexture(texture); 
+		/*	SDL_DestroyTexture(texture); */
+			app->map->pathfinding->ClearLastPath();
+			/*app->physics->world->DestroyBody(pbody->body);*/
 			//SDL_DestroyRenderer(this);
 		}
 	}
 
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+
 	currentAnimation->Update(); 
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
-	app->render->DrawTexture(texture, position.x, position.y + 5, &rect);  
 	
-	
+	if (isFacingRight) {
+		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
+	}
+	else {
+		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_NONE);
+	}
 
 	return true;
 }
@@ -193,8 +191,6 @@ void WalkingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iP
 void WalkingEnemy::Attack()
 {
 	MoveToPlayer(enemyPos, 1.0f, path);
-	/*app->attack = true;*/
-
 }
 
 bool WalkingEnemy::CleanUp()

@@ -46,30 +46,24 @@ bool Particles::Update(float dt)
 	if (app->attack) {
 		pbody->body->GetFixtureList()[0].SetSensor(false);
 		currentAnimation = &shootAnim;
-		// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
-
-
+	
 		if (!alive) {
 			//pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->scene->flyingEnemy->position.x), PIXEL_TO_METERS(app->scene->flyingEnemy->position.y)), 0);
-			position.y = app->scene->flyingEnemy->position.y + 20;
-			position.x = app->scene->flyingEnemy->position.x + 10;
+			position.y = app->scene->flyingEnemy->position.y + 25;
+			position.x = app->scene->flyingEnemy->position.x + 20;
 			alive = true;
 		}
 		else position.y++; pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
 
-
 		currentAnimation->Update();
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
-	/*	SDL_UpdateTexture(texture, &rect,);*/
-		////app->render->DrawTexture(texture, position.x + 58, position.y + 50, &rect);
-		////app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
 
 	}
 	else
 	{	
 		pbody->body->GetFixtureList()[0].SetSensor(true);
-		SDL_DestroyTexture(texture); 
+		//SDL_DestroyTexture(texture); 
 	}
 	
 	return true;

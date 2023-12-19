@@ -11,6 +11,8 @@
 #include "Point.h"
 #include "Physics.h"
 #include "Map.h"
+#include "EntityManager.h"
+#include "Entity.h"
 
 
 Player::Player() : Entity(EntityType::PLAYER)
@@ -229,11 +231,18 @@ bool Player::Update(float dt)
 				dieAnim.Reset();
 				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
 				app->vida = parameters.attribute("vida").as_int(); 
-	/*			app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
-				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;*/
-				app->WalkingEnemyAlive = true; app->FlyingEnemyAlive = true;
-				app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
+				app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
+				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;	
+				/*app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
 				app->scene->walkingEnemy->position.y = app->scene->walkingEnemy->initialPos.y;
+				*/
+				if (!app->FlyingEnemyAlive) app->FlyingEnemyAlive = true;
+				if (!app->WalkingEnemyAlive) {
+					/*app->scene->walkingEnemy = new WalkingEnemy(); 
+					app->scene->walkingEnemy->Awake();
+					app->scene->walkingEnemy->Start();*/ 
+					app->WalkingEnemyAlive = true;
+				}
 				die = false;
 			}
 		}

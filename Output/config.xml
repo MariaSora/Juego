@@ -251,7 +251,7 @@
 
 		  </animations>
 	  </walkingEnemy>
-  <walkingEnemy x="805" y="170" vida ="3" type="false" texturepath="Assets/Textures/Purple_Slime.png">
+  <walkingEnemy x="2650" y="50" vida ="3" type="false" texturepath="Assets/Textures/Purple_Slime.png">
 		  <animations>
 
 			  <idleAnim loop ="true" speed ="0.2">
