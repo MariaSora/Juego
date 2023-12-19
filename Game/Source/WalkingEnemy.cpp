@@ -75,15 +75,20 @@ bool WalkingEnemy::Update(float dt)
 			}
 		}
 	}
-
-	if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
-		Attack();
+	if (app->scene->player->touchingP) {
+		if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
+			Attack();
+		}
+		else {
+			vel = { 0,0 };
+			pbody->body->SetLinearVelocity(vel);
+		}
 	}
 	else {
 		vel = { 0,0 };
 		pbody->body->SetLinearVelocity(vel);
 	}
-
+	
 	//app->render->DrawTexture(texture, position.x, position.y);
 	if (type)
 	{

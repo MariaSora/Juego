@@ -95,10 +95,10 @@ bool Scene::Start()
 	app->win->GetWindowSize(windowW, windowH);
 
 	//Get the size of the texture
-	app->tex->GetSize(img, texW, texH);
+	//app->tex->GetSize(img, texW, texH);
 
-	textPosX = (float)windowW / 2 - (float)texW / 2;
-	textPosY = (float)windowH / 2 - (float)texH / 2;
+	//textPosX = (float)windowW / 2 - (float)texW / 2;
+	//textPosY = (float)windowH / 2 - (float)texH / 2;
 
 	//SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
 	//	app->map->mapData.width,
