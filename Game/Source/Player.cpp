@@ -103,7 +103,7 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		app->godmode = !app->godmode;
-		//app->audio->PlayMusic("Assets/Audio/Music/godmode.ogg");
+		app->audio->PlayMusic("Assets/Audio/Music/godmode.ogg");
 		if (app->godmode) {
 			LOG("GODMODE ACTIVATED");
 		}
