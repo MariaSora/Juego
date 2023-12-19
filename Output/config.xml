@@ -212,9 +212,11 @@
 			  </walkAnim>
 
 			  <deathAnim loop ="false" speed ="0.2">
-				  <anim x ="48" y ="72" width ="14" height ="12"/>
-				  <anim x ="64" y ="72" width ="14" height ="12"/>
-				  <anim x ="80" y ="72" width ="14" height ="12"/>
+				  <anim x ="49" y ="53" width ="14" height ="16"/>
+				  <anim x ="65" y ="53" width ="14" height ="16"/>
+				  <anim x ="81" y ="53" width ="14" height ="16"/>
+				  <anim x ="97" y ="53" width ="14" height ="16"/>
+				  <anim x ="113" y ="53" width ="14" height ="16"/>
 				 
 			  </deathAnim>
 
