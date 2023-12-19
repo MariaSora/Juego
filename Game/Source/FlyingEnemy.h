@@ -49,6 +49,9 @@ public:
 	bool type = true;
 	int temp;
 
+	//audios Fx
+	int enemyShotFx;
+
 private: 
 	iPoint enemyPos; 
 	iPoint playerPos; 

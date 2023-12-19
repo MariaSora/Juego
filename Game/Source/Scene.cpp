@@ -52,7 +52,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		particles->parameters = config.child("particles");
 	}
 
-
 	for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
 		MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
 		movingplatform->parameters = WalkingEnemyNode;
@@ -79,6 +78,7 @@ bool Scene::Awake(pugi::xml_node& config)
 		app->map->path = config.child("map").attribute("path").as_string();
 	}
 
+
 	return ret;
 }
 
@@ -89,7 +89,7 @@ bool Scene::Start()
 	//img = app->tex->Load("Assets/Textures/test.png");
 	
 	//Music is commented so that you can add your own music
-	//app->audio->PlayMusic("Assets/Audio/Music/music_spy.ogg");
+	app->audio->PlayMusic("Assets/Audio/Music/backgroundMusic.ogg");
 
 	//Get the size of the window
 	app->win->GetWindowSize(windowW, windowH);

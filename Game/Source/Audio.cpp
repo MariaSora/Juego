@@ -55,6 +55,15 @@ bool Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	//Upload Fx files
+	deathFx = app->audio->LoadFx("Assets/Audio/Fx/playerDeath.ogg");
+	attackFx = app->audio->LoadFx("Assets/Audio/Fx/playerHits.ogg");
+	jumpFx = app->audio->LoadFx("Assets/Audio/Fx/playerJump.ogg");
+	teleportFx = app->audio->LoadFx("Assets/Audio/Fx/portal.ogg");
+	enemyShot = app->audio->LoadFx("Assets/Audio/Fx/enemyShot.ogg");
+	enemyDeath = app->audio->LoadFx("Assets/Audio/Fx/enemyDeath.ogg");
+
+
 	return ret;
 }
 

@@ -39,10 +39,6 @@ public:
 	SDL_Texture* texture = NULL;
 	PhysBody* pbody;
 
-	//audios Fx
-	int pickCoinFxId;
-	int attackFx, jumpFx, killFx;
-
 	bool saltando = false;
 	bool die = false;
 	bool climb = false; 

@@ -71,6 +71,7 @@ bool FlyingEnemy::Update(float dt)
 				{
 					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 					app->render->DrawTexture(texture2, pos.x, pos.y);
+					app->audio->PlayFx(app->audio->enemyShot);
 				}
 			}
 		}
@@ -180,12 +181,10 @@ void FlyingEnemy::Attack()
 {
 	MoveToPlayer(enemyPos, 1.0f, path);
 	app->attack = true; 
-
 }
 
 bool FlyingEnemy::CleanUp()
-{
-	
+{	
 	return true;
 }
 

@@ -101,6 +101,11 @@ public:
 	bool attack = false;
 	bool WEDamaged = false;
 
+	// xml_document to store the config file and
+	// xml_node(s) to read specific branches of the xml
+	pugi::xml_document configFile;
+	pugi::xml_node configNode;
+
 private:
 
 	int argc;
@@ -110,10 +115,6 @@ private:
 
 	List<Module *> modules;
 
-	// xml_document to store the config file and
-	// xml_node(s) to read specific branches of the xml
-	pugi::xml_document configFile;
-	pugi::xml_node configNode;
 
 	uint frames;
 	float dt;
