@@ -90,7 +90,6 @@ bool WalkingEnemy::Update(float dt)
 		if (playerPos.x > enemyPos.x) isFacingRight = true;
 		if (playerPos.x < enemyPos.x) isFacingRight = false;
 		currentAnimation = &jumpAnim;	
-		//app->audio->PlayFx(jumpFx);
 		if (jumpAnim.HasFinished()) jumpAnim.Reset(); 
 	}
 	else

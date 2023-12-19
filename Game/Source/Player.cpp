@@ -177,7 +177,7 @@ bool Player::Update(float dt)
 
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			if (!saltando) {
-				//app->audio->PlayFx(app->audio->jumpFx);
+				app->audio->PlayFx(app->audio->jumpFx);
 				if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) isFacingRight = true;
 				if (app->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN) isFacingRight = false;
 
@@ -207,7 +207,7 @@ bool Player::Update(float dt)
 		//ataque personaje
 		
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
-			//app->audio->PlayFx(app->audio->attackFx); 
+			app->audio->PlayFx(app->audio->attackFx); 
 			currentAnimation = &attackAnim;
 			if (On) {
 				app->WEDamaged = true;
@@ -301,12 +301,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::FLYINGENEMY:
-		//app->audio->PlayFx(app->audio->enemyDeath);
+		app->audio->PlayFx(app->audio->enemyDeath);
 		LOG("Collision FLYINGENEMY");
 		/*die = true;*/
 		break;
 	case ColliderType::WALKINGENEMY:
-	/*	app->audio->PlayFx(killFx);*/
 		LOG("Collision WALKINGENEMY");
 		if (app->statewalkingenemy) {
 			On = true;
@@ -318,7 +317,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
-		//app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::WALL:
 
@@ -328,7 +326,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		} 
 		break;
 	case ColliderType::PORTAL:
-		//app->audio->PlayFx(app->audio->teleportFx);
+		app->audio->PlayFx(app->audio->teleportFx);
 		if (portal != NULL)
 		{
 			portal->touchingPortal = true;
