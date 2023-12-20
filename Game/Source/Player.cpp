@@ -212,7 +212,11 @@ bool Player::Update(float dt)
 		}
 		if (anim) {
 			currentAnimation = &attackAnim;
-			if (attackAnim.HasFinished()) anim = false; atk = true;
+			atk = true;
+			if (attackAnim.HasFinished()) {
+				anim = false; 
+				atk = false;
+			}
 		}
 	}
 
