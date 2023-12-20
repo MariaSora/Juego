@@ -101,11 +101,15 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		app->godmode = !app->godmode;
-		app->audio->PlayMusic("Assets/Audio/Music/godmode.ogg");
-		if (app->godmode) {
+		if (!app->godmode) {
+			app->audio->PlayMusic("Assets/Audio/Music/backgroundMusic.ogg");
+			LOG("GODMODE DEACTIVATED");
+		}
+
+		else if (app->godmode) {
+			app->audio->PlayMusic("Assets/Audio/Music/godmode.ogg");
 			LOG("GODMODE ACTIVATED");
 		}
-		else LOG("GODMODE DEACTIVATED");
 	}
 
 	if (app->godmode) {
@@ -206,7 +210,7 @@ bool Player::Update(float dt)
 		//ataque personaje
 		
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) {
-			app->audio->PlayFx(app->audio->attackFx); 
+			app->audio->PlayFx(app->audio->attackFx);
 			anim = true; 
 			attackAnim.Reset();
 		}
@@ -281,6 +285,7 @@ bool Player::Update(float dt)
 			pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->positionportal2.x), PIXEL_TO_METERS(app->positionportal2.y)), 0);
 			app->render->camera.x = app->positionportal2.x;
 			portal->closePortal.Reset();
+			app->audio->PlayFx(app->audio->winFx);
 		}
 	}
 
@@ -326,10 +331,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		} 
 		break;
 	case ColliderType::PORTAL:
-		app->audio->PlayFx(app->audio->teleportFx);
 		if (portal != NULL)
 		{
 			portal->touchingPortal = true;
+			app->audio->PlayFx(app->audio->teleportFx);
 		}
 		break;
 	case ColliderType::TUTORIAL:

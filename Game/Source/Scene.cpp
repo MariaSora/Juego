@@ -120,7 +120,6 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-
 	if (app->godmode) {
 		float camSpeed = 1;
 		if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -142,7 +141,6 @@ bool Scene::Update(float dt)
 			app->WalkingEnemyAlive = true;
 			app->FlyingEnemyAlive = true;
 			app->SecondFlyingEnemyAlive = true;
-
 		}
 			
 	}

@@ -34,7 +34,7 @@ public:
 
 
 	//audios Fx
-	int attackFx, jumpFx, deathFx, teleportFx, enemyShot, enemyDeath;
+	int attackFx, jumpFx, deathFx, teleportFx, enemyShot, enemyDeath, winFx;
 
 private:
 

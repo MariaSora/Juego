@@ -62,6 +62,7 @@ bool Audio::Awake(pugi::xml_node& config)
 	teleportFx = app->audio->LoadFx("Assets/Audio/Fx/portal.ogg");
 	enemyShot = app->audio->LoadFx("Assets/Audio/Fx/enemyShot.ogg");
 	enemyDeath = app->audio->LoadFx("Assets/Audio/Fx/enemyDeath.ogg");
+	winFx = app->audio->LoadFx("Assets/Audio/Fx/winSound.ogg");
 
 
 	return ret;
