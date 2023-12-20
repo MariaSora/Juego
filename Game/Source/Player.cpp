@@ -208,12 +208,10 @@ bool Player::Update(float dt)
 			app->audio->PlayFx(app->audio->attackFx); 
 			anim = true; 
 			attackAnim.Reset();
-			if (collided) app->WalkingEnemyAlive2 = false;
-			if (collided && app->statewalkingenemy) app->WalkingEnemyAlive = false;
 		}
 		if (anim) {
 			currentAnimation = &attackAnim;
-			if (attackAnim.HasFinished()) anim = false; 
+			if (attackAnim.HasFinished()) anim = false; atk = true;
 		}
 	}
 
@@ -311,7 +309,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::WALKINGENEMY:
 		LOG("Collision WALKINGENEMY");
-		collided = true; 
 		break;
 	case ColliderType::PARTICLES: 
 		LOG("Collision PARTICLES");

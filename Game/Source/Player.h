@@ -49,7 +49,7 @@ public:
 	int progreso_salto = 0;
 	int duracion_salto = 320;
 
-
+	bool atk = false;
 	SDL_Texture* player = nullptr; 
 
 	Animation* currentAnimation = nullptr; 
@@ -67,7 +67,7 @@ private:
 	bool inmovplat = false;
 	iPoint moving = { 0,0 };
 
-	bool collided = false;
+
 	bool anim = false; 
 	transparentWall* wall;
 	Portal* portal;

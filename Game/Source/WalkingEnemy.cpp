@@ -107,9 +107,8 @@ bool WalkingEnemy::Update(float dt)
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
 			if (deathAnim.HasFinished()) {
-				deathAnim.Reset();
 				//currentAnimation = &idleAnim;
-			/*	SDL_DestroyTexture(texture); */
+				SDL_DestroyTexture(texture); 
 				app->map->pathfinding->ClearLastPath();
 				/*app->physics->world->DestroyBody(pbody->body);*/
 				//SDL_DestroyRenderer(this);
@@ -181,9 +180,8 @@ bool WalkingEnemy::Update(float dt)
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
 			if (deathAnim.HasFinished()) {
-				deathAnim.Reset();
 				//currentAnimation = &idleAnim;
-			/*	SDL_DestroyTexture(texture); */
+				SDL_DestroyTexture(texture); 
 				app->map->pathfinding->ClearLastPath();
 				/*app->physics->world->DestroyBody(pbody->body);*/
 				//SDL_DestroyRenderer(this);
@@ -252,6 +250,11 @@ void WalkingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
+		if (app->scene->player->atk = true) {
+			if (type) app->WalkingEnemyAlive2 = false;
+			if (!type) 	app->WalkingEnemyAlive = false;
+		}
+		
 		break;
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
