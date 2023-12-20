@@ -99,7 +99,6 @@ public:
 	iPoint positionportal2; 
 
 	bool godmode = false;
-	bool attack = false;
 	bool WEDamaged = false;
 
 	// xml_document to store the config file and

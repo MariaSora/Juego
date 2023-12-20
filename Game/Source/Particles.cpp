@@ -19,9 +19,19 @@ Particles::~Particles() {}
 
 bool Particles::Awake() {
 
-	position.x = parameters .attribute("x").as_int();
-	position.y = parameters.attribute("y").as_int();
-	texturePath = parameters.attribute("texturepath").as_string();
+	type = parameters.attribute("type").as_bool();
+	if (type) {
+		position.x = parameters.attribute("x").as_int();
+		position.y = parameters.attribute("y").as_int();
+		alive = parameters.attribute("alive").as_bool();
+		texturePath = parameters.attribute("texturepath").as_string();
+	}
+	if (!type) {
+		position2.x = parameters.attribute("x").as_int();
+		position2.y = parameters.attribute("y").as_int();
+		alive2 = parameters.attribute("alive").as_bool();
+		texturePath2 = parameters.attribute("texturepath").as_string();
+	}
 
 	shootAnim.LoadAnimation("particles", "shootAnim");
 
@@ -32,8 +42,9 @@ bool Particles::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
+	texture2 = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangle(position.x, position.y, 8, 12, bodyType::DYNAMIC);
-	pbody2 = app->physics->CreateRectangle(position.x, position.y, 8, 12, bodyType::DYNAMIC);
+	pbody2 = app->physics->CreateRectangle(position2.x, position2.y, 8, 12, bodyType::DYNAMIC);
 	pbody->listener = this; 
 	pbody2->listener = this; 
 	pbody->ctype = ColliderType::PARTICLES;
@@ -44,50 +55,43 @@ bool Particles::Start() {
 
 bool Particles::Update(float dt)
 {
-	///*pbody->body->SetGravityScale(0);
-
-	if (app->attack) {
-		currentAnimation = &shootAnim;
-	
-		if (!alive) {
-			//pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->scene->flyingEnemy->position.x), PIXEL_TO_METERS(app->scene->flyingEnemy->position.y)), 0);
-			if (app->scene->flyingEnemy->type) {
+	currentAnimation = &shootAnim;
+	if (attack) {
+		if (type) {
+			if (!alive) {
 				pbody->body->GetFixtureList()[0].SetSensor(true);
 				position.y = app->scene->flyingEnemy->position.y + 25;
 				position.x = app->scene->flyingEnemy->position.x + 20;
+
+				alive = true;
 			}
-			if (!app->scene->flyingEnemy->type) {
-				pbody2->body->GetFixtureList()[0].SetSensor(true);
-				position2.y = app->scene->flyingEnemy->position2.y + 25;
-				position2.x = app->scene->flyingEnemy->position2.x + 20;
-			}
-			
-			alive = true;
-		}
-		else {
-			if (app->scene->flyingEnemy->type) {
+			else {
 				pbody->body->GetFixtureList()[0].SetSensor(false);
 				position.y++;
 				pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
 			}
-			if (!app->scene->flyingEnemy->type) {
+			SDL_Rect rect = currentAnimation->GetCurrentFrame();
+			app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
+		}
+		else{
+			if (!alive2) {
+				pbody2->body->GetFixtureList()[0].SetSensor(true);
+				position2.y = app->scene->flyingEnemy->position2.y + 25;
+				position2.x = app->scene->flyingEnemy->position2.x + 20;
+
+				alive2 = true;
+			}
+			else {
 				pbody2->body->GetFixtureList()[0].SetSensor(false);
 				position2.y++;
 				pbody2->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position2.x), PIXEL_TO_METERS(position2.y)), 0);
 			}
-		}
-		if (app->scene->flyingEnemy->type) {
-			currentAnimation->Update();
 			SDL_Rect rect = currentAnimation->GetCurrentFrame();
-			app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
+			app->render->DrawTexture(texture2, position2.x - 5, position2.y - 10, &rect);
 		}
-		if (!app->scene->flyingEnemy->type) {
 			currentAnimation->Update();
-			SDL_Rect rect = currentAnimation->GetCurrentFrame();
-			app->render->DrawTexture(texture, position2.x - 5, position2.y - 10, &rect);
-		}
-		
 	}
+
 	
 	return true;
 }
@@ -104,6 +108,7 @@ void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLAYER:
 		LOG("PARTICLES COLLIDE WITH PLAYER");
 		alive = false; 
+		alive2 = false; 
 		if (app->godmode == false) {
 			//app->vida--;
 			app->scene->player->damage = true;
@@ -112,10 +117,12 @@ void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
 		alive = false;
+		alive2 = false;
 		break; 
 	case ColliderType::WALKINGENEMY:
 		LOG("Collision WALKINGENEMY");
 		alive = false;
+		alive2 = false;
 		break;
 	}
 }

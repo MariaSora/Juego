@@ -63,6 +63,7 @@ bool FlyingEnemy::Start() {
 bool FlyingEnemy::Update(float dt)
 {		
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
+	b2Vec2 vel2 = pbody2->body->GetLinearVelocity();
 	
 	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 
@@ -90,7 +91,7 @@ bool FlyingEnemy::Update(float dt)
 				Attack();
 			}
 			else {
-				app->attack = false;
+				app->scene->particles->attack = false;
 				vel = { 0,0 };
 				pbody->body->SetLinearVelocity(vel);
 			}
@@ -101,7 +102,7 @@ bool FlyingEnemy::Update(float dt)
 		if(!app->FlyingEnemyAlive) {
 			LOG("FLYINGENEMY DIES");
 			currentAnimation = &deathAnim;
-			app->attack = false;
+			app->scene->particles->attack = false;
 			position.y += 2;
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
@@ -135,9 +136,9 @@ bool FlyingEnemy::Update(float dt)
 				Attack();
 			}
 			else {
-				app->attack = false;
+				app->scene->particles->attack = false;
 				vel = { 0,0 };
-				pbody->body->SetLinearVelocity(vel);
+				pbody2->body->SetLinearVelocity(vel);
 			}
 
 			position2.x = METERS_TO_PIXELS(pbody2->body->GetTransform().p.x) - 16;
@@ -146,27 +147,31 @@ bool FlyingEnemy::Update(float dt)
 		if (!app->SecondFlyingEnemyAlive) {
 			LOG("FLYINGENEMY DIES");
 			currentAnimation = &deathAnim;
-			app->attack = false;
+			app->scene->particles->attack = false;
 			position2.y += 2;
 			vel = { 0,0 };
 			pbody2->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();
+			if (deathAnim.HasFinished()) app->map->pathfinding4->ClearLastPath();
 
 		}
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		app->render->DrawTexture(texture, position2.x + 10, position2.y + 10, &rect);
 	}
-	
 
-		currentAnimation->Update();
-	
+	currentAnimation->Update();
 	
 	return true;
 }
 
+void FlyingEnemy::Attack()
+{	
+	MoveToPlayer(enemyPos, 1.0f, path);
+	app->scene->particles->attack = true;
+}
 void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path)
 {
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
+	b2Vec2 vel2 = pbody2->body->GetLinearVelocity();
 
 	if (path->Count() > 0)
 	{
@@ -178,7 +183,7 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 
 			vel = { dx * speed, dy * speed };
 
-			enemyPos = nextNode;    
+			enemyPos = nextNode;
 			pbody->body->SetLinearVelocity(vel);
 		}
 		if (app->map->pathfinding4->Move(enemyPos, nextNode))
@@ -193,12 +198,6 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 		}
 	}
 
-}
-
-void FlyingEnemy::Attack()
-{
-	MoveToPlayer(enemyPos, 1.0f, path);
-	app->attack = true; 
 }
 
 bool FlyingEnemy::CleanUp()

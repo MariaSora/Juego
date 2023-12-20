@@ -28,15 +28,20 @@ public:
 	float speed = 0.2f;
 	SDL_Texture* texture;
 	const char* texturePath;
+	SDL_Texture* texture2;
+	const char* texturePath2;
 	PhysBody* pbody;
 	PhysBody* pbody2;
 
-	SDL_Texture* flyingEnemy = nullptr; 
+	bool attack = true;
 
 	Animation* currentAnimation = nullptr;
 	Animation shootAnim; 
 
-	bool alive = true; 
+private:
+	bool alive;
+	bool alive2;
+	bool type;
 
 };
 
