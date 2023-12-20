@@ -41,6 +41,15 @@ bool WalkingEnemy::Awake() {
 
 bool WalkingEnemy::Start() {
 
+
+
+	
+	initialpos.y = position.y;
+	initialpos.x = position.x;
+
+
+
+
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	texture2 = app->tex->Load(drawPath2);
@@ -48,9 +57,12 @@ bool WalkingEnemy::Start() {
 	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::WALKINGENEMY;
+
+	active = true;
+	app->WalkingEnemyAlive = true;
+	app->WalkingEnemyAlive2 = true;
 	
-	initialPos.y = position.y;
-	initialPos.x = position.x;
+
 	return true;
 }
 
@@ -59,6 +71,9 @@ bool WalkingEnemy::Update(float dt)
 	pbody->body->SetGravityScale(10);
 
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
+
+	if (!active) pbody->body->SetActive(false);
+
 
 	if (playerPos.x > enemyPos.x) isFacingRight = true;
 	if (playerPos.x < enemyPos.x) isFacingRight = false;
@@ -107,6 +122,8 @@ bool WalkingEnemy::Update(float dt)
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
 			if (deathAnim.HasFinished()) {
+				active = false;
+				pbody->body->SetActive(false);
 				//currentAnimation = &idleAnim;
 				SDL_DestroyTexture(texture); 
 				app->map->pathfinding->ClearLastPath();
@@ -180,6 +197,8 @@ bool WalkingEnemy::Update(float dt)
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
 			if (deathAnim.HasFinished()) {
+				pbody->body->SetActive(false);
+				active = false;
 				//currentAnimation = &idleAnim;
 				SDL_DestroyTexture(texture); 
 				app->map->pathfinding->ClearLastPath();
@@ -253,6 +272,7 @@ void WalkingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (app->scene->player->atk = true) {
 			if (type) app->WalkingEnemyAlive2 = false;
 			if (!type) 	app->WalkingEnemyAlive = false;
+			
 		}
 		
 		break;

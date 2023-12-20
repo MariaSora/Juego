@@ -43,6 +43,18 @@ bool FlyingEnemy::Awake() {
 
 bool FlyingEnemy::Start() {
 
+	if (type) {
+		initialpos.y = position.y;
+		initialpos.x = position.x;
+	}
+	if (!type) {
+		initialpos.y = position2.y;
+		initialpos.x = position2.x;
+	}
+	active = true;
+	app->FlyingEnemyAlive = true;
+	app->SecondFlyingEnemyAlive = true;
+
 	//initilize textures
 	texture = app->tex->Load(texturePath);	
 	texture2 = app->tex->Load(drawPath);
@@ -54,8 +66,7 @@ bool FlyingEnemy::Start() {
 	pbody->ctype = ColliderType::FLYINGENEMY;
 	pbody2->ctype = ColliderType::FLYINGENEMY;
 
-	//initialPos.y = position.y;
-	//initialPos.x = position.x;
+
 
 	return true;
 }
@@ -63,7 +74,9 @@ bool FlyingEnemy::Start() {
 bool FlyingEnemy::Update(float dt)
 {		
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
+	b2Vec2 vel2 = pbody2->body->GetLinearVelocity();
 	
+	if (!active) pbody->body->SetActive(false);
 	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 
 	if (type) {
@@ -88,9 +101,10 @@ bool FlyingEnemy::Update(float dt)
 
 			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
 				Attack();
+				app->scene->particles->attack = true;
 			}
 			else {
-				app->attack = false;
+				app->scene->particles->attack = false;
 				vel = { 0,0 };
 				pbody->body->SetLinearVelocity(vel);
 			}
@@ -101,12 +115,14 @@ bool FlyingEnemy::Update(float dt)
 		if(!app->FlyingEnemyAlive) {
 			LOG("FLYINGENEMY DIES");
 			currentAnimation = &deathAnim;
-			app->attack = false;
+			app->scene->particles->attack = false;
 			position.y += 2;
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();
-
+			if (deathAnim.HasFinished()) {
+				app->map->pathfinding->ClearLastPath();
+				pbody->body->SetActive(false);
+			}
 		}
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
@@ -133,11 +149,12 @@ bool FlyingEnemy::Update(float dt)
 
 			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
 				Attack();
+				app->scene->particles->attack2 = true;
 			}
 			else {
-				app->attack = false;
+				app->scene->particles->attack2 = false;
 				vel = { 0,0 };
-				pbody->body->SetLinearVelocity(vel);
+				pbody2->body->SetLinearVelocity(vel);
 			}
 
 			position2.x = METERS_TO_PIXELS(pbody2->body->GetTransform().p.x) - 16;
@@ -146,27 +163,33 @@ bool FlyingEnemy::Update(float dt)
 		if (!app->SecondFlyingEnemyAlive) {
 			LOG("FLYINGENEMY DIES");
 			currentAnimation = &deathAnim;
-			app->attack = false;
+			app->scene->particles->attack2 = false;
 			position2.y += 2;
 			vel = { 0,0 };
 			pbody2->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();
+			if (deathAnim.HasFinished()) { 
+				app->map->pathfinding->ClearLastPath();
+				pbody2->body->SetActive(false);
+			}
 
 		}
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		app->render->DrawTexture(texture, position2.x + 10, position2.y + 10, &rect);
 	}
-	
 
-		currentAnimation->Update();
-	
+	currentAnimation->Update();
 	
 	return true;
 }
 
+void FlyingEnemy::Attack()
+{	
+	MoveToPlayer(enemyPos, 1.0f, path);
+}
 void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path)
 {
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
+	b2Vec2 vel2 = pbody2->body->GetLinearVelocity();
 
 	if (path->Count() > 0)
 	{
@@ -178,7 +201,7 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 
 			vel = { dx * speed, dy * speed };
 
-			enemyPos = nextNode;    
+			enemyPos = nextNode;
 			pbody->body->SetLinearVelocity(vel);
 		}
 		if (app->map->pathfinding4->Move(enemyPos, nextNode))
@@ -195,12 +218,6 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 
 }
 
-void FlyingEnemy::Attack()
-{
-	MoveToPlayer(enemyPos, 1.0f, path);
-	app->attack = true; 
-}
-
 bool FlyingEnemy::CleanUp()
 {	
 	return true;
@@ -212,6 +229,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLAYER:
 		if (type) {
 			app->FlyingEnemyAlive = false;
+			active = false;
 		}
 		if (!type) {
 			app->SecondFlyingEnemyAlive = false;
