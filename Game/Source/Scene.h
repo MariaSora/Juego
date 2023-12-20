@@ -54,6 +54,8 @@ public:
 	FlyingEnemy* flyingEnemy;
 	Player* player;
 	WalkingEnemy* walkingEnemy;
+
+
 };
 
 #endif // __SCENE_H__

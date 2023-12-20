@@ -41,20 +41,20 @@ bool Scene::Awake(pugi::xml_node& config)
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 		player->parameters = config.child("player");
 	}
-	
-	if (config.child("flyingEnemy")) {
-		flyingEnemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY);
-		flyingEnemy->parameters = config.child("flyingEnemy");
-	}
 
 	if (config.child("particles")) {
 		particles = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
 		particles->parameters = config.child("particles");
 	}
 
+	for (pugi::xml_node FlyingEnemyNode = config.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
+		FlyingEnemy* flyingenemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY); 
+		flyingenemy->parameters = FlyingEnemyNode;
+	}
+
 	for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
-		MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
-		movingplatform->parameters = WalkingEnemyNode;
+		WalkingEnemy* walkingenemy = (WalkingEnemy*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
+		walkingenemy->parameters = WalkingEnemyNode;
 	}
 
 	for (pugi::xml_node platformNode = config.child("movingplatform"); platformNode; platformNode = platformNode.next_sibling("movingplatform")) {
@@ -139,11 +139,9 @@ bool Scene::Update(float dt)
 		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) { 
 
 			app->vida = parameters.attribute("vida").as_int(); 
-			app->livewalkingenemy = parameters.attribute("vida").as_int(); 
 			app->WalkingEnemyAlive = true;
-			walkingEnemy->position = walkingEnemy->initialPos;
 			app->FlyingEnemyAlive = true;
-			//app->scene->flyingEnemy->die = false; 
+			app->SecondFlyingEnemyAlive = true;
 
 		}
 			
@@ -204,24 +202,27 @@ bool Scene::LoadState(pugi::xml_node node) {
 
 	player->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(player->position.x, player->position.y)), 0); 
 	
-	walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
-	walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
-	app->livewalkingenemy = node.child("WalkingEnemy").attribute("Vida").as_int();
-	app->WalkingEnemyAlive = node.child("WalkingEnemy").attribute("Alive").as_bool();
+	for (pugi::xml_node WalkingEnemyNode = node.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
 
-	walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
-	
-	flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
-	flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
-	app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
+		walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
+		walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
+		app->WalkingEnemyAlive = node.child("WalkingEnemy").attribute("Alive").as_bool();
 
-	flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
+		walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
+	}
+
+	for (pugi::xml_node FlyingEnemyNode = node.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
+
+		flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
+		flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
+		app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
+
+		flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
+	}
 	
 	return true;
 }
 
-// L14: TODO 8: Create a method to save the state of the renderer
-// using append_child and append_attribute
 bool Scene::SaveState(pugi::xml_node node) {
 
 	//append on node of a new child Camera and add attributtes x,y of the camera position
@@ -232,21 +233,37 @@ bool Scene::SaveState(pugi::xml_node node) {
 
 	player->pbody->body->GetTransform();
 
-	pugi::xml_node camNode1 = node.append_child("WalkingEnemy");
-	camNode1.append_attribute("x").set_value(walkingEnemy->position.x);
-	camNode1.append_attribute("y").set_value(walkingEnemy->position.y);
-	camNode1.append_attribute("Vida").set_value(app->livewalkingenemy);
-	camNode1.append_attribute("Alive").set_value(app->WalkingEnemyAlive);
+	//ListItem<Entity*>* item; 
 
-	walkingEnemy->pbody->body->GetTransform();
+	//for (item = app->entityManager->entities.start; item != NULL; item = item->next)
+	//{
+	//	pugi::xml_node nodes = node.append_child("Entity");
+	//	for (int i = 0; item != NULL; i++) {
+	//		nodes.append_attribute("x").set_value(nodes.p); 
+	//	}
+	//	
 
-	pugi::xml_node camNode2 = node.append_child("FlyingEnemy");
-	camNode2.append_attribute("x").set_value(flyingEnemy->position.x);
-	camNode2.append_attribute("y").set_value(flyingEnemy->position.y);
-	camNode2.append_attribute("Alive").set_value(app->FlyingEnemyAlive);
+	//}
 
-	flyingEnemy->pbody->body->GetTransform();
 
+	for (pugi::xml_node WalkingEnemyNode = node.child("WalkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("WalkingEnemy")) {
+
+		WalkingEnemyNode.append_attribute("x").set_value(walkingEnemy->position.x);
+		WalkingEnemyNode.append_attribute("y").set_value(walkingEnemy->position.y);
+		WalkingEnemyNode.append_attribute("Alive").set_value(app->WalkingEnemyAlive);
+
+		walkingEnemy->pbody->body->GetTransform();
+	}
+
+	for (pugi::xml_node FlyingEnemyNode = node.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
+
+		FlyingEnemyNode.append_attribute("x").set_value(flyingEnemy->position.x); 
+		FlyingEnemyNode.append_attribute("y").set_value(flyingEnemy->position.y); 
+		FlyingEnemyNode.append_attribute("Type").set_value(app->scene->flyingEnemy->type); 
+		FlyingEnemyNode.append_attribute("Alive").set_value(app->FlyingEnemyAlive);
+
+		flyingEnemy->pbody->body->GetTransform();
+	}
 
 	return true;
 }

@@ -24,7 +24,6 @@ bool FlyingEnemy::Awake() {
 	texturePath = parameters.attribute("texturepath").as_string();
 	drawPath = parameters.attribute("path").as_string(); 
 	dir = parameters.attribute("direction").as_bool();
-	//distance = parameters.attribute("distance").as_int();
 	type = parameters.attribute("type").as_bool();
 
 	flyAnim.LoadAnimation("flyingEnemy", "flyAnim");
@@ -51,109 +50,102 @@ bool FlyingEnemy::Start() {
 bool FlyingEnemy::Update(float dt)
 {		
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
-	if(app->FlyingEnemyAlive) {
 
-		/*pbody->body->SetGravityScale(0);*/
-		/*pbody->body->GetFixtureList()[0].SetSensor(true);*/
-		currentAnimation = &flyAnim;
-		// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
+	if (type) {
+		if (app->FlyingEnemyAlive) {
+			currentAnimation = &flyAnim;
 
-		enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
-		playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
+			enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
+			playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 
-		if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
-		{
-			app->map->pathfinding->CreatePath(enemyPos, playerPos);
-			path = app->map->pathfinding->GetLastPath();
-			if (app->physics->debug)
+			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
 			{
-				for (uint i = 0; i < path->Count(); i++)
+				app->map->pathfinding->CreatePath(enemyPos, playerPos);
+				path = app->map->pathfinding->GetLastPath();
+				if (app->physics->debug)
 				{
-					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-					app->render->DrawTexture(texture2, pos.x, pos.y);
-					app->audio->PlayFx(app->audio->enemyShot);
+					for (uint i = 0; i < path->Count(); i++)
+					{
+						iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+						app->render->DrawTexture(texture2, pos.x, pos.y);
+					}
 				}
 			}
-		}
 
-		if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
-			Attack();
+			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
+				Attack();
+			}
+			else {
+				app->attack = false;
+				vel = { 0,0 };
+				pbody->body->SetLinearVelocity(vel);
+			}
+
+			position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+			position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 		}
-		else {
+		if(!app->FlyingEnemyAlive) {
+			LOG("FLYINGENEMY DIES");
+			currentAnimation = &deathAnim;
 			app->attack = false;
+			position.y += 2;
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
+			if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();
+
 		}
-
-		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
-
 	}
-	else {
-		LOG("FLYINGENEMY DIES");
-		currentAnimation = &deathAnim;
-		app->attack = false;
-		position.y += 2;
-		vel = { 0,0 };
-		pbody->body->SetLinearVelocity(vel);
-		/*vel += { 0,0.5f };*/
-		if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();/*SDL_DestroyTexture(texture);*/
-		//pbody->body->SetLinearVelocity(vel);
+	if (!type) {
+		if (app->SecondFlyingEnemyAlive) {
+			currentAnimation = &flyAnim;
+
+			enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
+			playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
+
+			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
+			{
+				app->map->pathfinding->CreatePath(enemyPos, playerPos);
+				path = app->map->pathfinding->GetLastPath();
+				if (app->physics->debug)
+				{
+					for (uint i = 0; i < path->Count(); i++)
+					{
+						iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+						app->render->DrawTexture(texture2, pos.x, pos.y);
+					}
+				}
+			}
+
+			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
+				Attack();
+			}
+			else {
+				app->attack = false;
+				vel = { 0,0 };
+				pbody->body->SetLinearVelocity(vel);
+			}
+
+			position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+			position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+		}
+		if (!app->SecondFlyingEnemyAlive) {
+			LOG("FLYINGENEMY DIES");
+			currentAnimation = &deathAnim;
+			app->attack = false;
+			position.y += 2;
+			vel = { 0,0 };
+			pbody->body->SetLinearVelocity(vel);
+			if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();
+
+		}
+	}
 	
-		//falta destruir la textura + collider
-	}
 
 		currentAnimation->Update();
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
 		
-	//app->render->DrawTexture(texture, position.x + 108, position.y + 50, &rect);
-
-	//pbody->body->ApplyForce(b2Vec2(0.0f, -app->physics->world->GetGravity().y * pbody->body->GetMass()), pbody->body->GetWorldCenter(), true);
-	//position.x++;
-
-	/*if (type)
-	{	
-		app->render->DrawTexture(texture, position.x, position.y, &rect);
-		if (!dir)
-		{
-			position.x++;
-			if (position.x >= initialPos.x + distance)
-			{
-				dir = true;
-			}
-		}
-		else
-		{
-			position.x--;
-			if (position.x <= initialPos.x - distance)
-			{
-			 dir = false;
-			}
-		}
-	}*/
-
-	/*if (!type)
-	{
-		app->render->DrawTexture(texture, position.x, position.y, &rect);
-		if (!dir)
-		{
-			position.y++;
-			if (position.y >= initialPos.y + distance)
-			{
-				dir = true;
-			}
-		}
-		else
-		{
-			position.y--;
-			if (position.y <= initialPos.y - distance)
-			{
-				dir = false;
-			}
-		}
-	}*/
-
+	
 	return true;
 }
 
@@ -192,8 +184,12 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
-		app->FlyingEnemyAlive = false;
-		//die = true; 
+		if (type) {
+			app->FlyingEnemyAlive = false;
+		}
+		if (!type) {
+			app->SecondFlyingEnemyAlive = false;
+		}
 		LOG("Collision PLAYER");
 		break;
 	case ColliderType::ITEM:

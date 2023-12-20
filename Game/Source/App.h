@@ -91,8 +91,8 @@ public:
 
 	int vida;
 	bool statewalkingenemy = true;
-	int livewalkingenemy;
 	bool FlyingEnemyAlive = true;
+	bool SecondFlyingEnemyAlive = true;
 	bool WalkingEnemyAlive = true;
 
 	iPoint positionportal2; 

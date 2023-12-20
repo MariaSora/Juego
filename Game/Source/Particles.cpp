@@ -49,8 +49,10 @@ bool Particles::Update(float dt)
 	
 		if (!alive) {
 			//pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->scene->flyingEnemy->position.x), PIXEL_TO_METERS(app->scene->flyingEnemy->position.y)), 0);
-			position.y = app->scene->flyingEnemy->position.y + 25;
-			position.x = app->scene->flyingEnemy->position.x + 20;
+			position.y = 10;
+			position.x = 10;
+			//position.y = app->scene->flyingEnemy->position.y + 25;
+			//position.x = app->scene->flyingEnemy->position.x + 20;
 			alive = true;
 		}
 		else position.y++; pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
@@ -76,14 +78,13 @@ bool Particles::CleanUp()
 
 void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 	
-
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
 		LOG("PARTICLES COLLIDE WITH PLAYER");
 		alive = false; 
 		if (app->godmode == false) {
-			app->vida--;
+			//app->vida--;
 			app->scene->player->damage = true;
 		}
 		break;

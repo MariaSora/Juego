@@ -46,7 +46,7 @@ public:
 	iPoint initialPos;
 	int distance;
 	bool dir = false;
-	bool type = true;
+	bool type;
 	int temp;
 
 	//audios Fx

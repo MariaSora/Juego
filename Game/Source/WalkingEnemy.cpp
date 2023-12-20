@@ -26,8 +26,6 @@ bool WalkingEnemy::Awake() {
 	type = parameters.attribute("type").as_bool(); 
 	texturePath = parameters.attribute("texturepath").as_string();
 	drawPath = parameters.attribute("path2").as_string(); 
-	//distance = parameters.attribute("distance").as_int();
-	app->livewalkingenemy = parameters.attribute("vida").as_int();
 
 	idleAnim.LoadAnimation("walkingEnemy", "idleAnim");
 	walkAnim.LoadAnimation("walkingEnemy", "walkAnim");
@@ -130,14 +128,13 @@ bool WalkingEnemy::Update(float dt)
 	//walkingenemy damaged
 	if (app->WEDamaged) {
 		currentAnimation = &damageAnim;
-		app->livewalkingenemy--;
 		if (damageAnim.HasFinished()) {
 			currentAnimation = &idleAnim;
 			app->WEDamaged = false;
 		}
 	}
 	//walkingenemy dies
-	if (app->livewalkingenemy == 0 || position.y >= 630) {
+	if (position.y >= 630) {
 		LOG("WALKINGENEMY DIES");
 		app->WalkingEnemyAlive = false;
 	}
