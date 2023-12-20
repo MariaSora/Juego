@@ -101,10 +101,10 @@ bool FlyingEnemy::Update(float dt)
 
 			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
 				Attack();
-				app->scene->particles->attack = true;
+				app->attack = true;
 			}
 			else {
-				app->scene->particles->attack = false;
+				app->attack = false;
 				vel = { 0,0 };
 				pbody->body->SetLinearVelocity(vel);
 			}
@@ -115,7 +115,7 @@ bool FlyingEnemy::Update(float dt)
 		if(!app->FlyingEnemyAlive) {
 			LOG("FLYINGENEMY DIES");
 			currentAnimation = &deathAnim;
-			app->scene->particles->attack = false;
+			app->attack = false;
 			position.y += 2;
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
@@ -149,10 +149,10 @@ bool FlyingEnemy::Update(float dt)
 
 			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
 				Attack();
-				app->scene->particles->attack2 = true;
+				app->attack2 = true;
 			}
 			else {
-				app->scene->particles->attack2 = false;
+				app->attack2 = false;
 				vel = { 0,0 };
 				pbody2->body->SetLinearVelocity(vel);
 			}
@@ -163,7 +163,7 @@ bool FlyingEnemy::Update(float dt)
 		if (!app->SecondFlyingEnemyAlive) {
 			LOG("FLYINGENEMY DIES");
 			currentAnimation = &deathAnim;
-			app->scene->particles->attack2 = false;
+			app->attack2 = false;
 			position2.y += 2;
 			vel = { 0,0 };
 			pbody2->body->SetLinearVelocity(vel);

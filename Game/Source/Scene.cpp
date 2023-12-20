@@ -42,14 +42,15 @@ bool Scene::Awake(pugi::xml_node& config)
 		player->parameters = config.child("player");
 	}
 
-	if (config.child("particles")) {
-		particles = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
-		particles->parameters = config.child("particles");
+	for (pugi::xml_node ParticlesNode = config.child("particles"); ParticlesNode; ParticlesNode = ParticlesNode.next_sibling("particles")) {
+		Particles* particles = (Particles*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY);
+		particles->parameters = ParticlesNode;
 	}
 
 	for (pugi::xml_node FlyingEnemyNode = config.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
 		FlyingEnemy* flyingenemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY); 
 		flyingenemy->parameters = FlyingEnemyNode;
+		flyingEnemy = flyingenemy;
 	}
 
 	for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
@@ -120,6 +121,7 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+
 	if (app->godmode) {
 		float camSpeed = 1;
 		if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -199,60 +201,6 @@ bool Scene::LoadState(pugi::xml_node node) {
 	app->vida = node.child("Player").attribute("Vida").as_int();
 
 	player->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(player->position.x, player->position.y)), 0); 
-
-
-
-	//flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
-	//flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
-	//app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
-
-	////flyingEnemy->position2.x = node.child("FlyingEnemy").attribute("x2").as_int();
-	////flyingEnemy->position2.y = node.child("FlyingEnemy").attribute("y2").as_int();
-	////app->SecondFlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive2").as_bool();
-
-	//flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
-
-	//flyingEnemy2->position2.x = node.child("FlyingEnemy2").attribute("x2").as_int();
-	//flyingEnemy2->position2.y = node.child("FlyingEnemy2").attribute("y2").as_int();
-	//app->SecondFlyingEnemyAlive = node.child("FlyingEnemy2").attribute("Alive2").as_bool();
-
-	//flyingEnemy2->pbody2->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy2->position2.x, flyingEnemy2->position2.y)), 0);
-
-	//for (pugi::xml_node WalkingEnemyNode = node.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
-	//	if (WalkingEnemyNode.attribute("type").as_bool() == true) {
-	//		
-	//		walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
-	//		walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
-	//		app->WalkingEnemyAlive = node.child("WalkingEnemy").attribute("Alive").as_bool();
-	//	
-	//		walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
-	//	}
-	//	else if (WalkingEnemyNode.attribute("type").as_bool() == false) {
-	//		walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
-	//		walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
-	//		app->WalkingEnemyAlive2 = node.child("WalkingEnemy").attribute("Alive").as_bool();
-	//
-	//		walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
-	//	}
-	//	
-	//}
-
-	//for (pugi::xml_node FlyingEnemyNode = node.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
-	//	if (FlyingEnemyNode.attribute("type").as_bool() == true) {
-	//		flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
-	//		flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
-	//		app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
-
-	//		flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
-	//	}
-	//	if (FlyingEnemyNode.attribute("type").as_bool() == false) {
-	//		flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
-	//		flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
-	//		app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
-
-	//		flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
-	//	}
-	//}
 
 
 	//Se eliminan todos

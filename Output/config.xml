@@ -337,16 +337,6 @@
 			</noAnim>
 		</animations>
 	</tutorial>
-
-		<audio>
-			<death path="Assets/Audio/Fx/playerDeath.ogg"/>
-			<attack path="Assets/Audio/Fx/playerHits.ogg"/>
-			<jumpFx path="Assets/Audio/Fx/playerJump.ogg"/>
-			<teleportFx path="Assets/Audio/Fx/portal.ogg"/>
-			<enemyShot path="Assets/Audio/Fx/enemyShot.ogg"/>
-			<enemyDeath path="Assets/Audio/Fx/enemyDeath.ogg"/>
-			<winFx path="Assets/Audio/Fx/winSound.ogg"/>
-		</audio>
 		
   </scene>
   

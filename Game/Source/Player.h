@@ -55,8 +55,6 @@ public:
 	Animation* currentAnimation = nullptr; 
 	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim, attackAnim, dieAnim, damagedAnim;
 
-	//audios Fx
-	int attackFx, jumpFx, deathFx, teleportFx, enemyShot, enemyDeath, winFx;
 
 	bool isFacingRight; 
 

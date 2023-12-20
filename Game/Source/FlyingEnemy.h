@@ -41,7 +41,7 @@ public:
 	PhysBody* pbody;
 	PhysBody* pbody2;
 
-	SDL_Texture* flyingEnemy = nullptr; 
+	SDL_Texture* flyingEnemy; 
 
 	Animation* currentAnimation = nullptr;
 	Animation flyAnim, deathAnim; 

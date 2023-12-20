@@ -52,7 +52,7 @@ private:
 public:
 	Particles* particles;
 	FlyingEnemy* flyingEnemy;
-	FlyingEnemy* flyingEnemy2;
+
 	Player* player;
 	WalkingEnemy* walkingEnemy;
 

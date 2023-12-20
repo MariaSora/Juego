@@ -55,13 +55,14 @@ bool Particles::Start() {
 
 bool Particles::Update(float dt)
 {
+
 	currentAnimation = &shootAnim;
-	if (attack && type) {
-		if (!alive) {
+	if (app->attack && type) {
+		if (!alive && app->scene->flyingEnemy != nullptr) { 
 			pbody->body->GetFixtureList()[0].SetSensor(true);
 			position.y = app->scene->flyingEnemy->position.y + 25;
 			position.x = app->scene->flyingEnemy->position.x + 20;
-
+		
 			alive = true;
 		}
 		else {
@@ -72,8 +73,9 @@ bool Particles::Update(float dt)
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
 	}
-	if (attack2 && !type) {
-		if (!alive2) {
+
+	if (app->attack2 && !type) {
+		if (!alive2 && app->scene->flyingEnemy != nullptr) {
 			pbody2->body->GetFixtureList()[0].SetSensor(true);
 			position2.y = app->scene->flyingEnemy->position2.y + 25;
 			position2.x = app->scene->flyingEnemy->position2.x + 20;

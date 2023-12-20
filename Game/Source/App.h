@@ -96,6 +96,10 @@ public:
 	bool WalkingEnemyAlive = true;
 	bool WalkingEnemyAlive2 = true;
 
+
+	bool attack = false;
+	bool attack2 = false;
+
 	iPoint positionportal2; 
 
 	bool godmode = false;
