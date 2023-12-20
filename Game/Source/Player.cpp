@@ -173,7 +173,7 @@ bool Player::Update(float dt)
 
 		pbody->body->SetLinearVelocity(vel);
 
-		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && !touchingS) {
 			if (!saltando) {
 				app->audio->PlayFx(app->audio->jumpFx);
 				if (app->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) isFacingRight = true;
