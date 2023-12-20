@@ -154,6 +154,7 @@ bool Player::Update(float dt)
 				moving.x++;
 			}
 		}
+		
 
 		if ((touchingP && touchingS) || touchingS)
 		{
