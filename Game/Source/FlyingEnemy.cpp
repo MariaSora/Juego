@@ -48,8 +48,11 @@ bool FlyingEnemy::Start() {
 	texture2 = app->tex->Load(drawPath);
 	texture4 = app->tex->Load(drawPath4);
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, bodyType::KINEMATIC);
+	pbody2 = app->physics->CreateRectangleSensor(position2.x + 16, position2.y + 16, 16, 16, bodyType::KINEMATIC);
 	pbody->listener = this;
+	pbody2->listener = this;
 	pbody->ctype = ColliderType::FLYINGENEMY;
+	pbody2->ctype = ColliderType::FLYINGENEMY;
 
 	//initialPos.y = position.y;
 	//initialPos.x = position.x;
@@ -137,8 +140,8 @@ bool FlyingEnemy::Update(float dt)
 				pbody->body->SetLinearVelocity(vel);
 			}
 
-			position2.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-			position2.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+			position2.x = METERS_TO_PIXELS(pbody2->body->GetTransform().p.x) - 16;
+			position2.y = METERS_TO_PIXELS(pbody2->body->GetTransform().p.y) - 16;
 		}
 		if (!app->SecondFlyingEnemyAlive) {
 			LOG("FLYINGENEMY DIES");
@@ -146,7 +149,7 @@ bool FlyingEnemy::Update(float dt)
 			app->attack = false;
 			position2.y += 2;
 			vel = { 0,0 };
-			pbody->body->SetLinearVelocity(vel);
+			pbody2->body->SetLinearVelocity(vel);
 			if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();
 
 		}
@@ -175,7 +178,8 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 
 			vel = { dx * speed, dy * speed };
 
-			enemyPos = nextNode; 
+			enemyPos = nextNode;    
+			pbody->body->SetLinearVelocity(vel);
 		}
 		if (app->map->pathfinding4->Move(enemyPos, nextNode))
 		{
@@ -185,9 +189,10 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 			vel = { dx * speed, dy * speed };
 
 			enemyPos = nextNode;
+			pbody2->body->SetLinearVelocity(vel);
 		}
 	}
-   	pbody->body->SetLinearVelocity(vel);
+
 }
 
 void FlyingEnemy::Attack()

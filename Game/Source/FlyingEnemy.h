@@ -39,6 +39,7 @@ public:
 	SDL_Texture* texture4;
 	const char* drawPath4;
 	PhysBody* pbody;
+	PhysBody* pbody2;
 
 	SDL_Texture* flyingEnemy = nullptr; 
 

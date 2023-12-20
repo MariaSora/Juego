@@ -33,8 +33,11 @@ bool Particles::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangle(position.x, position.y, 8, 12, bodyType::DYNAMIC);
+	pbody2 = app->physics->CreateRectangle(position.x, position.y, 8, 12, bodyType::DYNAMIC);
 	pbody->listener = this; 
+	pbody2->listener = this; 
 	pbody->ctype = ColliderType::PARTICLES;
+	pbody2->ctype = ColliderType::PARTICLES;
 
 	return true;
 }
@@ -44,28 +47,46 @@ bool Particles::Update(float dt)
 	///*pbody->body->SetGravityScale(0);
 
 	if (app->attack) {
-		pbody->body->GetFixtureList()[0].SetSensor(false);
 		currentAnimation = &shootAnim;
 	
 		if (!alive) {
 			//pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->scene->flyingEnemy->position.x), PIXEL_TO_METERS(app->scene->flyingEnemy->position.y)), 0);
-			position.y = 10;
-			position.x = 10;
-			//position.y = app->scene->flyingEnemy->position.y + 25;
-			//position.x = app->scene->flyingEnemy->position.x + 20;
+			if (app->scene->flyingEnemy->type) {
+				pbody->body->GetFixtureList()[0].SetSensor(true);
+				position.y = app->scene->flyingEnemy->position.y + 25;
+				position.x = app->scene->flyingEnemy->position.x + 20;
+			}
+			if (!app->scene->flyingEnemy->type) {
+				pbody2->body->GetFixtureList()[0].SetSensor(true);
+				position2.y = app->scene->flyingEnemy->position2.y + 25;
+				position2.x = app->scene->flyingEnemy->position2.x + 20;
+			}
+			
 			alive = true;
 		}
-		else position.y++; pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
-
-		currentAnimation->Update();
-		SDL_Rect rect = currentAnimation->GetCurrentFrame();
-		app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
-
-	}
-	else
-	{	
-		pbody->body->GetFixtureList()[0].SetSensor(true);
-		//SDL_DestroyTexture(texture); 
+		else {
+			if (app->scene->flyingEnemy->type) {
+				pbody->body->GetFixtureList()[0].SetSensor(false);
+				position.y++;
+				pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
+			}
+			if (!app->scene->flyingEnemy->type) {
+				pbody2->body->GetFixtureList()[0].SetSensor(false);
+				position2.y++;
+				pbody2->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position2.x), PIXEL_TO_METERS(position2.y)), 0);
+			}
+		}
+		if (app->scene->flyingEnemy->type) {
+			currentAnimation->Update();
+			SDL_Rect rect = currentAnimation->GetCurrentFrame();
+			app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
+		}
+		if (!app->scene->flyingEnemy->type) {
+			currentAnimation->Update();
+			SDL_Rect rect = currentAnimation->GetCurrentFrame();
+			app->render->DrawTexture(texture, position2.x - 5, position2.y - 10, &rect);
+		}
+		
 	}
 	
 	return true;

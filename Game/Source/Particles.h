@@ -29,6 +29,7 @@ public:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
+	PhysBody* pbody2;
 
 	SDL_Texture* flyingEnemy = nullptr; 
 

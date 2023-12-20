@@ -169,7 +169,7 @@
 		  </animations>
 	  </flyingEnemy>
 
-  <flyingEnemy x="300" y="90" type="false" texturepath="Assets/Textures/Bat_Sprite_Sheet.png" path4="Assets/Textures/path4.png">
+  <flyingEnemy x="1700" y="90" type="false" texturepath="Assets/Textures/Bat_Sprite_Sheet.png" path4="Assets/Textures/path4.png">
 		  <animations>
 			  <flyAnim loop ="true" speed ="0.2">
 				  <anim x ="0" y ="0" width ="16" height ="15"/>
