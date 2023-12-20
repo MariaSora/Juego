@@ -136,7 +136,7 @@ void Particles::OnCollision(PhysBody* physA, PhysBody* physB) {
 		alive = false; 
 		//alive2 = false; 
 		if (app->godmode == false) {
-			//app->vida--;
+			app->vida--;
 			app->scene->player->damage = true;
 		}
 		break;
