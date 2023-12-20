@@ -8,6 +8,7 @@
 #include "Portal.h"
 #include "Particles.h"
 #include "Pathfinding.h"
+#include "Map.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -94,9 +95,11 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::FLYINGENEMY:
 		entity = new FlyingEnemy();
+		enemies.Add(entity);
 		break;
 	case EntityType::WALKINGENEMY:
 		entity = new WalkingEnemy();
+		enemies.Add(entity); 
 		break;
 	case EntityType::MOVINGPLATFORM:
 		entity = new MovingPlatform();
@@ -132,6 +135,21 @@ void EntityManager::DestroyEntity(Entity* entity)
 void EntityManager::AddEntity(Entity* entity)
 {
 	if ( entity != nullptr) entities.Add(entity);
+}
+
+void EntityManager::KillEnemiesLoad()
+{
+	ListItem<Entity*>* item;
+	for (item = enemies.start; item != NULL; item = item->next)
+	{
+		ListItem<iPoint>* destroyEnemy;
+		for (destroyEnemy = enemies_dead.start; destroyEnemy != NULL; destroyEnemy = destroyEnemy->next) {
+			if (iPoint(destroyEnemy->data.x, destroyEnemy->data.y) == item->data->initialpos) {
+				item->data->active = false;
+
+			}
+		}
+	}
 }
 
 bool EntityManager::Update(float dt)

@@ -43,6 +43,18 @@ bool FlyingEnemy::Awake() {
 
 bool FlyingEnemy::Start() {
 
+	if (type) {
+		initialpos.y = position.y;
+		initialpos.x = position.x;
+	}
+	if (!type) {
+		initialpos.y = position2.y;
+		initialpos.x = position2.x;
+	}
+	active = true;
+	app->FlyingEnemyAlive = true;
+	app->SecondFlyingEnemyAlive = true;
+
 	//initilize textures
 	texture = app->tex->Load(texturePath);	
 	texture2 = app->tex->Load(drawPath);
@@ -54,8 +66,7 @@ bool FlyingEnemy::Start() {
 	pbody->ctype = ColliderType::FLYINGENEMY;
 	pbody2->ctype = ColliderType::FLYINGENEMY;
 
-	//initialPos.y = position.y;
-	//initialPos.x = position.x;
+
 
 	return true;
 }
@@ -211,6 +222,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLAYER:
 		if (type) {
 			app->FlyingEnemyAlive = false;
+			active = false;
 		}
 		if (!type) {
 			app->SecondFlyingEnemyAlive = false;
