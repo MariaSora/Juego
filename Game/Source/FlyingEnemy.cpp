@@ -76,6 +76,7 @@ bool FlyingEnemy::Update(float dt)
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 	b2Vec2 vel2 = pbody2->body->GetLinearVelocity();
 	
+	if (!active) pbody->body->SetActive(false);
 	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 
 	if (type) {
@@ -118,8 +119,10 @@ bool FlyingEnemy::Update(float dt)
 			position.y += 2;
 			vel = { 0,0 };
 			pbody->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) app->map->pathfinding->ClearLastPath();
-
+			if (deathAnim.HasFinished()) {
+				app->map->pathfinding->ClearLastPath();
+				pbody->body->SetActive(false);
+			}
 		}
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
 		app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
@@ -164,7 +167,10 @@ bool FlyingEnemy::Update(float dt)
 			position2.y += 2;
 			vel = { 0,0 };
 			pbody2->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) app->map->pathfinding4->ClearLastPath();
+			if (deathAnim.HasFinished()) { 
+				app->map->pathfinding->ClearLastPath();
+				pbody2->body->SetActive(false);
+			}
 
 		}
 		SDL_Rect rect = currentAnimation->GetCurrentFrame();
