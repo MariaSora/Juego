@@ -33,7 +33,8 @@ public:
 	PhysBody* pbody;
 	PhysBody* pbody2;
 
-	bool attack = true;
+	bool attack = false;
+	bool attack2 = false;
 
 	Animation* currentAnimation = nullptr;
 	Animation shootAnim; 

@@ -56,42 +56,39 @@ bool Particles::Start() {
 bool Particles::Update(float dt)
 {
 	currentAnimation = &shootAnim;
-	if (attack) {
-		if (type) {
-			if (!alive) {
-				pbody->body->GetFixtureList()[0].SetSensor(true);
-				position.y = app->scene->flyingEnemy->position.y + 25;
-				position.x = app->scene->flyingEnemy->position.x + 20;
+	if (attack && type) {
+		if (!alive) {
+			pbody->body->GetFixtureList()[0].SetSensor(true);
+			position.y = app->scene->flyingEnemy->position.y + 25;
+			position.x = app->scene->flyingEnemy->position.x + 20;
 
-				alive = true;
-			}
-			else {
-				pbody->body->GetFixtureList()[0].SetSensor(false);
-				position.y++;
-				pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
-			}
-			SDL_Rect rect = currentAnimation->GetCurrentFrame();
-			app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
+			alive = true;
 		}
-		else{
-			if (!alive2) {
-				pbody2->body->GetFixtureList()[0].SetSensor(true);
-				position2.y = app->scene->flyingEnemy->position2.y + 25;
-				position2.x = app->scene->flyingEnemy->position2.x + 20;
+		else {
+			pbody->body->GetFixtureList()[0].SetSensor(false);
+			position.y++;
+			pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position.x), PIXEL_TO_METERS(position.y)), 0);
+		}
+		SDL_Rect rect = currentAnimation->GetCurrentFrame();
+		app->render->DrawTexture(texture, position.x - 5, position.y - 10, &rect);
+	}
+	if (attack2 && !type) {
+		if (!alive2) {
+			pbody2->body->GetFixtureList()[0].SetSensor(true);
+			position2.y = app->scene->flyingEnemy->position2.y + 25;
+			position2.x = app->scene->flyingEnemy->position2.x + 20;
 
-				alive2 = true;
-			}
-			else {
+			alive2 = true;
+		}
+		else {
 				pbody2->body->GetFixtureList()[0].SetSensor(false);
 				position2.y++;
 				pbody2->body->SetTransform(b2Vec2(PIXEL_TO_METERS(position2.x), PIXEL_TO_METERS(position2.y)), 0);
-			}
-			SDL_Rect rect = currentAnimation->GetCurrentFrame();
-			app->render->DrawTexture(texture2, position2.x - 5, position2.y - 10, &rect);
 		}
-			currentAnimation->Update();
+		SDL_Rect rect = currentAnimation->GetCurrentFrame();
+		app->render->DrawTexture(texture2, position2.x - 5, position2.y - 10, &rect);
 	}
-
+	currentAnimation->Update();
 	
 	return true;
 }
