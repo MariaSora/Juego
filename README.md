@@ -11,6 +11,12 @@ CloudEater is a platform game developed in C++, with SDL and Box2D libraries, ab
  - Use of Tiled for collisions
  - Parallax 
  - Draw fraction of the map relative to player position for better performance
+ - 2 types of enemies
+ - Pathfinding
+ - Music and sound effects
+ - Particles
+ - Load/ save system
+ - Portal
  
 ## Controls
 
