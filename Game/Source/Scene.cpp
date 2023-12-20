@@ -202,33 +202,56 @@ bool Scene::LoadState(pugi::xml_node node) {
 
 	player->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(player->position.x, player->position.y)), 0); 
 
-	for (pugi::xml_node WalkingEnemyNode = node.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
-		if (WalkingEnemyNode.attribute("type").as_bool() == true) {
-			
-			walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
-			walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
-			app->WalkingEnemyAlive = node.child("WalkingEnemy").attribute("Alive").as_bool();
-		
-			walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
-		}
-		else if (WalkingEnemyNode.attribute("type").as_bool() == false) {
-			walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
-			walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
-			app->WalkingEnemyAlive2 = node.child("WalkingEnemy").attribute("Alive").as_bool();
-	
-			walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
-		}
-		
-	}
+	flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
+	flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
+	app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
+	//flyingEnemy->position2.x = node.child("FlyingEnemy").attribute("x2").as_int();
+	//flyingEnemy->position2.y = node.child("FlyingEnemy").attribute("y2").as_int();
+	//app->SecondFlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive2").as_bool();
 
-	for (pugi::xml_node FlyingEnemyNode = node.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
+	flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
 
-		flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
-		flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
-		app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
+	flyingEnemy2->position2.x = node.child("FlyingEnemy2").attribute("x2").as_int();
+	flyingEnemy2->position2.y = node.child("FlyingEnemy2").attribute("y2").as_int();
+	app->SecondFlyingEnemyAlive = node.child("FlyingEnemy2").attribute("Alive2").as_bool();
 
-		flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
-	}
+	flyingEnemy2->pbody2->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy2->position2.x, flyingEnemy2->position2.y)), 0);
+
+	//for (pugi::xml_node WalkingEnemyNode = node.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
+	//	if (WalkingEnemyNode.attribute("type").as_bool() == true) {
+	//		
+	//		walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
+	//		walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
+	//		app->WalkingEnemyAlive = node.child("WalkingEnemy").attribute("Alive").as_bool();
+	//	
+	//		walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
+	//	}
+	//	else if (WalkingEnemyNode.attribute("type").as_bool() == false) {
+	//		walkingEnemy->position.x = node.child("WalkingEnemy").attribute("x").as_int();
+	//		walkingEnemy->position.y = node.child("WalkingEnemy").attribute("y").as_int();
+	//		app->WalkingEnemyAlive2 = node.child("WalkingEnemy").attribute("Alive").as_bool();
+	//
+	//		walkingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(walkingEnemy->position.x, walkingEnemy->position.y)), 0);
+	//	}
+	//	
+	//}
+
+	//for (pugi::xml_node FlyingEnemyNode = node.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
+	//	if (FlyingEnemyNode.attribute("type").as_bool() == true) {
+	//		flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
+	//		flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
+	//		app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
+
+	//		flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
+	//	}
+	//	if (FlyingEnemyNode.attribute("type").as_bool() == false) {
+	//		flyingEnemy->position.x = node.child("FlyingEnemy").attribute("x").as_int();
+	//		flyingEnemy->position.y = node.child("FlyingEnemy").attribute("y").as_int();
+	//		app->FlyingEnemyAlive = node.child("FlyingEnemy").attribute("Alive").as_bool();
+
+	//		flyingEnemy->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(flyingEnemy->position.x, flyingEnemy->position.y)), 0);
+	//	}
+	//}
 	
 	return true;
 }
@@ -240,27 +263,44 @@ bool Scene::SaveState(pugi::xml_node node) {
 	camNode.append_attribute("x").set_value(player->position.x); 
 	camNode.append_attribute("y").set_value(player->position.y); 
 	camNode.append_attribute("Vida").set_value(app->vida); 
-
+	
 	player->pbody->body->GetTransform();
 
+	pugi::xml_node FlyingEnemyNode = node.append_child("FlyingEnemy");
+	FlyingEnemyNode.append_attribute("x").set_value(flyingEnemy->position.x);
+	FlyingEnemyNode.append_attribute("y").set_value(flyingEnemy->position.y);
+	/*FlyingEnemyNode.append_attribute("x2").set_value(flyingEnemy->position2.x);
+	FlyingEnemyNode.append_attribute("y2").set_value(flyingEnemy->position2.y);*/
+	FlyingEnemyNode.append_attribute("Alive").set_value(app->FlyingEnemyAlive);
+	/*FlyingEnemyNode.append_attribute("Alive2").set_value(app->SecondFlyingEnemyAlive);*/
 
-	for (int i = 0; i < app->entityManager->entities.Count(); i++)
-	{
-		pugi::xml_node E = node.child(app->entityManager->entities[i]->name.GetString());
-		//pugi::xml_node WalkingEnemyNode = node.child("walkingEnemy");
-		//if (app->entityManager->entities[i]->name == "WalkingEnemy") {
-		//	//E.append_attribute("type").as_bool(app->entityManager->entities[i]->type);
-		//	E.append_attribute("x").set_value(app->entityManager->entities[i]->position.x); 
-		//	E.append_attribute("y").set_value(app->entityManager->entities[i]->position.y);
-		//}
-		if (app->entityManager->entities[i]->name == "FlyingEnemy") {
-			//E.append_attribute("type").as_bool(app->entityManager->entities[i]->type);
-			E.append_child("FlyingEnemy").append_attribute("x").set_value(app->entityManager->entities[i]->position.x); 
-			E.append_attribute("y").set_value(app->entityManager->entities[i]->position.y);  
-			E.append_attribute("x").set_value(app->entityManager->entities[i]->position2.x); 
-			E.append_attribute("y").set_value(app->entityManager->entities[i]->position2.y); 
-		}
-	}
+	flyingEnemy->pbody->body->GetTransform(); 
+
+	pugi::xml_node FlyingEnemyNode2 = node.append_child("FlyingEnemy2");
+	FlyingEnemyNode2.append_attribute("x2").set_value(flyingEnemy2->position2.x);
+	FlyingEnemyNode2.append_attribute("y2").set_value(flyingEnemy2->position2.y);
+
+	FlyingEnemyNode2.append_attribute("Alive2").set_value(app->SecondFlyingEnemyAlive);
+
+	flyingEnemy2->pbody2->body->GetTransform(); 
+
+	//for (int i = 0; i < app->entityManager->entities.Count(); i++)
+	//{
+	//	pugi::xml_node E = node.child(app->entityManager->entities[i]->name.GetString());
+	//	//pugi::xml_node WalkingEnemyNode = node.child("walkingEnemy");
+	//	//if (app->entityManager->entities[i]->name == "WalkingEnemy") {
+	//	//	//E.append_attribute("type").as_bool(app->entityManager->entities[i]->type);
+	//	//	E.append_attribute("x").set_value(app->entityManager->entities[i]->position.x); 
+	//	//	E.append_attribute("y").set_value(app->entityManager->entities[i]->position.y);
+	//	//}
+	//	if (app->entityManager->entities[i]->name == "FlyingEnemy") {
+	//		//E.append_attribute("type").as_bool(app->entityManager->entities[i]->type);
+	//		E.append_child("FlyingEnemy").append_attribute("x").set_value(app->entityManager->entities[i]->position.x);  
+	//		E.append_child("FlyingEnemy").append_attribute("y").set_value(app->entityManager->entities[i]->position.y); 
+	//		E.append_child("FlyingEnemy").append_attribute("x").set_value(app->entityManager->entities[i]->position2.x);
+	//		E.append_child("FlyingEnemy").append_attribute("y").set_value(app->entityManager->entities[i]->position2.y);
+	//	}
+	//}
 
 
 	//for (pugi::xml_node FlyingEnemyNode = node.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
