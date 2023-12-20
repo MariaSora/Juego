@@ -190,7 +190,7 @@
 	  </flyingEnemy>
 	  
   
-  <walkingEnemy x="800" y="170" vida ="3" type="true" texturepath="Assets/Textures/Purple_Slime.png" path2="Assets/Textures/path2.png">
+  <walkingEnemy x="800" y="170" type="true" texturepath="Assets/Textures/Purple_Slime.png" path2="Assets/Textures/path2.png">
 		  <animations>
 
 			  <idleAnim loop ="true" speed ="0.2">
@@ -253,7 +253,7 @@
 
 		  </animations>
 	  </walkingEnemy>
-  <walkingEnemy x="2650" y="50" vida ="3" type="false" texturepath="Assets/Textures/Purple_Slime.png" path3="Assets/Textures/path3.png">
+  <walkingEnemy x="2650" y="50" type="false" texturepath="Assets/Textures/Purple_Slime.png" path3="Assets/Textures/path3.png">
 		  <animations>
 
 			  <idleAnim loop ="true" speed ="0.2">
