@@ -33,9 +33,13 @@ public:
 
 	void AddEntity(Entity* entity);
 
+	void KillEnemiesLoad();
+
 public:
 
 	List<Entity*> entities;
+	List<Entity*> enemies;
+	List<iPoint> enemies_dead;
 };
 
 #endif // __ENTITYMANAGER_H__

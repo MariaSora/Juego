@@ -46,7 +46,6 @@ public:
 	Animation* currentAnimation = nullptr;
 	Animation flyAnim, deathAnim; 
 
-	iPoint initialPos;
 	int distance;
 	bool dir = false;
 	bool type;
