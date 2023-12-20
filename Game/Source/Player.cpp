@@ -208,9 +208,8 @@ bool Player::Update(float dt)
 			app->audio->PlayFx(app->audio->attackFx); 
 			anim = true; 
 			attackAnim.Reset();
-			if (collided && app->scene->walkingEnemy->type == true) app->WalkingEnemyAlive2 = false;
-			if (collided && app->statewalkingenemy && app->scene->walkingEnemy->type == true) app->WalkingEnemyAlive = false;
-			
+			if (collided) app->WalkingEnemyAlive2 = false;
+			if (collided && app->statewalkingenemy) app->WalkingEnemyAlive = false;
 		}
 		if (anim) {
 			currentAnimation = &attackAnim;
