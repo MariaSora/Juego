@@ -182,7 +182,10 @@ public:
 	PhysBody* stairs;
 
 	PathFinding* pathfinding;
+	PathFinding* pathfinding4;
 	PathFinding* pathfinding2;
+	PathFinding* pathfinding3;
+	
 
 private:
 	MapData mapData; 

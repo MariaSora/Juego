@@ -94,6 +94,7 @@ public:
 	bool FlyingEnemyAlive = true;
 	bool SecondFlyingEnemyAlive = true;
 	bool WalkingEnemyAlive = true;
+	bool WalkingEnemyAlive2 = true;
 
 	iPoint positionportal2; 
 

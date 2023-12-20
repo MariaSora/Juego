@@ -23,6 +23,7 @@ bool FlyingEnemy::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	drawPath = parameters.attribute("path").as_string(); 
+	drawPath4 = parameters.attribute("path4").as_string(); 
 	dir = parameters.attribute("direction").as_bool();
 	type = parameters.attribute("type").as_bool();
 
@@ -37,6 +38,7 @@ bool FlyingEnemy::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);	
 	texture2 = app->tex->Load(drawPath);
+	texture4 = app->tex->Load(drawPath4);
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, bodyType::KINEMATIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::FLYINGENEMY;
@@ -50,13 +52,12 @@ bool FlyingEnemy::Start() {
 bool FlyingEnemy::Update(float dt)
 {		
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
+	enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
+	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 
 	if (type) {
 		if (app->FlyingEnemyAlive) {
 			currentAnimation = &flyAnim;
-
-			enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
-			playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 
 			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
 			{
@@ -99,19 +100,16 @@ bool FlyingEnemy::Update(float dt)
 		if (app->SecondFlyingEnemyAlive) {
 			currentAnimation = &flyAnim;
 
-			enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
-			playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
-
 			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
 			{
-				app->map->pathfinding->CreatePath(enemyPos, playerPos);
-				path = app->map->pathfinding->GetLastPath();
+				app->map->pathfinding4->CreatePath(enemyPos, playerPos);
+				path = app->map->pathfinding4->GetLastPath();
 				if (app->physics->debug)
 				{
 					for (uint i = 0; i < path->Count(); i++)
 					{
 						iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-						app->render->DrawTexture(texture2, pos.x, pos.y);
+						app->render->DrawTexture(texture4, pos.x, pos.y);
 					}
 				}
 			}
@@ -164,6 +162,15 @@ void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPo
 			vel = { dx * speed, dy * speed };
 
 			enemyPos = nextNode; 
+		}
+		if (app->map->pathfinding4->Move(enemyPos, nextNode))
+		{
+			int dx = nextNode.x - enemyPos.x;
+			int dy = nextNode.y - enemyPos.y;
+
+			vel = { dx * speed, dy * speed };
+
+			enemyPos = nextNode;
 		}
 	}
    	pbody->body->SetLinearVelocity(vel);

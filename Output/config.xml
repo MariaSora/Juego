@@ -102,7 +102,7 @@
 			  <anim x ="6" y ="122" width ="20" height ="29"/>
 		  </climbIdleAnim>
 		  
-		  <attackAnim loop ="true" speed ="0.25">
+		  <attackAnim loop ="false" speed ="0.25">
 			  <anim x ="7" y ="83" width ="20" height ="29"/>
 			  <anim x ="38" y ="83" width ="20" height ="29"/>
 			  <anim x ="70" y ="83" width ="27" height ="29"/>
@@ -169,7 +169,7 @@
 		  </animations>
 	  </flyingEnemy>
 
-  <flyingEnemy x="300" y="90" type="false" distance="70" direction="false" texturepath="Assets/Textures/Bat_Sprite_Sheet.png">
+  <flyingEnemy x="300" y="90" type="false" distance="70" direction="false" texturepath="Assets/Textures/Bat_Sprite_Sheet.png" path4="Assets/Textures/path4.png">
 		  <animations>
 			  <flyAnim loop ="true" speed ="0.2">
 				  <anim x ="0" y ="0" width ="16" height ="15"/>
@@ -253,7 +253,7 @@
 
 		  </animations>
 	  </walkingEnemy>
-  <walkingEnemy x="2650" y="50" vida ="3" type="false" texturepath="Assets/Textures/Purple_Slime.png">
+  <walkingEnemy x="2650" y="50" vida ="3" type="false" texturepath="Assets/Textures/Purple_Slime.png" path3="Assets/Textures/path3.png">
 		  <animations>
 
 			  <idleAnim loop ="true" speed ="0.2">

@@ -36,7 +36,9 @@ public:
 	SDL_Texture* texture;
 	const char* texturePath;
 	SDL_Texture* texture2;
-	const char* drawPath;
+	const char* drawPath2;
+	SDL_Texture* texture3;
+	const char* drawPath3;
 	PhysBody* pbody;
 
 	bool isFacingRight;

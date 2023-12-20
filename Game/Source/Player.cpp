@@ -204,12 +204,17 @@ bool Player::Update(float dt)
 		
 		//ataque personaje
 		
-		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
+		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) {
 			app->audio->PlayFx(app->audio->attackFx); 
+			anim = true; 
+			attackAnim.Reset();
+			if (collided && app->scene->walkingEnemy->type == true) app->WalkingEnemyAlive2 = false;
+			if (collided && app->statewalkingenemy && app->scene->walkingEnemy->type == true) app->WalkingEnemyAlive = false;
+			
+		}
+		if (anim) {
 			currentAnimation = &attackAnim;
-			if (On) {
-				app->WEDamaged = true;
-			}
+			if (attackAnim.HasFinished()) anim = false; 
 		}
 	}
 
@@ -307,9 +312,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::WALKINGENEMY:
 		LOG("Collision WALKINGENEMY");
-		if (app->statewalkingenemy) {
-			On = true;
-		}
+		collided = true; 
 		break;
 	case ColliderType::PARTICLES: 
 		LOG("Collision PARTICLES");
