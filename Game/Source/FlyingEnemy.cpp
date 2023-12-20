@@ -9,6 +9,7 @@
 #include "Point.h"
 #include "Physics.h"
 #include "Map.h"
+#include "Particles.h"
 
 FlyingEnemy::FlyingEnemy() : Entity(EntityType::FLYINGENEMY)
 {
@@ -76,6 +77,40 @@ bool FlyingEnemy::Update(float dt)
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 	b2Vec2 vel2 = pbody2->body->GetLinearVelocity();
 	
+
+
+
+
+
+
+
+	if (disparo == nullptr) {
+
+		pugi::xml_document configFile;
+		pugi::xml_parse_result parseResult = configFile.load_file("config.xml");
+		pugi::xml_node particleNode = configFile.child("config").child("scene").child("particles");
+
+		disparo = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
+		disparo->parameters = particleNode;
+		
+		disparo->Awake();
+		
+		disparo->Start();
+		if (type) {
+			disparo->position = iPoint(position.x + 20, position.y + 25);
+		}
+		else {
+			disparo->position = iPoint(position2.x + 20, position2.y + 25);
+		}
+		
+		((Particles*)disparo)->parent = this;
+	}
+
+
+
+
+
+
 	if (!active) pbody->body->SetActive(false);
 	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 

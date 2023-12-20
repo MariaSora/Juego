@@ -5,6 +5,7 @@
 #include "Point.h"
 #include "Animation.h"
 #include "SDL/include/SDL.h"
+#include "FlyingEnemy.h"
 
 struct SDL_Texture;
 
@@ -32,6 +33,8 @@ public:
 	const char* texturePath2;
 	PhysBody* pbody;
 	PhysBody* pbody2;
+
+	Entity* parent;
 
 	Animation* currentAnimation = nullptr;
 	Animation shootAnim; 

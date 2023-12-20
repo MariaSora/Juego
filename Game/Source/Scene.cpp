@@ -43,7 +43,7 @@ bool Scene::Awake(pugi::xml_node& config)
 	}
 
 	for (pugi::xml_node ParticlesNode = config.child("particles"); ParticlesNode; ParticlesNode = ParticlesNode.next_sibling("particles")) {
-		Particles* particles = (Particles*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY);
+		Particles* particles = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
 		particles->parameters = ParticlesNode;
 	}
 

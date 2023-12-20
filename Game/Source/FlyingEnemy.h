@@ -6,6 +6,7 @@
 #include "Animation.h"
 #include "SDL/include/SDL.h"
 #include "DynArray.h"
+#include "Particles.h"
 
 struct SDL_Texture;
 
@@ -53,11 +54,14 @@ public:
 
 	//audios Fx
 	int enemyShotFx;
+	Entity* disparo = nullptr;
 
 private: 
 	iPoint enemyPos; 
 	iPoint playerPos; 
 	const DynArray<iPoint>* path; 
+
+	
 
 };
 

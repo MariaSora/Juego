@@ -132,7 +132,7 @@
 	    </animations>
 	  </player>
 	  
-  <particles x ="100" y="120" alive ="true" type ="true" texturepath="Assets/Textures/Ice.png">
+  <particles x ="-1700" y="0" alive ="true" type ="true" texturepath="Assets/Textures/Ice.png">
 		 <animations>
 			 <shootAnim loop ="true" speed ="0.3">
 				 <anim x ="0" y ="0" width ="9" height ="18"/>
@@ -148,7 +148,7 @@
 			 </shootAnim>
 		 </animations>
 	</particles>
-	<particles x ="1650" y="110" alive ="true" type ="false" texturepath="Assets/Textures/Ice2.png">
+	<particles x ="-1650" y="110" alive ="true" type ="false" texturepath="Assets/Textures/Ice2.png">
 			<animations>
 				<shootAnim loop ="true" speed ="0.3">
 					<anim x ="0" y ="0" width ="9" height ="18"/>
