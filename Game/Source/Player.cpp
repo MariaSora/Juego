@@ -254,6 +254,7 @@ bool Player::Update(float dt)
 				}*/
 
 				die = false;
+				app->vida = 5; 
 			}
 		}
 
