@@ -5,6 +5,7 @@
 #include "List.h"
 #include "PerfTimer.h"
 #include "Timer.h"
+#include "Fonts.h"
 #include "EntityManager.h"
 
 #include "PugiXml/src/pugixml.hpp"
@@ -14,6 +15,7 @@ class Window;
 class Input;
 class Render;
 class Textures;
+class Fonts;
 class Audio;
 class Scene;
 class EntityManager;
@@ -83,6 +85,7 @@ public:
 	Input* input;
 	Render* render;
 	Textures* tex;
+	Fonts* fonts;
 	Audio* audio;
 	Scene* scene;
 	EntityManager* entityManager;

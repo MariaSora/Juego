@@ -83,6 +83,7 @@ bool Map::Update(float dt)
                     SDL_Rect r = tileset->GetTileRect(gid);
                     iPoint pos = MapToWorld(x, y);
 
+
                     app->render->DrawTexture(tileset->texture,
                         pos.x,
                         pos.y,
@@ -109,13 +110,15 @@ bool Map::Update(float dt)
                         pos.y,
                         &r,
                         mapLayerItem->data->parallax);
+                   
                 }
-            }
+            } 
+          
         }
         mapLayerItem = mapLayerItem->next;
 
     }
-
+    app->fonts->drawText(std::to_string(app->scene->player->points).c_str(), { 0,0,0,255 }, 300, 10);
 
     return true;
 

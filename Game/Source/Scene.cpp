@@ -1,6 +1,7 @@
 #include "App.h"
 #include "Input.h"
 #include "Textures.h"
+#include "Fonts.h"
 #include "Audio.h"
 #include "Render.h"
 #include "Window.h"
@@ -99,9 +100,9 @@ bool Scene::Start()
 	app->audio->PlayMusic("Assets/Audio/Music/backgroundMusic.ogg");
 
 	//Get the size of the window
-	app->win->GetWindowSize(windowW, windowH);
+	//app->win->GetWindowSize(windowW, windowH);
 
-	//Get the size of the texture
+	////Get the size of the texture
 	//app->tex->GetSize(img, texW, texH);
 
 	//textPosX = (float)windowW / 2 - (float)texW / 2;

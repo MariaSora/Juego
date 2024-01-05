@@ -63,6 +63,7 @@ void CandyItem::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
 		isPicked1 = true; 
+		app->scene->player->points++; 
 		break;
 	}
 }

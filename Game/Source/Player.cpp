@@ -63,6 +63,7 @@ bool Player::Start() {
 	pbody->ctype = ColliderType::PLAYER;
 
 	Ipos = pbody->body->GetTransform(); //Pos inicial
+	points = 0;
 
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
@@ -399,8 +400,6 @@ void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
 
 	switch (physB->ctype)
 	{
-	case ColliderType::HEALITEM:
-		break;
 	case ColliderType::WALL:
 
 		if (wall != NULL)

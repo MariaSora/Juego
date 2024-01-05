@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Textures.h"
+#include "Fonts.h"
 #include "Audio.h"
 #include "Scene.h"
 #include "Map.h"
@@ -28,6 +29,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	input = new Input();
 	render = new Render();
 	tex = new Textures();
+	fonts = new Fonts();
 	audio = new Audio();
 	physics = new Physics();
 	scene = new Scene();
@@ -40,6 +42,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(input);
 	AddModule(tex);
+	AddModule(fonts);
 	AddModule(audio);
 	AddModule(physics);
 	AddModule(scene);

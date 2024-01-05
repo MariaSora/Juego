@@ -60,6 +60,7 @@ public:
 
 
 	bool isFacingRight; 
+	uint points;
 
 private:
 	//bool LoadJumpAnim(pugi::xml_node& node, jumpAnims* jump);
@@ -70,7 +71,7 @@ private:
 	MovingPlatform* movingplatform;
 	bool inmovplat = false;
 	iPoint moving = { 0,0 };
-
+	
 
 	bool anim = false; 
 	transparentWall* wall;
