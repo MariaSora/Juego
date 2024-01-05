@@ -272,12 +272,7 @@ void WalkingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (app->scene->player->atk = true) {
 			if (type) app->WalkingEnemyAlive2 = false;
 			if (!type) 	app->WalkingEnemyAlive = false;
-			
 		}
-		
-		break;
-	case ColliderType::ITEM:
-		LOG("Collision ITEM");
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");

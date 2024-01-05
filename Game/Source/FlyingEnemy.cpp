@@ -271,9 +271,6 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		}
 		LOG("Collision PLAYER");
 		break;
-	case ColliderType::ITEM:
-		LOG("Collision ITEM");
-		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
 		break;

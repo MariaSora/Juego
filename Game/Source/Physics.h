@@ -27,7 +27,7 @@ enum class ColliderType {
 	PLAYER,
 	FLYINGENEMY,
 	WALKINGENEMY,
-	ITEM,
+	HEALITEM,
 	WALL,
 	PORTAL,
 	TUTORIAL,

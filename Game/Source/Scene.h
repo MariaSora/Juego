@@ -6,7 +6,7 @@
 #include "FlyingEnemy.h"
 #include "WalkingEnemy.h"
 #include "Particles.h"
-#include "Item.h"
+#include "HealItem.h"
 
 struct SDL_Texture;
 
@@ -52,7 +52,7 @@ private:
 public:
 	Particles* particles;
 	FlyingEnemy* flyingEnemy;
-
+	HealItem* healItem;
 	Player* player;
 	WalkingEnemy* walkingEnemy;
 

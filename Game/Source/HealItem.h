@@ -1,5 +1,5 @@
-#ifndef __ITEM_H__
-#define __ITEM_H__
+#ifndef __HEALITEM_H__
+#define __HEALITEM_H__
 
 #include "Entity.h"
 #include "Point.h"
@@ -8,12 +8,12 @@
 
 struct SDL_Texture;
 
-class Item : public Entity
+class HealItem : public Entity
 {
 public:
 
-	Item();
-	virtual ~Item();
+	HealItem();
+	virtual ~HealItem();
 
 	bool Awake();
 
@@ -23,9 +23,10 @@ public:
 
 	bool CleanUp();
 
+	void OnCollision(PhysBody* physA, PhysBody* physB);
+
 public:
 	
-
 	bool isPicked = false;
 
 private:
@@ -34,4 +35,4 @@ private:
 	PhysBody* pbody;
 };
 
-#endif // __ITEM_H__
+#endif // __HEALITEM_H__

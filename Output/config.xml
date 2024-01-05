@@ -362,7 +362,12 @@
 			</noAnim>
 		</animations>
 	</tutorial>
-		
+	
+	<healItem x="200" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem x="416" y="512" texturepath="Assets/Textures/healing.png"/>
+	<healItem x="384" y="352" texturepath="Assets/Textures/healing.png"/>
+	<healItem x="200" y="672" texturepath="Assets/Textures/healing.png"/>
+	<healItem x="500" y="672" texturepath="Assets/Textures/healing.png"/>
   </scene>
   
 </config>

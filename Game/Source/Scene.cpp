@@ -31,10 +31,10 @@ bool Scene::Awake(pugi::xml_node& config)
 
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
-	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
+	for (pugi::xml_node healItemNode = config.child("healItem"); healItemNode; healItemNode = healItemNode.next_sibling("healItem"))
 	{
-		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
-		item->parameters = itemNode;
+		HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
+		healItem->parameters = healItemNode;
 	}
 
 	if (config.child("player")) {

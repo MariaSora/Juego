@@ -342,8 +342,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision PARTICLES");
 		currentAnimation = &damagedAnim;
 		break;
-	case ColliderType::ITEM:
+	case ColliderType::HEALITEM:
 		LOG("Collision ITEM");
+		if(app->vida < 5) app->vida++; 
 		break;
 	case ColliderType::WALL:
 
@@ -394,7 +395,7 @@ void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
 
 	switch (physB->ctype)
 	{
-	case ColliderType::ITEM:
+	case ColliderType::HEALITEM:
 		break;
 	case ColliderType::WALL:
 
