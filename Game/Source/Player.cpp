@@ -346,6 +346,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision ITEM");
 		if(app->vida < 5) app->vida++; 
 		break;
+	case ColliderType::CANDYITEM:
+		LOG("Collision ITEM");
+		//score +1
+		break;
 	case ColliderType::WALL:
 
 		if (wall != NULL)

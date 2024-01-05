@@ -37,6 +37,12 @@ bool Scene::Awake(pugi::xml_node& config)
 		healItem->parameters = healItemNode;
 	}
 
+	for (pugi::xml_node candyItemNode = config.child("candyItem"); candyItemNode; candyItemNode = candyItemNode.next_sibling("candyItem"))
+	{
+		CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
+		candyItem->parameters = candyItemNode;
+	}
+
 	if (config.child("player")) {
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 		player->parameters = config.child("player");

@@ -368,6 +368,12 @@
 	<healItem x="384" y="352" texturepath="Assets/Textures/healing.png"/>
 	<healItem x="200" y="672" texturepath="Assets/Textures/healing.png"/>
 	<healItem x="500" y="672" texturepath="Assets/Textures/healing.png"/>
+
+	<candyItem x="310" y="130" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="406" y="512" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="304" y="352" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="270" y="672" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="540" y="672" texturepath="Assets/Textures/candy.png"/>
   </scene>
   
 </config>

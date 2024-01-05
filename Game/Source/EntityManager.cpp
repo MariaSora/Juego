@@ -93,6 +93,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::HEALITEM:
 		entity = new HealItem();
 		break;
+	case EntityType::CANDYITEM:
+		entity = new CandyItem();
+		break;
 	case EntityType::FLYINGENEMY:
 		entity = new FlyingEnemy();
 		enemies.Add(entity);
