@@ -64,7 +64,7 @@
 	<movingplatform x="2256" y="180" type="false" distance="50" direction="false" texturepath="Assets/Textures/movingPlatform.png"/>
 	<movingplatform x="2368" y="80" type="false" distance="50" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
 	  
-  <player x="100" y="150" vida="5" texturepath="Assets/Textures/Pink_Monster.png">
+  <player x="100" y="150" vida="5" texturepath="Assets/Textures/Pink_Monster.png" texturepath2 ="Assets/Textures/heartLife.png">
 	    <animations>
 		  <idleAnim loop ="false" speed ="1.0">
 			<anim x ="7" y ="4" width ="17" height ="28"/>
@@ -129,6 +129,31 @@
 				<anim x ="70" y ="210" width ="21" height ="29"/>
 				<anim x ="102" y ="210" width ="21" height ="29"/>
 			</damagedAnim>
+
+			<life5 loop ="false" speed ="1.0">
+				<anim x ="3" y ="1" width ="76" height ="13"/>
+			</life5>
+
+			<life4 loop ="false" speed ="1.0">
+				<anim x ="3" y ="16" width ="76" height ="13"/>
+			</life4>
+
+			<life3 loop ="false" speed ="1.0">
+				<anim x ="3" y ="31" width ="76" height ="13"/>
+			</life3>
+
+			<life2 loop ="false" speed ="1.0">
+				<anim x ="3" y ="46" width ="76" height ="13"/>
+			</life2>
+
+			<life1 loop ="false" speed ="1.0">
+				<anim x ="3" y ="61" width ="76" height ="13"/>
+			</life1>
+
+			<life0 loop ="false" speed ="1.0">
+				<anim x ="3" y ="76" width ="76" height ="13"/>
+			</life0>
+			
 	    </animations>
 	  </player>
 	  

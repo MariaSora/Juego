@@ -30,6 +30,7 @@ bool Player::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	app->vida = parameters.attribute("vida").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	texturePath2 = parameters.attribute("texturepath2").as_string();
 
 	idleAnim.LoadAnimation("player", "idleAnim");
 	jumpAnim.LoadAnimation("player", "jumpAnim");
@@ -39,6 +40,12 @@ bool Player::Awake() {
 	attackAnim.LoadAnimation("player", "attackAnim");
 	dieAnim.LoadAnimation("player", "dieAnim");
 	damagedAnim.LoadAnimation("player", "damagedAnim");
+	life0.LoadAnimation("player", "life0");
+	life1.LoadAnimation("player", "life1");
+	life2.LoadAnimation("player", "life2");
+	life3.LoadAnimation("player", "life3");
+	life4.LoadAnimation("player", "life4");
+	life5.LoadAnimation("player", "life5");
 
 	return true;
 }
@@ -47,6 +54,7 @@ bool Player::Start() {
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
+	texture2 = app->tex->Load(texturePath2);
 
 	//player = app->tex->Load("Assets/Textures/Pink_Monster.png");
 
@@ -266,15 +274,24 @@ bool Player::Update(float dt)
 			}
 		}
 	}
+	if (app->vida == 0) currentLifeAnimation = &life0; life1.Reset();
+	if (app->vida == 1) currentLifeAnimation = &life1; life2.Reset();
+	if (app->vida == 2) currentLifeAnimation = &life2; life3.Reset();
+	if (app->vida == 3) currentLifeAnimation = &life3; life4.Reset();
+	if (app->vida == 4) currentLifeAnimation = &life4; life5.Reset(); 
+	if (app->vida == 5) currentLifeAnimation = &life5; life0.Reset();
 	
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
+	currentLifeAnimation->Update();
+	SDL_Rect rectLife = currentLifeAnimation->GetCurrentFrame(); 
+	app->render->DrawTexture(texture2, position.x - 20, position.y - 15, &rectLife);
+
 	currentAnimation->Update();
-
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
-
+	
 	if (isFacingRight) {
 		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_NONE);
 	}

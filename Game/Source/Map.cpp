@@ -117,6 +117,7 @@ bool Map::Update(float dt)
     }
 
     return true;
+
 }
 
 iPoint Map::MapToWorld(int x, int y) const

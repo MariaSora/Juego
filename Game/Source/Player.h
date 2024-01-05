@@ -37,6 +37,8 @@ public:
 	float speed = 0.2f;
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
+	const char* texturePath2;
+	SDL_Texture* texture2 = NULL;
 	PhysBody* pbody;
 
 	bool saltando = false;
@@ -53,7 +55,8 @@ public:
 	SDL_Texture* player = nullptr; 
 
 	Animation* currentAnimation = nullptr; 
-	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim, attackAnim, dieAnim, damagedAnim;
+	Animation* currentLifeAnimation = nullptr; 
+	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim, attackAnim, dieAnim, damagedAnim, life0, life1, life2, life3, life4, life5;
 
 
 	bool isFacingRight; 
