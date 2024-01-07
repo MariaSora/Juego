@@ -151,7 +151,7 @@ bool Scene::Update(float dt)
 		pugi::xml_node parameters;
 		//Si estoy en godmode puedo restaurar la vida del player y enemigos
 		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) { 
-
+			//Esto no funciona
 			app->vida = parameters.attribute("vida").as_int(); 
 			app->WalkingEnemyAlive = true;
 			app->FlyingEnemyAlive = true;
@@ -159,20 +159,19 @@ bool Scene::Update(float dt)
 		}
 			
 	}
-	else {
-		if (app->render->camera.x != player->position.x * app->win->GetScale()) {
-			app->render->camera.x = -player->position.x * app->win->GetScale() + 200;
-		} 
-		if (app->render->camera.y != player->position.y * app->win->GetScale()) { 
-			app->render->camera.y = 0;
-		}
-		
-		if (app->render->camera.x >= 0) {
-			app->render->camera.x = 0;
-		}
-		if (app->render->camera.x <= -5500) {
-			app->render->camera.x = -5500;
-		}
+
+	if (app->render->camera.x != player->position.x * app->win->GetScale()) {
+		app->render->camera.x = -player->position.x * app->win->GetScale() + 200;
+	}
+	if (app->render->camera.y != player->position.y * app->win->GetScale()) {
+		app->render->camera.y = 0;
+	}
+
+	if (app->render->camera.x >= 0) {
+		app->render->camera.x = 0;
+	}
+	if (app->render->camera.x <= -5500) {
+		app->render->camera.x = -5500;
 	}
 	
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest(); 

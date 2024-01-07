@@ -18,29 +18,41 @@
     <ClCompile Include="Source\PerfTimer.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
-    <ClCompile Include="Source\HealItem.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Source\Path.cpp" />
     <ClCompile Include="Source\movingPlatform.cpp" />
-    <ClCompile Include="Source\Particles.cpp" />
     <ClCompile Include="Source\Pathfinding.cpp" />
-    <ClCompile Include="Source\Tutorial.cpp" />
-    <ClCompile Include="Source\transparentWall.cpp" />
-    <ClCompile Include="Source\Portal.cpp" />
-    <ClCompile Include="Source\CandyItem.cpp" />
     <ClCompile Include="Source\Fonts.cpp" />
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\WalkingEnemy.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\FlyingEnemy.cpp">
-      <Filter>Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Checkpoints.cpp">
       <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CandyItem.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\HealItem.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Tutorial.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Particles.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\transparentWall.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Portal.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Entities\.</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WalkingEnemy.cpp">
+      <Filter>Entities\.</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FlyingEnemy.cpp">
+      <Filter>Entities\.</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,33 +95,45 @@
     <ClInclude Include="Source\Timer.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
-    <ClInclude Include="Source\HealItem.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Physics.h" />
     <ClInclude Include="Source\Path.h" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\movingPlatform.h" />
-    <ClInclude Include="Source\Particles.h" />
     <ClInclude Include="Source\PQueue.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="Source\Pathfinding.h" />
-    <ClInclude Include="Source\Tutorial.h" />
-    <ClInclude Include="Source\transparentWall.h" />
-    <ClInclude Include="Source\Portal.h" />
-    <ClInclude Include="Source\CandyItem.h" />
     <ClInclude Include="Source\Fonts.h" />
-    <ClInclude Include="Source\Player.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\WalkingEnemy.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FlyingEnemy.h">
-      <Filter>Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Checkpoints.h">
       <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CandyItem.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\HealItem.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Tutorial.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Particles.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\transparentWall.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Portal.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>Entities\.</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WalkingEnemy.h">
+      <Filter>Entities\.</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FlyingEnemy.h">
+      <Filter>Entities\.</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +148,9 @@
     </Filter>
     <Filter Include="Entities">
       <UniqueIdentifier>{dfd463a9-0115-4810-b01f-609a81e84280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities\.">
+      <UniqueIdentifier>{27d27098-e57c-4165-9247-20852c357253}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
