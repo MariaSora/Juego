@@ -63,6 +63,7 @@ bool Player::Start() {
 	pbody->ctype = ColliderType::PLAYER;
 
 	Ipos = pbody->body->GetTransform(); //Pos inicial
+	PositionUpdate = Ipos; 
 	points = 0;
 
 	ListItem<Entity*>* item;
@@ -246,7 +247,7 @@ bool Player::Update(float dt)
 			currentAnimation = &dieAnim;
 			if (dieAnim.HasFinished()) {	
 				dieAnim.Reset();
-				pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+				pbody->body->SetTransform(b2Vec2(PositionUpdate.p.x, PositionUpdate.p.y), 0); 
 				/*app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
 				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;	
 				app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
@@ -288,7 +289,7 @@ bool Player::Update(float dt)
 
 	currentLifeAnimation->Update();
 	SDL_Rect rectLife = currentLifeAnimation->GetCurrentFrame(); 
-	app->render->DrawTexture(texture2, position.x - 20, position.y - 15, &rectLife);
+	app->render->DrawTexture(texture2, position.x - 20, position.y - 15, &rectLife); 
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
@@ -342,6 +343,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::PARTICLES: 
 		LOG("Collision PARTICLES");
 		currentAnimation = &damagedAnim;
+		break;
+	case ColliderType::CHECKPOINT:
+		LOG("Collision CHECKPOINT");
 		break;
 	case ColliderType::HEALITEM:
 		LOG("Collision ITEM");

@@ -9,6 +9,7 @@
 #include "Particles.h"
 #include "Pathfinding.h"
 #include "Map.h"
+#include "Checkpoints.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -115,6 +116,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::PARTICLES:
 		entity = new Particles();
+		break;
+	case EntityType::CHECKPOINT:
+		entity = new Checkpoints();
 		break;
 	default:
 		break;

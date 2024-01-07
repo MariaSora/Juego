@@ -44,6 +44,12 @@ bool Scene::Awake(pugi::xml_node& config)
 		candyItem->parameters = candyItemNode;
 	}
 
+	for (pugi::xml_node checkpointNode = config.child("checkpoint"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint"))
+	{
+		Checkpoints* checkpoint = (Checkpoints*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
+		checkpoint->parameters = checkpointNode;
+	}
+
 	if (config.child("player")) {
 		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 		player->parameters = config.child("player");

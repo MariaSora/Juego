@@ -20,6 +20,7 @@ enum class EntityType
 	TUTORIAL,
 	MOVINGPLATFORM,
 	PARTICLES,
+	CHECKPOINT,
 	UNKNOWN
 };
 

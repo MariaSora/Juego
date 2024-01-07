@@ -36,6 +36,7 @@ enum class ColliderType {
 	MOVING_PLATFORM,
 	STAIRS,
 	PARTICLES,
+	CHECKPOINT,
 	UNKNOWN
 	// ..
 };

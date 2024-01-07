@@ -8,6 +8,7 @@
 #include "Particles.h"
 #include "HealItem.h"
 #include "CandyItem.h"
+#include "Checkpoints.h"
 
 struct SDL_Texture;
 
@@ -57,6 +58,7 @@ public:
 	Player* player;
 	CandyItem* candyItem;
 	WalkingEnemy* walkingEnemy;
+	Checkpoints* checkpoint;
 
 
 };

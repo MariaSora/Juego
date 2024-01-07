@@ -62,6 +62,8 @@ public:
 	bool isFacingRight; 
 	uint points;
 
+	b2Transform PositionUpdate;
+
 private:
 	//bool LoadJumpAnim(pugi::xml_node& node, jumpAnims* jump);
 	//bool LoadAllJumpAnims(pugi::xml_node animNode);

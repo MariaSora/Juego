@@ -18,14 +18,11 @@
     <ClCompile Include="Source\PerfTimer.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
-    <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\HealItem.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Source\Path.cpp" />
     <ClCompile Include="Source\movingPlatform.cpp" />
-    <ClCompile Include="Source\FlyingEnemy.cpp" />
-    <ClCompile Include="Source\WalkingEnemy.cpp" />
     <ClCompile Include="Source\Particles.cpp" />
     <ClCompile Include="Source\Pathfinding.cpp" />
     <ClCompile Include="Source\Tutorial.cpp" />
@@ -33,6 +30,18 @@
     <ClCompile Include="Source\Portal.cpp" />
     <ClCompile Include="Source\CandyItem.cpp" />
     <ClCompile Include="Source\Fonts.cpp" />
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WalkingEnemy.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FlyingEnemy.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Checkpoints.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -74,15 +83,12 @@
     <ClInclude Include="Source\Timer.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
-    <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\HealItem.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Physics.h" />
     <ClInclude Include="Source\Path.h" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\movingPlatform.h" />
-    <ClInclude Include="Source\FlyingEnemy.h" />
-    <ClInclude Include="Source\WalkingEnemy.h" />
     <ClInclude Include="Source\Particles.h" />
     <ClInclude Include="Source\PQueue.h">
       <Filter>Utils</Filter>
@@ -93,6 +99,18 @@
     <ClInclude Include="Source\Portal.h" />
     <ClInclude Include="Source\CandyItem.h" />
     <ClInclude Include="Source\Fonts.h" />
+    <ClInclude Include="Source\Player.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\WalkingEnemy.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FlyingEnemy.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Checkpoints.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
@@ -103,6 +121,9 @@
     </Filter>
     <Filter Include="External\PugiXml">
       <UniqueIdentifier>{2855ff7f-53a1-413d-a75b-18b4ade921dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{dfd463a9-0115-4810-b01f-609a81e84280}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

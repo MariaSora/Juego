@@ -3,20 +3,21 @@
 	<window />
 	<input />
 	<textures />
+	<fonts />
 	<audio />
 	<:anonymous />
 	<scene>
-		<Player x="52" y="179" Vida="5" />
+		<Player x="1466" y="197" Vida="3" />
 		<Enemies>
-			<Enemy x="150" y="100" Alive="true" />
+			<Enemy x="150" y="100" Alive="false" />
 			<Enemy x="1700" y="90" Alive="true" />
-			<Enemy x="800" y="170" Alive="true" />
+			<Enemy x="800" y="170" Alive="false" />
 			<Enemy x="2650" y="50" Alive="true" />
 		</Enemies>
 	</scene>
 	<:anonymous />
 	<entitymanager />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-2732" y="0" />
 	</renderer>
 </game_state>

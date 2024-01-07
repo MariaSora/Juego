@@ -374,6 +374,10 @@
 	<candyItem x="304" y="352" texturepath="Assets/Textures/candy.png"/>
 	<candyItem x="270" y="672" texturepath="Assets/Textures/candy.png"/>
 	<candyItem x="540" y="672" texturepath="Assets/Textures/candy.png"/>
+
+	<checkpoint x="230" y="230" num="1" texturepath="Assets/Textures/lollipop.png"/>
+	<checkpoint x="1500" y="197" num="2" texturepath="Assets/Textures/lollipop.png"/>
+		
   </scene>
   
 </config>
