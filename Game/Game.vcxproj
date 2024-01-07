@@ -98,6 +98,7 @@
   <ItemGroup>
     <ClCompile Include="Source\CandyItem.cpp" />
     <ClCompile Include="Source\Checkpoints.cpp" />
+    <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\FlyingEnemy.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Fonts.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Source\Checkpoints.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\EntityManager.h" />
+    <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\FlyingEnemy.h" />
     <ClInclude Include="Source\Fonts.h" />
     <ClInclude Include="Source\HealItem.h" />

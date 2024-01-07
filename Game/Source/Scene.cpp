@@ -206,6 +206,7 @@ Player* Scene::GetPlayer()
 {
 	return player;
 }
+
 bool Scene::LoadState(pugi::xml_node node) {
 
 	//Updates the camera position using the state in the xml file
@@ -244,9 +245,6 @@ bool Scene::LoadState(pugi::xml_node node) {
 		walkingenemy->Start();
 	}
 
-	
-
-
 	for (pugi::xml_node itemNode = node.child("Enemies").child("Enemy"); itemNode; itemNode = itemNode.next_sibling("Enemy"))
 	{
 		if (!itemNode.attribute("Alive").as_bool()) {
@@ -279,7 +277,6 @@ bool Scene::SaveState(pugi::xml_node node) {
 		EnemyNode.append_attribute("y").set_value(app->entityManager->enemies.At(i)->data->initialpos.y);
 		EnemyNode.append_attribute("Alive").set_value(app->entityManager->enemies.At(i)->data->active);
 	}
-
 
 	return true;
 }

@@ -21,6 +21,7 @@ class Scene;
 class EntityManager;
 class Map;
 class Physics;
+class FadeToBlack;
 
 class App
 {
@@ -91,6 +92,7 @@ public:
 	EntityManager* entityManager;
 	Map* map;
 	Physics* physics;
+	FadeToBlack* fade;
 
 	int vida;
 	bool statewalkingenemy = true;
