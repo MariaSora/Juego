@@ -70,149 +70,21 @@ bool WalkingEnemy::Update(float dt)
 {
 	pbody->body->SetGravityScale(10);
 
-	b2Vec2 vel = pbody->body->GetLinearVelocity();
-
 	if (!active) pbody->body->SetActive(false);
-
 
 	if (playerPos.x > enemyPos.x) isFacingRight = true;
 	if (playerPos.x < enemyPos.x) isFacingRight = false;
 
 	enemyPos = app->map->WorldToMap(position.x, position.y);
 	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x - 10, position.y);
-	//app->render->DrawTexture(texture, position.x, position.y);
-	if (type)
-	{
-		if (app->WalkingEnemyAlive2) {
-			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
-			{
-				app->map->pathfinding2->CreatePath(enemyPos, playerPos);
-				path = app->map->pathfinding2->GetLastPath();
-				if (app->physics->debug)
-				{
-					for (uint i = 0; i < path->Count(); i++)
-					{
-						iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-						app->render->DrawTexture(texture2, pos.x, pos.y);
-					}
-				}
-			}
-			if (app->scene->player->touchingP) {
-				if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
-					Attack();
-				}
-				else {
-					vel = { 0,0 };
-					pbody->body->SetLinearVelocity(vel);
-				}
-			}
-			else {
-				vel = { 0,0 };
-				pbody->body->SetLinearVelocity(vel);
-			}
-			currentAnimation = &jumpAnim;
-			if (jumpAnim.HasFinished()) jumpAnim.Reset();
-		}
-
-		//walkingenemy dies
-		if (position.y >= 630) 	app->WalkingEnemyAlive2 = false;
-
-		if (!app->WalkingEnemyAlive2) {
-			currentAnimation = &deathAnim;
-			vel = { 0,0 };
-			pbody->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) {
-				active = false;
-				pbody->body->SetActive(false);
-				//currentAnimation = &idleAnim;
-				SDL_DestroyTexture(texture); 
-				app->map->pathfinding->ClearLastPath();
-				/*app->physics->world->DestroyBody(pbody->body);*/
-				//SDL_DestroyRenderer(this);
-			}
-		}
-	}
-	else
-	{
-		if (app->WalkingEnemyAlive) {
-			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
-			{
-				app->map->pathfinding3->CreatePath(enemyPos, playerPos);
-				path = app->map->pathfinding3->GetLastPath();
-				if (app->physics->debug)
-				{
-					for (uint i = 0; i < path->Count(); i++)
-					{
-						iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-						app->render->DrawTexture(texture3, pos.x, pos.y);
-					}
-				}
-			}
-			if (app->scene->player->touchingP) {
-				if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10) {
-					Attack();
-				}
-				else {
-					vel = { 0,0 };
-					pbody->body->SetLinearVelocity(vel);
-				}
-			}
-			else {
-				vel = { 0,0 };
-				pbody->body->SetLinearVelocity(vel);
-			}
-
-			if (!app->statewalkingenemy) {
-				idleAnim.Reset();
-				currentAnimation = &attackAnim;
-				if (attackAnim.HasFinished()) {
-					for (b2ContactEdge* ce = pbody->body->GetContactList(); ce; ce = ce->next) {
-						b2Contact* c = ce->contact;
-						if (c->GetFixtureA()->GetBody() == app->scene->player->pbody->body) {
-							if (app->godmode == false) {
-								LOG("Player contact");
-								app->vida--;
-								app->scene->player->damage = true;
-							}
-						}
-					}
-					app->statewalkingenemy = true;
-				}
-			}
-			else {
-				attackAnim.Reset();
-				currentAnimation = &idleAnim;
-				counter++;
-				if (counter == 50) {
-					counter = 0;
-					app->statewalkingenemy = false;
-				}
-			}
-		}
-		//walkingenemy dies
-		if (position.y >= 630) 	app->WalkingEnemyAlive = false;
-
-		if (!app->WalkingEnemyAlive) {
-			currentAnimation = &deathAnim;
-			vel = { 0,0 };
-			pbody->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) {
-				pbody->body->SetActive(false);
-				active = false;
-				//currentAnimation = &idleAnim;
-				SDL_DestroyTexture(texture); 
-				app->map->pathfinding->ClearLastPath();
-				/*app->physics->world->DestroyBody(pbody->body);*/
-				//SDL_DestroyRenderer(this);
-			}
-		}
-	}
-
+	
+	if (type) EnemyFunctionality();
+	else SecondEnemyFunctionality(); 
 
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
-	currentAnimation->Update(); 
+	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
 	
 	if (isFacingRight) {
@@ -257,6 +129,133 @@ void WalkingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iP
 void WalkingEnemy::Attack()
 {
 	MoveToPlayer(enemyPos, 1.0f, path);
+}
+
+void WalkingEnemy::EnemyFunctionality() 
+{
+	b2Vec2 vel = pbody->body->GetLinearVelocity(); 
+
+	if (app->WalkingEnemyAlive2) {
+		if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
+		{
+			app->map->pathfinding2->CreatePath(enemyPos, playerPos);
+			path = app->map->pathfinding2->GetLastPath();
+			if (app->physics->debug)
+			{
+				for (uint i = 0; i < path->Count(); i++)
+				{
+					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+					app->render->DrawTexture(texture2, pos.x, pos.y);
+				}
+			}
+		}
+		if (app->scene->player->touchingP) {
+			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
+				Attack();
+			}
+			else {
+				vel = { 0,0 };
+				pbody->body->SetLinearVelocity(vel);
+			}
+		}
+		else {
+			vel = { 0,0 };
+			pbody->body->SetLinearVelocity(vel);
+		}
+		currentAnimation = &jumpAnim;
+		if (jumpAnim.HasFinished()) jumpAnim.Reset();
+	}
+
+	if (!app->WalkingEnemyAlive2) {
+		currentAnimation = &deathAnim;
+		vel = { 0,0 };
+		pbody->body->SetLinearVelocity(vel);
+		if (deathAnim.HasFinished()) {
+			active = false;
+			pbody->body->SetActive(false);
+			//currentAnimation = &idleAnim;
+			SDL_DestroyTexture(texture);
+			app->map->pathfinding->ClearLastPath();
+			/*app->physics->world->DestroyBody(pbody->body);*/
+			//SDL_DestroyRenderer(this);
+		}
+	}
+}
+
+void WalkingEnemy::SecondEnemyFunctionality()
+{
+	b2Vec2 vel = pbody->body->GetLinearVelocity();
+
+	if (app->WalkingEnemyAlive) {
+		if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
+		{
+			app->map->pathfinding3->CreatePath(enemyPos, playerPos);
+			path = app->map->pathfinding3->GetLastPath();
+			if (app->physics->debug)
+			{
+				for (uint i = 0; i < path->Count(); i++)
+				{
+					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+					app->render->DrawTexture(texture3, pos.x, pos.y);
+				}
+			}
+		}
+		if (app->scene->player->touchingP) {
+			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10) {
+				Attack();
+			}
+			else {
+				vel = { 0,0 };
+				pbody->body->SetLinearVelocity(vel);
+			}
+		}
+		else {
+			vel = { 0,0 };
+			pbody->body->SetLinearVelocity(vel);
+		}
+
+		if (!app->statewalkingenemy) {
+			idleAnim.Reset();
+			currentAnimation = &attackAnim;
+			if (attackAnim.HasFinished()) {
+				for (b2ContactEdge* ce = pbody->body->GetContactList(); ce; ce = ce->next) {
+					b2Contact* c = ce->contact;
+					if (c->GetFixtureA()->GetBody() == app->scene->player->pbody->body) {
+						if (app->godmode == false) {
+							LOG("Player contact");
+							app->vida--;
+							app->scene->player->damage = true;
+						}
+					}
+				}
+				app->statewalkingenemy = true;
+			}
+		}
+		else {
+			attackAnim.Reset();
+			currentAnimation = &idleAnim;
+			counter++;
+			if (counter == 50) {
+				counter = 0;
+				app->statewalkingenemy = false;
+			}
+		}
+	}
+
+	if (!app->WalkingEnemyAlive) {
+		currentAnimation = &deathAnim;
+		vel = { 0,0 };
+		pbody->body->SetLinearVelocity(vel);
+		if (deathAnim.HasFinished()) {
+			pbody->body->SetActive(false);
+			active = false;
+			//currentAnimation = &idleAnim;
+			SDL_DestroyTexture(texture);
+			app->map->pathfinding->ClearLastPath();
+			/*app->physics->world->DestroyBody(pbody->body);*/
+			//SDL_DestroyRenderer(this);
+		}
+	}
 }
 
 bool WalkingEnemy::CleanUp()

@@ -95,7 +95,6 @@ bool Player::Start() {
 
 bool Player::Update(float dt)
 {
-	b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y); 
 	currentAnimation = &idleAnim;
 
 
@@ -120,7 +119,6 @@ bool Player::Update(float dt)
 			app->audio->PlayMusic("Assets/Audio/Music/backgroundMusic.ogg");
 			LOG("GODMODE DEACTIVATED");
 		}
-
 		else if (app->godmode) {
 			app->audio->PlayMusic("Assets/Audio/Music/godmode.ogg");
 			LOG("GODMODE ACTIVATED");
@@ -128,7 +126,6 @@ bool Player::Update(float dt)
 	}
 
 	if (app->godmode) {
-
 		b2Vec2 vel = b2Vec2(0, 0);
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 			vel = b2Vec2((-speed / 2) * dt, 0);
@@ -148,9 +145,59 @@ bool Player::Update(float dt)
 		pbody->body->SetLinearVelocity(vel);
 		pbody->body->SetGravityScale(0);
 		pbody->body->GetFixtureList()[0].SetSensor(true);
-
 	}
 
+	PlayerMovement(dt);
+	LivesManagement();
+	
+	//Update player position in pixels
+	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+
+	currentLifeAnimation->Update();
+	SDL_Rect rectLife = currentLifeAnimation->GetCurrentFrame(); 
+	app->render->DrawTexture(texture2, position.x - 20, position.y - 15, &rectLife); 
+
+	currentAnimation->Update();
+	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
+	
+	if (isFacingRight) {
+		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_NONE);
+	}
+	else {
+		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
+	}
+
+	//teleport to final position
+	if (portal != NULL) PlayerTeleports();
+
+	portal->closePortal.Update();
+
+	SDL_Rect rect2 = portal->closePortal.GetCurrentFrame();
+	app->render->DrawTexture(portal->texture, app->positionportal2.x + 2, app->positionportal2.y - 5, &rect2, 1, SDL_FLIP_NONE);
+
+	return true;
+}
+
+bool Player::CleanUp()
+{
+
+	return true;
+}
+
+void Player::LivesManagement()
+{
+	if (app->vida == 0) currentLifeAnimation = &life0; life1.Reset();
+	if (app->vida == 1) currentLifeAnimation = &life1; life2.Reset();
+	if (app->vida == 2) currentLifeAnimation = &life2; life3.Reset();
+	if (app->vida == 3) currentLifeAnimation = &life3; life4.Reset();
+	if (app->vida == 4) currentLifeAnimation = &life4; life5.Reset();
+	if (app->vida == 5) currentLifeAnimation = &life5; life0.Reset();
+}
+
+void Player::PlayerMovement(float dt)
+{
+	b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y);
 	if (app->godmode == false && !die) {
 
 		pbody->body->SetGravityScale(1);
@@ -173,7 +220,7 @@ bool Player::Update(float dt)
 				moving.x++;
 			}
 		}
-		
+
 
 		if ((touchingP && touchingS) || touchingS)
 		{
@@ -221,19 +268,18 @@ bool Player::Update(float dt)
 		if (saltando) {
 			currentAnimation = &jumpAnim;
 		}
-		
+
 		//ataque personaje
-		
 		if (app->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN) {
 			app->audio->PlayFx(app->audio->attackFx);
-			anim = true; 
+			anim = true;
 			attackAnim.Reset();
 		}
 		if (anim) {
 			currentAnimation = &attackAnim;
 			atk = true;
 			if (attackAnim.HasFinished()) {
-				anim = false; 
+				anim = false;
 				atk = false;
 			}
 		}
@@ -250,26 +296,13 @@ bool Player::Update(float dt)
 		if (die) {
 			LOG("PLAYER DIES");
 			currentAnimation = &dieAnim;
-			if (dieAnim.HasFinished()) {	
+			if (dieAnim.HasFinished()) {
 				dieAnim.Reset();
-				pbody->body->SetTransform(b2Vec2(PositionUpdate.p.x, PositionUpdate.p.y), 0); 
-				/*app->scene->flyingEnemy->position.x = app->scene->flyingEnemy->initialPos.x;
-				app->scene->flyingEnemy->position.y = app->scene->flyingEnemy->initialPos.y;	
-				app->scene->walkingEnemy->position.x = app->scene->walkingEnemy->initialPos.x;
-				app->scene->walkingEnemy->position.y = app->scene->walkingEnemy->initialPos.y;*/
-				
-			/*	if (!app->FlyingEnemyAlive) {
-					app->FlyingEnemyAlive = true;
-				}
-				if (!app->SecondFlyingEnemyAlive) {
-					app->SecondFlyingEnemyAlive = true;
-				}
-				if (!app->WalkingEnemyAlive) {
-					app->WalkingEnemyAlive = true;
-				}*/
+				pbody->body->SetTransform(b2Vec2(PositionUpdate.p.x, PositionUpdate.p.y), 0);
+
 
 				die = false;
-				app->vida = 5; 
+				app->vida = 5;
 			}
 		}
 
@@ -277,7 +310,7 @@ bool Player::Update(float dt)
 			currentAnimation = &damagedAnim;
 			if (damagedAnim.HasFinished()) {
 				damagedAnim.Reset();
-				damage = false; 
+				damage = false;
 			}
 		}
 	}
@@ -302,9 +335,7 @@ bool Player::Update(float dt)
 	if (isFacingRight) {
 		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_NONE);
 	}
-	else {
-		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
-	}
+}
 
 	//teleport to final position
 	if (portal != NULL)
@@ -342,7 +373,6 @@ bool Player::CleanUp()
 
 	return true;
 }
-
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;

@@ -30,6 +30,9 @@ public:
 
 	void Attack();
 
+	void EnemyFunctionality();
+	void SecondEnemyFunctionality();
+
 public:
 
 	float speed = 0.2f;

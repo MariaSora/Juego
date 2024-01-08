@@ -32,6 +32,9 @@ public:
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
 	void OnExitCollision(PhysBody* physA, PhysBody* physB);
+	void PlayerMovement(float dt);
+	void PlayerTeleports();
+	void LivesManagement();
 
 public:
 	float speed = 0.2f;
