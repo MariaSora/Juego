@@ -61,7 +61,6 @@ bool Particles::Start() {
 
 bool Particles::Update(float dt)
 {
-	
 	/*currentAnimation = &shootAnim;
 	if (app->attack && type) {
 		if (!alive && app->scene->flyingEnemy != nullptr) { 
@@ -98,7 +97,6 @@ bool Particles::Update(float dt)
 	}
 	currentAnimation->Update();*/
 	
-
 
 	position.y++;
 	if (!alive) {

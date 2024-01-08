@@ -30,7 +30,8 @@ public:
 	void MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path);
 
 	void Attack();
-
+	void EnemyFunctionality();
+	void SecondEnemyFunctionality();
 public:
 	float speed = 0.2f;
 	SDL_Texture* texture;

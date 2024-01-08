@@ -74,16 +74,6 @@ bool FlyingEnemy::Start() {
 
 bool FlyingEnemy::Update(float dt)
 {		
-	b2Vec2 vel = pbody->body->GetLinearVelocity();
-	b2Vec2 vel2 = pbody2->body->GetLinearVelocity();
-	
-
-
-
-
-
-
-
 	if (disparo == nullptr) {
 
 		pugi::xml_document configFile;
@@ -106,112 +96,12 @@ bool FlyingEnemy::Update(float dt)
 		((Particles*)disparo)->parent = this;
 	}
 
-
-
-
-
-
 	if (!active) pbody->body->SetActive(false);
 	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x, app->scene->GetPlayer()->position.y - 80);
 
-	if (type) {
-		if (app->FlyingEnemyAlive) {
-			currentAnimation = &flyAnim;
-
-			enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
+	if (type) EnemyFunctionality();
+	if (!type) SecondEnemyFunctionality();
 			
-			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
-			{
-				app->map->pathfinding->CreatePath(enemyPos, playerPos);
-				path = app->map->pathfinding->GetLastPath();
-				if (app->physics->debug)
-				{
-					for (uint i = 0; i < path->Count(); i++)
-					{
-						iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-						app->render->DrawTexture(texture2, pos.x, pos.y);
-					}
-				}
-			}
-
-			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
-				Attack();
-				app->attack = true;
-			}
-			else {
-				app->attack = false;
-				vel = { 0,0 };
-				pbody->body->SetLinearVelocity(vel);
-			}
-
-			position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-			position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
-		}
-		if(!app->FlyingEnemyAlive) {
-			LOG("FLYINGENEMY DIES");
-			currentAnimation = &deathAnim;
-			app->attack = false;
-			position.y += 2;
-			vel = { 0,0 };
-			pbody->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) {
-				app->map->pathfinding->ClearLastPath();
-				pbody->body->SetActive(false);
-			}
-		}
-		SDL_Rect rect = currentAnimation->GetCurrentFrame();
-		app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
-	}
-	if (!type) {
-		if (app->SecondFlyingEnemyAlive) {
-			currentAnimation = &flyAnim;
-
-			enemyPos = app->map->WorldToMap(position2.x - 10, position2.y - 10);
-
-			if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
-			{
-				app->map->pathfinding4->CreatePath(enemyPos, playerPos);
-				path = app->map->pathfinding4->GetLastPath();
-				if (app->physics->debug)
-				{
-					for (uint i = 0; i < path->Count(); i++)
-					{
-						iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-						app->render->DrawTexture(texture4, pos.x, pos.y);
-					}
-				}
-			}
-
-			if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
-				Attack();
-				app->attack2 = true;
-			}
-			else {
-				app->attack2 = false;
-				vel = { 0,0 };
-				pbody2->body->SetLinearVelocity(vel);
-			}
-
-			position2.x = METERS_TO_PIXELS(pbody2->body->GetTransform().p.x) - 16;
-			position2.y = METERS_TO_PIXELS(pbody2->body->GetTransform().p.y) - 16;
-		}
-		if (!app->SecondFlyingEnemyAlive) {
-			LOG("FLYINGENEMY DIES");
-			currentAnimation = &deathAnim;
-			app->attack2 = false;
-			position2.y += 2;
-			vel = { 0,0 };
-			pbody2->body->SetLinearVelocity(vel);
-			if (deathAnim.HasFinished()) { 
-				app->map->pathfinding->ClearLastPath();
-				pbody2->body->SetActive(false);
-			}
-
-		}
-		SDL_Rect rect = currentAnimation->GetCurrentFrame();
-		app->render->DrawTexture(texture, position2.x + 10, position2.y + 10, &rect);
-	}
-
 	currentAnimation->Update();
 	
 	return true;
@@ -221,6 +111,109 @@ void FlyingEnemy::Attack()
 {	
 	MoveToPlayer(enemyPos, 1.0f, path);
 }
+
+void FlyingEnemy::EnemyFunctionality()
+{
+	b2Vec2 vel = pbody->body->GetLinearVelocity(); 
+	if (app->FlyingEnemyAlive) {
+		currentAnimation = &flyAnim;
+
+		enemyPos = app->map->WorldToMap(position.x - 10, position.y - 10);
+
+		if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
+		{
+			app->map->pathfinding->CreatePath(enemyPos, playerPos);
+			path = app->map->pathfinding->GetLastPath();
+			if (app->physics->debug)
+			{
+				for (uint i = 0; i < path->Count(); i++)
+				{
+					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+					app->render->DrawTexture(texture2, pos.x, pos.y);
+				}
+			}
+		}
+
+		if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
+			Attack();
+			app->attack = true;
+		}
+		else {
+			app->attack = false;
+			vel = { 0,0 };
+			pbody->body->SetLinearVelocity(vel);
+		}
+
+		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+	}
+	if (!app->FlyingEnemyAlive) {
+		LOG("FLYINGENEMY DIES");
+		currentAnimation = &deathAnim;
+		app->attack = false;
+		position.y += 2;
+		vel = { 0,0 };
+		pbody->body->SetLinearVelocity(vel);
+		if (deathAnim.HasFinished()) {
+			app->map->pathfinding->ClearLastPath();
+			pbody->body->SetActive(false);
+		}
+	}
+	SDL_Rect rect = currentAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture, position.x + 10, position.y + 10, &rect);
+}
+void FlyingEnemy::SecondEnemyFunctionality()
+{
+	b2Vec2 vel = pbody2->body->GetLinearVelocity();
+	if (app->SecondFlyingEnemyAlive) {
+		currentAnimation = &flyAnim;
+
+		enemyPos = app->map->WorldToMap(position2.x - 10, position2.y - 10);
+
+		if (enemyPos.x - playerPos.x <= 10 && enemyPos.x - playerPos.x >= -10)
+		{
+			app->map->pathfinding4->CreatePath(enemyPos, playerPos);
+			path = app->map->pathfinding4->GetLastPath();
+			if (app->physics->debug)
+			{
+				for (uint i = 0; i < path->Count(); i++)
+				{
+					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+					app->render->DrawTexture(texture4, pos.x, pos.y);
+				}
+			}
+		}
+
+		if (enemyPos.x - playerPos.x <= 5 && enemyPos.x - playerPos.x >= -5) {
+			Attack();
+			app->attack2 = true;
+		}
+		else {
+			app->attack2 = false;
+			vel = { 0,0 };
+			pbody2->body->SetLinearVelocity(vel);
+		}
+
+		position2.x = METERS_TO_PIXELS(pbody2->body->GetTransform().p.x) - 16;
+		position2.y = METERS_TO_PIXELS(pbody2->body->GetTransform().p.y) - 16;
+	}
+	if (!app->SecondFlyingEnemyAlive) {
+		LOG("FLYINGENEMY DIES");
+		currentAnimation = &deathAnim;
+		app->attack2 = false;
+		position2.y += 2;
+		vel = { 0,0 };
+		pbody2->body->SetLinearVelocity(vel);
+		if (deathAnim.HasFinished()) {
+			app->map->pathfinding->ClearLastPath();
+			pbody2->body->SetActive(false);
+		}
+
+	}
+	SDL_Rect rect = currentAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture, position2.x + 10, position2.y + 10, &rect);
+}
+
 void FlyingEnemy::MoveToPlayer(iPoint& enemyPos, float speed, const DynArray<iPoint>* path)
 {
 	b2Vec2 vel = pbody->body->GetLinearVelocity();

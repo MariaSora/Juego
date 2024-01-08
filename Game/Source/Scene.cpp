@@ -134,30 +134,16 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-
 	if (app->godmode) {
-		float camSpeed = 1;
-		if(app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-			app->render->camera.y -= (int)ceil(camSpeed * dt);
-
-		if(app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-			app->render->camera.y += (int)ceil(camSpeed * dt);
-
-		if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-			app->render->camera.x -= (int)ceil(camSpeed * dt);
-
-		if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-			app->render->camera.x += (int)ceil(camSpeed * dt);
 		pugi::xml_node parameters;
+
 		//Si estoy en godmode puedo restaurar la vida del player y enemigos
 		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) { 
-			//Esto no funciona
 			app->vida = 5;//parameters.attribute("vida").as_int(); 
 			app->WalkingEnemyAlive = true;
 			app->FlyingEnemyAlive = true;
 			app->SecondFlyingEnemyAlive = true;
-		}
-			
+		}	
 	}
 
 	if (app->render->camera.x != player->position.x * app->win->GetScale()) {
@@ -166,7 +152,7 @@ bool Scene::Update(float dt)
 	if (app->render->camera.y != player->position.y * app->win->GetScale()) {
 		app->render->camera.y = 0;
 	}
-
+	//Camera limits
 	if (app->render->camera.x >= 0) {
 		app->render->camera.x = 0;
 	}
@@ -177,8 +163,6 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest(); 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest(); 
 	 
-	// Renders the image in the center of the screen 
-	//app->render->DrawTexture(img, (int)textPosX, (int)textPosY);
 	return true;
 }
 
