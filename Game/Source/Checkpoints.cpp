@@ -31,7 +31,7 @@ bool Checkpoints::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	
-	pbody = app->physics->CreateRectangle(position.x, position.y, 10, 20, bodyType::KINEMATIC);
+	pbody = app->physics->CreateRectangleSensor(position.x, position.y, 20, 100, bodyType::KINEMATIC);
 	pbody->listener = this; 
 	pbody->ctype = ColliderType::CHECKPOINT;
 

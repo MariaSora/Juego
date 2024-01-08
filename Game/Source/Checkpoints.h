@@ -27,14 +27,12 @@ public:
 
 public:
 	
-
+	int num;
 
 private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
-
-	int num;
 
 	bool intouch = false;
 };

@@ -7,7 +7,7 @@
 	<audio />
 	<:anonymous />
 	<scene>
-		<Player x="1466" y="197" Vida="3" />
+		<Player x="1468" y="197" Vida="5" lastcheckpoint.x="29.6799984" lastcheckpoint.y="3.5999999" />
 		<Enemies>
 			<Enemy x="150" y="100" Alive="false" />
 			<Enemy x="1700" y="90" Alive="true" />
@@ -17,7 +17,8 @@
 	</scene>
 	<:anonymous />
 	<entitymanager />
+	<fadetoblack />
 	<renderer>
-		<camera x="-2732" y="0" />
+		<camera x="-2736" y="0" />
 	</renderer>
 </game_state>

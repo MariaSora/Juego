@@ -152,7 +152,7 @@ bool Scene::Update(float dt)
 		//Si estoy en godmode puedo restaurar la vida del player y enemigos
 		if (app->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) { 
 			//Esto no funciona
-			app->vida = parameters.attribute("vida").as_int(); 
+			app->vida = 5;//parameters.attribute("vida").as_int(); 
 			app->WalkingEnemyAlive = true;
 			app->FlyingEnemyAlive = true;
 			app->SecondFlyingEnemyAlive = true;
@@ -209,9 +209,12 @@ Player* Scene::GetPlayer()
 bool Scene::LoadState(pugi::xml_node node) {
 
 	//Updates the camera position using the state in the xml file
-	player->position.x = node.child("Player").attribute("x").as_int();
-	player->position.y = node.child("Player").attribute("y").as_int();
+	player->position.x = node.child("Player").attribute("x").as_int() + 16;
+	player->position.y = node.child("Player").attribute("y").as_int() - 16;
 	app->vida = node.child("Player").attribute("Vida").as_int();
+	//checkpoint->num = node.child("Player").attribute("LastCheckpoint").as_int();
+	player->PositionUpdate.p.x = node.child("Player").attribute("lastcheckpoint.x").as_int() + 16;
+	player->PositionUpdate.p.y = node.child("Player").attribute("lastcheckpoint.y").as_int() - 16;
 
 	player->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(player->position.x, player->position.y)), 0); 
 
@@ -264,7 +267,9 @@ bool Scene::SaveState(pugi::xml_node node) {
 	camNode.append_attribute("x").set_value(player->position.x); 
 	camNode.append_attribute("y").set_value(player->position.y); 
 	camNode.append_attribute("Vida").set_value(app->vida); 
-	
+	camNode.append_attribute("lastcheckpoint.x").set_value(player->PositionUpdate.p.x);
+	camNode.append_attribute("lastcheckpoint.y").set_value(player->PositionUpdate.p.y);
+	//camNode.append_attribute("LastCheckpoint").set_value(checkpoint->num);
 	//player->pbody->body->GetTransform();
 
 	pugi::xml_node EnemiesNodes = node.append_child("Enemies");
