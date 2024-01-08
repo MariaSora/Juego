@@ -118,8 +118,8 @@ bool Map::Update(float dt)
         mapLayerItem = mapLayerItem->next;
 
     }
-    app->fonts->drawText(std::to_string(app->scene->player->points).c_str(), { 0,0,0,255 }, 300, 10);
-
+    app->fonts->drawText(std::to_string(app->scene->player->points).c_str(), { 0,0,0,255 }, (-app->render->camera.x * app->scene->speedUI) + 420, 10);
+ 
     return true;
 
 }

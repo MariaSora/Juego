@@ -64,7 +64,7 @@
 	<movingplatform x="2256" y="180" type="false" distance="50" direction="false" texturepath="Assets/Textures/movingPlatform.png"/>
 	<movingplatform x="2368" y="80" type="false" distance="50" direction="true" texturepath="Assets/Textures/movingPlatform.png"/>
 	  
-  <player x="100" y="150" vida="5" texturepath="Assets/Textures/Pink_Monster.png" texturepath2 ="Assets/Textures/heartLife.png">
+  <player x="100" y="150" vida="5" texturepath="Assets/Textures/Pink_Monster.png" texturepath2 ="Assets/Textures/heartLife.png" texturepath3 ="Assets/Textures/confetti.png">
 	    <animations>
 		  <idleAnim loop ="false" speed ="1.0">
 			<anim x ="7" y ="4" width ="17" height ="28"/>
@@ -153,6 +153,20 @@
 			<life0 loop ="false" speed ="1.0">
 				<anim x ="3" y ="76" width ="76" height ="13"/>
 			</life0>
+			
+			<finishAnim loop ="false" speed ="2.0">
+				<anim x ="0" y ="0" width ="508" height ="461"/>
+				<anim x ="0" y ="461" width ="508" height ="461"/>
+				<anim x ="0" y ="922" width ="508" height ="461"/>
+				<anim x ="0" y ="1383" width ="508" height ="461"/>
+				<anim x ="0" y ="1844" width ="508" height ="461"/>
+				<anim x ="0" y ="2305" width ="508" height ="461"/>
+				<anim x ="0" y ="2766" width ="508" height ="461"/>
+				<anim x ="0" y ="0" width ="0" height ="0"/>
+			</finishAnim>
+			<notFinishAnim loop ="false" speed ="1.0">
+				<anim x ="0" y ="0" width ="0" height ="0"/>
+			</notFinishAnim>
 			
 	    </animations>
 	  </player>
@@ -377,7 +391,7 @@
 
 	<checkpoint x="230" y="230" num="1" texturepath="Assets/Textures/lollipop.png"/>
 	<checkpoint x="1500" y="197" num="2" texturepath="Assets/Textures/lollipop.png"/>
-		
-  </scene>
+
+	</scene>
   
 </config>

@@ -33,7 +33,7 @@ bool Fonts::Awake(pugi::xml_node& config)
 	}
 	else
 	{
-		font = TTF_OpenFont("../Output/Assets/Fonts/ds-digib.ttf", 30);
+		font = TTF_OpenFont("../Output/Assets/Fonts/PWHappyChristmas.ttf", 25);
 		if (font == NULL)
 		{
 			LOG("Couldn't load %d pt font from %s: %s\n",

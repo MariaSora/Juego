@@ -91,8 +91,6 @@ bool Scene::Awake(pugi::xml_node& config)
 		app->map->name = config.child("map").attribute("name").as_string();
 		app->map->path = config.child("map").attribute("path").as_string();
 	}
-
-
 	return ret;
 }
 

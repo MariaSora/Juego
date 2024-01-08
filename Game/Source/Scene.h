@@ -59,7 +59,7 @@ public:
 	CandyItem* candyItem;
 	WalkingEnemy* walkingEnemy;
 	Checkpoints* checkpoint;
-
+	float speedUI = 0.5f;
 
 };
 

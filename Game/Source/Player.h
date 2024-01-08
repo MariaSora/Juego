@@ -38,7 +38,9 @@ public:
 	const char* texturePath;
 	SDL_Texture* texture = NULL;
 	const char* texturePath2;
-	SDL_Texture* texture2 = NULL;
+	SDL_Texture* texture2 = NULL;	
+	const char* texturePath3;
+	SDL_Texture* texture3 = NULL;
 	PhysBody* pbody;
 
 	bool saltando = false;
@@ -56,7 +58,8 @@ public:
 
 	Animation* currentAnimation = nullptr; 
 	Animation* currentLifeAnimation = nullptr; 
-	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim, attackAnim, dieAnim, damagedAnim, life0, life1, life2, life3, life4, life5;
+	Animation* currentStateAnimation = nullptr; 
+	Animation idleAnim, climbAnim, climbIdleAnim, jumpAnim, walkAnim, attackAnim, dieAnim, damagedAnim, life0, life1, life2, life3, life4, life5, finishAnim, notFinishAnim;
 
 
 	bool isFacingRight; 
@@ -74,7 +77,7 @@ private:
 	bool inmovplat = false;
 	iPoint moving = { 0,0 };
 	
-
+	bool c = false; 
 	bool anim = false; 
 	transparentWall* wall;
 	Portal* portal;

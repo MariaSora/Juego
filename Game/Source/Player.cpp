@@ -31,6 +31,7 @@ bool Player::Awake() {
 	app->vida = parameters.attribute("vida").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	texturePath2 = parameters.attribute("texturepath2").as_string();
+	texturePath3 = parameters.attribute("texturepath3").as_string();
 
 	idleAnim.LoadAnimation("player", "idleAnim");
 	jumpAnim.LoadAnimation("player", "jumpAnim");
@@ -46,6 +47,8 @@ bool Player::Awake() {
 	life3.LoadAnimation("player", "life3");
 	life4.LoadAnimation("player", "life4");
 	life5.LoadAnimation("player", "life5");
+	finishAnim.LoadAnimation("player", "finishAnim");
+	notFinishAnim.LoadAnimation("player", "notFinishAnim");
 
 	return true;
 }
@@ -55,6 +58,7 @@ bool Player::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	texture2 = app->tex->Load(texturePath2);
+	texture3 = app->tex->Load(texturePath3);
 
 	//player = app->tex->Load("Assets/Textures/Pink_Monster.png");
 
@@ -85,7 +89,7 @@ bool Player::Start() {
 			movingplatform = (MovingPlatform*)pEntity;
 		}
 	}
-
+	currentStateAnimation = &notFinishAnim;
 	return true;
 }
 
@@ -93,6 +97,7 @@ bool Player::Update(float dt)
 {
 	b2Vec2 vel = b2Vec2(0, pbody->body->GetLinearVelocity().y); 
 	currentAnimation = &idleAnim;
+
 
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) { 
 		app->godmode = false;
@@ -289,7 +294,7 @@ bool Player::Update(float dt)
 
 	currentLifeAnimation->Update();
 	SDL_Rect rectLife = currentLifeAnimation->GetCurrentFrame(); 
-	app->render->DrawTexture(texture2, position.x - 20, position.y - 15, &rectLife); 
+	app->render->DrawTexture(texture2, (- app->render->camera.x * app->scene->speedUI) + 10, 15, & rectLife);
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
@@ -308,14 +313,26 @@ bool Player::Update(float dt)
 		{	
 			pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->positionportal2.x), PIXEL_TO_METERS(app->positionportal2.y)), 0);
 			app->render->camera.x = app->positionportal2.x;
-			portal->closePortal.Reset();
+		
 			app->audio->PlayFx(app->audio->winFx);
+			if (portal->closePortal.HasFinished()) {
+				portal->closePortal.Reset();
+				c = true; 
+			}
+		
 		}
 	}
-
+	if (c) {
+		currentStateAnimation = &finishAnim;
+		if (finishAnim.HasFinished()) finishAnim.Reset();
+	}
 	portal->closePortal.Update();
 	SDL_Rect rect2 = portal->closePortal.GetCurrentFrame();
 	app->render->DrawTexture(portal->texture, app->positionportal2.x + 2, app->positionportal2.y - 5, &rect2, 1, SDL_FLIP_NONE);
+
+	currentStateAnimation->Update();
+	SDL_Rect rectState = currentStateAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture3, 2900, 0, &rectState);
 
 	return true;
 }
