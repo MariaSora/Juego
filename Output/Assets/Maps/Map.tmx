@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="250" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="64">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="250" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="64">
  <properties>
   <property name="Draw" type="bool" value="true"/>
  </properties>
@@ -28746,11 +28746,11 @@
    <tile gid="3"/>
    <tile gid="3"/>
    <tile gid="3"/>
-   <tile gid="4"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
+   <tile gid="3"/>
    <tile/>
    <tile/>
    <tile/>
@@ -28996,11 +28996,11 @@
    <tile gid="39"/>
    <tile gid="39"/>
    <tile gid="39"/>
-   <tile gid="40"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="39"/>
+   <tile gid="39"/>
+   <tile gid="39"/>
+   <tile gid="39"/>
+   <tile gid="39"/>
    <tile/>
    <tile/>
    <tile/>
@@ -29246,11 +29246,11 @@
    <tile gid="75"/>
    <tile gid="75"/>
    <tile gid="75"/>
-   <tile gid="76"/>
-   <tile/>
-   <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="75"/>
+   <tile gid="75"/>
+   <tile gid="75"/>
+   <tile gid="75"/>
+   <tile gid="75"/>
    <tile/>
    <tile/>
    <tile/>
@@ -30085,7 +30085,7 @@
   <object id="33" x="2560.33" y="211.034" width="95" height="12.6932"/>
   <object id="34" x="2558.51" y="210.917" width="1.48488" height="49.7197"/>
   <object id="35" x="2480.33" y="163.083" width="110.667" height="47.5833"/>
-  <object id="36" x="3024.67" y="226.917" width="142.667" height="1.25"/>
+  <object id="36" x="3024.67" y="226.917" width="206.849" height="1.25"/>
   <object id="43" x="1839.42" y="179.045" width="48.0606" height="16.5"/>
   <object id="54" x="384.454" y="114.819" width="80.0909" height="1.27273"/>
   <object id="55" x="688.273" y="99.1514" width="47.3333" height="1.90909"/>

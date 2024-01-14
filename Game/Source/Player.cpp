@@ -90,6 +90,7 @@ bool Player::Start() {
 		}
 	}
 	currentStateAnimation = &notFinishAnim;
+
 	return true;
 }
 
@@ -337,22 +338,24 @@ void Player::PlayerMovement(float dt)
 	}
 }
 
+void Player::PlayerTeleports()
+{
 	//teleport to final position
 	if (portal != NULL)
 	{
-		if (portal->touchingPortal == true) 
-		{	
+		if (portal->touchingPortal == true)
+		{
 			pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->positionportal2.x), PIXEL_TO_METERS(app->positionportal2.y)), 0);
 			app->render->camera.x = app->positionportal2.x;
-		
+
 			app->audio->PlayFx(app->audio->winFx);
 			if (portal->closePortal.HasFinished()) {
 				portal->closePortal.Reset();
-				c = true; 
+				c = true;
 			}
-		
 		}
 	}
+
 	if (c) {
 		currentStateAnimation = &finishAnim;
 		if (finishAnim.HasFinished()) finishAnim.Reset();
@@ -365,14 +368,10 @@ void Player::PlayerMovement(float dt)
 	SDL_Rect rectState = currentStateAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture3, 2900, 0, &rectState);
 
-	return true;
+
+
 }
 
-bool Player::CleanUp()
-{
-
-	return true;
-}
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;

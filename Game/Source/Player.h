@@ -80,7 +80,7 @@ private:
 	bool inmovplat = false;
 	iPoint moving = { 0,0 };
 	
-	bool c = false; 
+	bool c = false;
 	bool anim = false; 
 	transparentWall* wall;
 	Portal* portal;

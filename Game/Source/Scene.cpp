@@ -32,63 +32,81 @@ bool Scene::Awake(pugi::xml_node& config)
 
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
-	for (pugi::xml_node healItemNode = config.child("healItem"); healItemNode; healItemNode = healItemNode.next_sibling("healItem"))
+
+	if (app->map->level == 1) 
 	{
-		HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
-		healItem->parameters = healItemNode;
+		for (pugi::xml_node healItemNode = config.child("healItem"); healItemNode; healItemNode = healItemNode.next_sibling("healItem"))
+		{
+			HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
+			healItem->parameters = healItemNode;
+		}
+
+		for (pugi::xml_node candyItemNode = config.child("candyItem"); candyItemNode; candyItemNode = candyItemNode.next_sibling("candyItem"))
+		{
+			CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
+			candyItem->parameters = candyItemNode;
+		}
+
+		for (pugi::xml_node checkpointNode = config.child("checkpoint"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint"))
+		{
+			Checkpoints* checkpoint = (Checkpoints*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
+			checkpoint->parameters = checkpointNode;
+		}
+
+		if (config.child("player")) {
+			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+			player->parameters = config.child("player");
+		}
+
+		for (pugi::xml_node ParticlesNode = config.child("particles"); ParticlesNode; ParticlesNode = ParticlesNode.next_sibling("particles")) {
+			Particles* particles = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
+			particles->parameters = ParticlesNode;
+		}
+
+		for (pugi::xml_node FlyingEnemyNode = config.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
+			FlyingEnemy* flyingenemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY); 
+			flyingenemy->parameters = FlyingEnemyNode;
+			flyingEnemy = flyingenemy;
+		}
+
+		for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
+			WalkingEnemy* walkingenemy = (WalkingEnemy*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
+			walkingenemy->parameters = WalkingEnemyNode;
+		}
+
+		for (pugi::xml_node platformNode = config.child("movingplatform"); platformNode; platformNode = platformNode.next_sibling("movingplatform")) {
+			MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::MOVINGPLATFORM);
+			movingplatform->parameters = platformNode;
+		}
+
+		for (pugi::xml_node platformNode = config.child("transparentWall"); platformNode; platformNode = platformNode.next_sibling("transparentWall")) {
+			transparentWall* transparentwall = (transparentWall*)app->entityManager->CreateEntity(EntityType::WALL);
+			transparentwall->parameters = platformNode;
+		}
+
+		for (pugi::xml_node platformNode = config.child("portal"); platformNode; platformNode = platformNode.next_sibling("portal")) {
+			Portal* portal = (Portal*)app->entityManager->CreateEntity(EntityType::PORTAL);
+			portal->parameters = platformNode;
+		}
 	}
 
-	for (pugi::xml_node candyItemNode = config.child("candyItem"); candyItemNode; candyItemNode = candyItemNode.next_sibling("candyItem"))
+	else if (app->map->level == 2)
 	{
-		CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
-		candyItem->parameters = candyItemNode;
-	}
+		if (config.child("player")) {
+			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+			player->parameters = config.child("player");
+		}
 
-	for (pugi::xml_node checkpointNode = config.child("checkpoint"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint"))
-	{
-		Checkpoints* checkpoint = (Checkpoints*)app->entityManager->CreateEntity(EntityType::CHECKPOINT);
-		checkpoint->parameters = checkpointNode;
-	}
-
-	if (config.child("player")) {
-		player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-		player->parameters = config.child("player");
-	}
-
-	for (pugi::xml_node ParticlesNode = config.child("particles"); ParticlesNode; ParticlesNode = ParticlesNode.next_sibling("particles")) {
-		Particles* particles = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
-		particles->parameters = ParticlesNode;
-	}
-
-	for (pugi::xml_node FlyingEnemyNode = config.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
-		FlyingEnemy* flyingenemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY); 
-		flyingenemy->parameters = FlyingEnemyNode;
-		flyingEnemy = flyingenemy;
-	}
-
-	for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
-		WalkingEnemy* walkingenemy = (WalkingEnemy*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
-		walkingenemy->parameters = WalkingEnemyNode;
-	}
-
-	for (pugi::xml_node platformNode = config.child("movingplatform"); platformNode; platformNode = platformNode.next_sibling("movingplatform")) {
-		MovingPlatform* movingplatform = (MovingPlatform*)app->entityManager->CreateEntity(EntityType::MOVINGPLATFORM);
-		movingplatform->parameters = platformNode;
-	}
-
-	for (pugi::xml_node platformNode = config.child("transparentWall"); platformNode; platformNode = platformNode.next_sibling("transparentWall")) {
-		transparentWall* transparentwall = (transparentWall*)app->entityManager->CreateEntity(EntityType::WALL);
-		transparentwall->parameters = platformNode;
-	}
-
-	for (pugi::xml_node platformNode = config.child("portal"); platformNode; platformNode = platformNode.next_sibling("portal")) {
-		Portal* portal = (Portal*)app->entityManager->CreateEntity(EntityType::PORTAL);
-		portal->parameters = platformNode;
+		for (pugi::xml_node ParticlesNode = config.child("particles"); ParticlesNode; ParticlesNode = ParticlesNode.next_sibling("particles")) {
+			Particles* particles = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
+			particles->parameters = ParticlesNode;
+		}
 	}
 
 	if (config.child("map")) {
 		//Get the map name from the config file and assigns the value in the module
 		app->map->name = config.child("map").attribute("name").as_string();
+		app->map->name2 = config.child("map").attribute("name2").as_string();
 		app->map->path = config.child("map").attribute("path").as_string();
 	}
 	return ret;
@@ -160,6 +178,22 @@ bool Scene::Update(float dt)
 	
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest(); 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest(); 
+
+
+	//if (app->map->level == 1)
+	//{
+	//	CleanUp();
+	//	app->map->CleanUp();
+	//	app->physics->CleanUp();
+	//	app->tex->CleanUp();
+	//	player->Awake();
+	//	app->tex->Start();
+	//	app->physics->Start();
+	//	app->map->Start();
+	//	Start();
+	//	app->entityManager->Start();
+	//	app->render->camera.x = 0;
+	//}
 	 
 	return true;
 }
