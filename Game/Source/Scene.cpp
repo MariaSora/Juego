@@ -271,6 +271,21 @@ bool Scene::LoadState(pugi::xml_node node) {
 	}
 	app->entityManager->KillEnemiesLoad();
 
+	for (pugi::xml_node healNode = node.child("healItem"); healNode; healNode = healNode.next_sibling("healItem"))
+	{
+		HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
+		healItem->parameters = healNode;
+		healItem->Awake();
+		healItem->Start();
+	}
+	for (pugi::xml_node candyNode = node.child("candyItem"); candyNode; candyNode = candyNode.next_sibling("candyItem"))
+	{
+		CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
+		candyItem->parameters = candyNode;
+		candyItem->Awake();
+		candyItem->Start();
+	}
+
 
 	
 	return true;

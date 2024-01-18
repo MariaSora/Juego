@@ -156,8 +156,8 @@ bool Player::Update(float dt)
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
 	currentLifeAnimation->Update();
-	SDL_Rect rectLife = currentLifeAnimation->GetCurrentFrame(); 
-	app->render->DrawTexture(texture2, position.x - 20, position.y - 15, &rectLife); 
+	SDL_Rect rectLife = currentLifeAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture2, (-app->render->camera.x * app->scene->speedUI) + 10, 15, &rectLife);
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
@@ -315,20 +315,10 @@ void Player::PlayerMovement(float dt)
 			}
 		}
 	}
-	if (app->vida == 0) currentLifeAnimation = &life0; life1.Reset();
-	if (app->vida == 1) currentLifeAnimation = &life1; life2.Reset();
-	if (app->vida == 2) currentLifeAnimation = &life2; life3.Reset();
-	if (app->vida == 3) currentLifeAnimation = &life3; life4.Reset();
-	if (app->vida == 4) currentLifeAnimation = &life4; life5.Reset(); 
-	if (app->vida == 5) currentLifeAnimation = &life5; life0.Reset();
 	
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
-
-	currentLifeAnimation->Update();
-	SDL_Rect rectLife = currentLifeAnimation->GetCurrentFrame(); 
-	app->render->DrawTexture(texture2, (- app->render->camera.x * app->scene->speedUI) + 10, 15, & rectLife);
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
@@ -357,16 +347,20 @@ void Player::PlayerTeleports()
 	}
 
 	if (c) {
-		currentStateAnimation = &finishAnim;
-		if (finishAnim.HasFinished()) finishAnim.Reset();
+		if (!finishAnim.HasFinished()) {
+			currentStateAnimation = &finishAnim;
+			finishAnim.Reset();
+		}
+		c = false;
 	}
+	
 	portal->closePortal.Update();
 	SDL_Rect rect2 = portal->closePortal.GetCurrentFrame();
 	app->render->DrawTexture(portal->texture, app->positionportal2.x + 2, app->positionportal2.y - 5, &rect2, 1, SDL_FLIP_NONE);
 
 	currentStateAnimation->Update();
 	SDL_Rect rectState = currentStateAnimation->GetCurrentFrame();
-	app->render->DrawTexture(texture3, 2900, 0, &rectState);
+	app->render->DrawTexture(texture3, 2910, 25, &rectState);
 
 
 
