@@ -137,7 +137,6 @@ bool Scene::Start()
 	//	app->map->mapData.tileHeight,
 	//	app->map->mapData.tilesets.Count());
 
-
 	return true;
 }
 
@@ -187,6 +186,7 @@ bool Scene::Update(float dt)
 	//	app->physics->CleanUp();
 	//	app->tex->CleanUp();
 	//	player->Awake();
+	//	app->map->level = 2;
 	//	app->tex->Start();
 	//	app->physics->Start();
 	//	app->map->Start();

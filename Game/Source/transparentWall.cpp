@@ -30,6 +30,7 @@ bool transparentWall::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pbody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 150, 32, bodyType::KINEMATIC); 
+	pbody->listener = this;
 	pbody->ctype = ColliderType::WALL;
 
 	return true;

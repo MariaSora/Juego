@@ -61,6 +61,7 @@ public:
 	Checkpoints* checkpoint;
 	float speedUI = 0.5f;
 
+	PhysBody* pbody;
 };
 
 #endif // __SCENE_H__
