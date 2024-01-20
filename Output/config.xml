@@ -22,7 +22,8 @@
   </audio>
 	
 	<scene>
-    <map path="Assets/Maps/" name="Map.tmx" name2="Map_level2.tmx"/>
+    <map path="Assets/Maps/" name="Map.tmx"/>
+    <map path="Assets/Maps/" name2="Map_level2.tmx"/>
 
 	<transparentWall x="2560" y="225" type="true" texturepath="Assets/Textures/wall.png"/>
 	<portal x="2565" y="225" x2="3080" y2="200" type="false" texturepath="Assets/Textures/PurplePortal.png">
@@ -390,8 +391,9 @@
 	<candyItem x="1700" y="170" texturepath="Assets/Textures/candy.png"/>
 	<candyItem x="2000" y="170" texturepath="Assets/Textures/candy.png"/>
 
-	<checkpoint x="230" y="163" num="1" texturepath="Assets/Textures/lollipop.png"/>
-	<checkpoint x="1500" y="197" num="2" texturepath="Assets/Textures/lollipop.png"/>
+	<checkpoint x="230" y="163" num="1" type="false" texturepath="Assets/Textures/lollipop.png"/>
+	<checkpoint x="1500" y="197" num="2" type="false" texturepath="Assets/Textures/lollipop.png"/>
+	<checkpoint x="3150" y="200" num="3" type="true" texturepath="Assets/Textures/lollipop.png"/>
 
 	</scene>
   

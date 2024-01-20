@@ -362,8 +362,6 @@ void Player::PlayerTeleports()
 	SDL_Rect rectState = currentStateAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture3, 2910, 25, &rectState);
 
-
-
 }
 
 void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
@@ -422,9 +420,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		touchingS = true; 
 		LOG("Collision STAIRS"); 
 		break;
-	case ColliderType::UNKNOWN:
-		LOG("Collision UNKNOWN");
-		break;
 	case ColliderType::MOVING_PLATFORM:
 		saltando = false;
 		jumpAnim.Reset();
@@ -433,6 +428,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			inmovplat = true;
 		}
 		LOG("Collision MOVING_PLATFORM");
+	case ColliderType::UNKNOWN:
+		LOG("Collision UNKNOWN");
+		break;
 		break;
 	}
 }

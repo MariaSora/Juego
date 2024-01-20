@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Map.h"
 
 Checkpoints::Checkpoints() : Entity(EntityType::CHECKPOINT)
 {
@@ -58,9 +59,14 @@ bool Checkpoints::Update(float dt)
 			app->scene->player->PositionUpdate.p.x = PIXEL_TO_METERS(position.x); 
 			app->scene->player->PositionUpdate.p.y = PIXEL_TO_METERS(position.y);
 			break;
+		case 3:
+			LOG("Checkpoint 3");
+			app->map->level = 2;
+			break;
 		}
-		intouch = false;
 	}
+	intouch = false;
+
 	app->render->DrawTexture(texture, position.x + 5, position.y + 5);
 	
 	return true;

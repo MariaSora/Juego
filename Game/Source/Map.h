@@ -189,12 +189,13 @@ public:
 	PathFinding* pathfinding2;
 	PathFinding* pathfinding3;
 	
-
 private:
 	MapData mapData; 
 	bool mapLoaded;
 	MapLayer* navigationLayer;
 	int blockedGid = 1;
+
+	PhysBody* pbody;
 };
 
 #endif // __MAP_H__
