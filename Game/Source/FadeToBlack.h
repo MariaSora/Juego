@@ -8,7 +8,7 @@ class FadeToBlack : public Module
 {
 public:
 	//Constructor
-	FadeToBlack();
+	FadeToBlack(bool startEnabled);
 
 	//Destructor
 	virtual ~FadeToBlack();
@@ -29,6 +29,7 @@ public:
 	// Starts the fade process which has two steps, fade_out and fade_in
 	// After the first step, the modules should be switched
 	bool Fade(int cameraIdx, float frames = 60);
+	bool PassScreens(Module* toDisable, Module* toEnable, float frames = 60);
 
 public:
 	bool fadeFinished = true;
@@ -50,6 +51,9 @@ private:
 	// The rectangle of the screen, used to render the black rectangle
 	SDL_Rect screenRect;
 	bool activated = false;
+
+	Module* moduleToEnable = nullptr;
+	Module* moduleToDisable = nullptr;
 };
 
 #endif //__FADETOBLACK_H__

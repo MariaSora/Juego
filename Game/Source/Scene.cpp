@@ -11,11 +11,14 @@
 #include "transparentWall.h"
 #include "Portal.h"
 #include "Particles.h"
+#include "SceneIntro.h"
+#include "GuiControl.h"
+#include "GuiManager.h"
 
 #include "Defs.h"
 #include "Log.h"
 
-Scene::Scene() : Module()
+Scene::Scene(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("scene");
 }
@@ -66,7 +69,7 @@ bool Scene::Awake(pugi::xml_node& config)
 		for (pugi::xml_node FlyingEnemyNode = config.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
 			FlyingEnemy* flyingenemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY); 
 			flyingenemy->parameters = FlyingEnemyNode;
-			flyingEnemy = flyingenemy;
+//			flyingEnemy = flyingenemy;
 		}
 
 		for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
@@ -88,6 +91,7 @@ bool Scene::Awake(pugi::xml_node& config)
 			Portal* portal = (Portal*)app->entityManager->CreateEntity(EntityType::PORTAL);
 			portal->parameters = platformNode;
 		}
+
 	}
 
 	else if (app->map->level == 2)
@@ -110,6 +114,7 @@ bool Scene::Awake(pugi::xml_node& config)
 		app->map->path = config.child("map").attribute("path").as_string();
 	}
 	return ret;
+
 }
 
 // Called before the first frame
@@ -138,6 +143,7 @@ bool Scene::Start()
 	//	app->map->mapData.tilesets.Count());
 
 
+
 	return true;
 }
 
@@ -150,6 +156,21 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+	//if (app->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {
+	//	if (popUpPause == nullptr) {
+	//		popUpPause = (GuiControlPopUp*)app->guiManager->CreateGuiControl(GuiControlType::POPUP, 1, "", { 0,0,0,0 }, this);
+	//		SDL_Rect btPos7 = { 720, 110, 30,30 };
+	//		crossPButton = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "X", btPos7, this);
+	//	}
+	//	if (crossPButton != nullptr) {
+	//		if (crossPButton->isPressed) {
+	//			app->guiManager->RemoveGuiControl(popUpPause);
+	//			popUpPause = nullptr;
+	//			app->guiManager->RemoveGuiControl(crossPButton);
+	//			crossPButton = nullptr;
+	//		}
+	//	}
+	//}
 	if (app->godmode) {
 		pugi::xml_node parameters;
 
@@ -175,7 +196,13 @@ bool Scene::Update(float dt)
 	if (app->render->camera.x <= -5500) {
 		app->render->camera.x = -5500;
 	}
-	
+
+	iPoint mousePos;
+	app->input->GetMousePosition(mousePos.x, mousePos.y);
+	LOG("mousePos: %d, %d", mousePos.x, mousePos.y);
+
+	// L13: Get the latest calculated path and draw
+
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest(); 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest(); 
 
@@ -271,23 +298,6 @@ bool Scene::LoadState(pugi::xml_node node) {
 	}
 	app->entityManager->KillEnemiesLoad();
 
-	for (pugi::xml_node healNode = node.child("healItem"); healNode; healNode = healNode.next_sibling("healItem"))
-	{
-		HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
-		healItem->parameters = healNode;
-		healItem->Awake();
-		healItem->Start();
-	}
-	for (pugi::xml_node candyNode = node.child("candyItem"); candyNode; candyNode = candyNode.next_sibling("candyItem"))
-	{
-		CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
-		candyItem->parameters = candyNode;
-		candyItem->Awake();
-		candyItem->Start();
-	}
-
-
-	
 	return true;
 }
 
@@ -314,4 +324,32 @@ bool Scene::SaveState(pugi::xml_node node) {
 	}
 
 	return true;
+}
+
+void Scene::Enable()
+{
+	if (!isEnabled)
+	{
+		isEnabled = true;
+		app->map->Enable();
+		app->entityManager->Enable();
+		app->guiManager->RemoveGuiControl(app->sceneIntro->playButton);
+		app->guiManager->RemoveGuiControl(app->sceneIntro->continueButton);
+		app->guiManager->RemoveGuiControl(app->sceneIntro->settingsButton);
+		app->guiManager->RemoveGuiControl(app->sceneIntro->creditsButton);
+		app->guiManager->RemoveGuiControl(app->sceneIntro->exitButton);
+		Start();
+	}
+}
+
+void Scene::Disable()
+{
+	// TODO 0: Call CleanUp() for disabling a module
+	if (isEnabled)
+	{
+		isEnabled = false;
+		app->map->Disable();
+		app->entityManager->Disable();
+		CleanUp();
+	}
 }

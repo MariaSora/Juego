@@ -102,6 +102,10 @@
     <ClCompile Include="Source\FlyingEnemy.cpp" />
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Fonts.cpp" />
+    <ClCompile Include="Source\GuiControlButton.cpp" />
+    <ClCompile Include="Source\GuiControlCheckBox.cpp" />
+    <ClCompile Include="Source\GuiControlPopUp.cpp" />
+    <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\HealItem.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
@@ -116,6 +120,7 @@
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Portal.cpp" />
+    <ClCompile Include="Source\SceneIntro.cpp" />
     <ClCompile Include="Source\transparentWall.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\Render.cpp" />
@@ -132,6 +137,11 @@
     <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\FlyingEnemy.h" />
     <ClInclude Include="Source\Fonts.h" />
+    <ClInclude Include="Source\GuiControl.h" />
+    <ClInclude Include="Source\GuiControlButton.h" />
+    <ClInclude Include="Source\GuiControlCheckBox.h" />
+    <ClInclude Include="Source\GuiControlPopUp.h" />
+    <ClInclude Include="Source\GuiManager.h" />
     <ClInclude Include="Source\HealItem.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\movingPlatform.h" />
@@ -142,6 +152,7 @@
     <ClInclude Include="Source\Physics.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Portal.h" />
+    <ClInclude Include="Source\SceneIntro.h" />
     <ClInclude Include="Source\transparentWall.h" />
     <ClInclude Include="Source\PQueue.h" />
     <ClInclude Include="Source\Queue.h" />

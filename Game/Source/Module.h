@@ -6,17 +6,18 @@
 #include "PugiXml/src/pugixml.hpp"
 
 class App;
+class GuiControl; 
 
 class Module
 {
 public:
 
-	Module() : active(false)
+	Module(bool startEnabled) : isEnabled(startEnabled)
 	{}
 
-	void Init()
+	bool Init()
 	{
-		active = true;
+		return true;
 	}
 
 	// Called before render is available
@@ -63,10 +64,34 @@ public:
 		return true;
 	}
 
+	virtual bool OnGuiMouseClickEvent(GuiControl* control)
+	{
+		return true;
+	}
+
+	virtual void Module::Enable()
+	{
+		if (!isEnabled)
+		{
+			isEnabled = true;
+			Start();
+		}
+	}
+
+	virtual void Module::Disable()
+	{
+		// TODO 0: Call CleanUp() for disabling a module
+		if (isEnabled)
+		{
+			isEnabled = false;
+			CleanUp();
+		}
+	}
+
 public:
 
 	SString name;
-	bool active;
+	bool isEnabled = true; 
 
 };
 

@@ -9,6 +9,8 @@
 #include "Map.h"
 #include "Physics.h"
 #include "FadeToBlack.h"
+#include "GuiManager.h"
+#include "SceneIntro.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -26,17 +28,19 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 
 	frames = 0;
 
-	win = new Window();
-	input = new Input();
-	render = new Render();
-	tex = new Textures();
-	fonts = new Fonts();
-	audio = new Audio();
-	physics = new Physics();
-	scene = new Scene();
-	map = new Map();
-	entityManager = new EntityManager();
-	fade = new FadeToBlack();
+	win = new Window(true);
+	input = new Input(true);
+	render = new Render(true);
+	tex = new Textures(true);
+	fonts = new Fonts(true);
+	audio = new Audio(true);
+	physics = new Physics(true);
+	sceneIntro = new SceneIntro(true);
+	scene = new Scene(false);
+	map = new Map(false);
+	entityManager = new EntityManager(false);
+	guiManager = new GuiManager(true);
+	fade = new FadeToBlack(true);
 
 
 	// Ordered for awake / Start / Update
@@ -47,9 +51,11 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(fonts);
 	AddModule(audio);
 	AddModule(physics);
+	AddModule(sceneIntro);
 	AddModule(scene);
 	AddModule(map);
 	AddModule(entityManager);
+	AddModule(guiManager);
 	AddModule(fade);
 
 	// Render last to swap buffer
@@ -240,7 +246,7 @@ bool App::PreUpdate()
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if(pModule->isEnabled == false) {
 			continue;
 		}
 
@@ -262,7 +268,7 @@ bool App::DoUpdate()
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if(pModule->isEnabled == false) {
 			continue;
 		}
 
@@ -283,7 +289,7 @@ bool App::PostUpdate()
 	{
 		pModule = item->data;
 
-		if(pModule->active == false) {
+		if(pModule->isEnabled == false) {
 			continue;
 		}
 

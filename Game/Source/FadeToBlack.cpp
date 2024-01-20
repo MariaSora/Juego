@@ -8,7 +8,7 @@
 #include "Map.h"
 #include "SDL/include/SDL_render.h"
 
-FadeToBlack::FadeToBlack() : Module()
+FadeToBlack::FadeToBlack(bool startEnabled) : Module(startEnabled)
 {
 
 	screenRect = { 0, 0, 2000, 2000 };
@@ -37,6 +37,8 @@ bool FadeToBlack::Update(float dt)
 		++frameCount;
 		if (frameCount >= maxFadeFrames)
 		{
+			moduleToDisable->Disable();
+			moduleToEnable->Enable();
 			currentStep = Fade_Step::FROM_BLACK;
 		}
 	}
@@ -88,6 +90,26 @@ bool FadeToBlack::Fade(int levelIdx, float frames)
 	}
 	activated = false;
 	fadeFinished = false;
+
+	return ret;
+}
+
+bool FadeToBlack::PassScreens(Module* moduleToDisable, Module* moduleToEnable, float frames)
+{
+	bool ret = false;
+
+	// If we are already in a fade process, ignore this call
+	if (currentStep == Fade_Step::NONE)
+	{
+		currentStep = Fade_Step::TO_BLACK;
+		frameCount = 0;
+		maxFadeFrames = frames;
+
+		this->moduleToDisable = moduleToDisable;
+		this->moduleToEnable = moduleToEnable;
+
+		ret = true;
+	}
 
 	return ret;
 }

@@ -10,7 +10,7 @@ class Window : public Module
 {
 public:
 
-	Window();
+	Window(bool startEnabled);
 
 	// Destructor
 	virtual ~Window();
@@ -36,6 +36,8 @@ public:
 
 	// The surface contained by the window
 	SDL_Surface* screenSurface;
+
+	bool fullscreen;
 
 private:
 	SString title;

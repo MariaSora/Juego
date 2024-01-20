@@ -9,6 +9,9 @@
 #include "HealItem.h"
 #include "CandyItem.h"
 #include "Checkpoints.h"
+#include "GuiControlButton.h"
+#include "GuiControlPopUp.h"
+
 
 struct SDL_Texture;
 
@@ -16,7 +19,7 @@ class Scene : public Module
 {
 public:
 
-	Scene();
+	Scene(bool startEnabled);
 
 	// Destructor
 	virtual ~Scene();
@@ -44,12 +47,13 @@ public:
 	bool LoadState(pugi::xml_node node);
 	bool SaveState(pugi::xml_node node);
 
+	void Enable();
+	void Disable();
+
 private:
 	SDL_Texture* img;
 	float textPosX, textPosY = 0;
 	uint texW, texH;
-	uint windowW, windowH;
-	
 
 public:
 	Particles* particles;
@@ -59,6 +63,8 @@ public:
 	CandyItem* candyItem;
 	WalkingEnemy* walkingEnemy;
 	Checkpoints* checkpoint;
+	GuiControlButton* crossPButton;
+	GuiControlPopUp* popUpPause;
 	float speedUI = 0.5f;
 
 };

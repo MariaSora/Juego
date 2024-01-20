@@ -9,7 +9,7 @@
 
 #define MAX_KEYS 300
 
-Input::Input() : Module()
+Input::Input(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("input");
 
@@ -121,10 +121,10 @@ bool Input::PreUpdate()
 
 			case SDL_MOUSEMOTION:
 				int scale = app->win->GetScale();
-				mouseMotionX = event.motion.xrel / scale;
-				mouseMotionY = event.motion.yrel / scale;
-				mouseX = event.motion.x / scale;
-				mouseY = event.motion.y / scale;
+				mouseMotionX = event.motion.xrel;
+				mouseMotionY = event.motion.yrel;
+				mouseX = event.motion.x;
+				mouseY = event.motion.y;
 				//LOG("Mouse motion x %d y %d", mouse_motion_x, mouse_motion_y);
 			break;
 		}

@@ -30,7 +30,7 @@ bool HealItem::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	
-	pbody = app->physics->CreateCircle(position.x, position.y, 10, bodyType::DYNAMIC); 
+	pbody = app->physics->CreateCircle(position.x, position.y, 10, bodyType::STATIC); 
 	pbody->listener = this; 
 	pbody->ctype = ColliderType::HEALITEM;
 

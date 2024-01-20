@@ -7,7 +7,7 @@
 #include "SDL_ttf/include/SDL_ttf.h"
 #pragma comment(lib, "../Game/Source/External/SDL_ttf/libx86/SDL2_ttf.lib")
 
-Fonts::Fonts() : Module()
+Fonts::Fonts(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("fonts");
 }
@@ -34,6 +34,8 @@ bool Fonts::Awake(pugi::xml_node& config)
 	else
 	{
 		font = TTF_OpenFont("../Output/Assets/Fonts/PWHappyChristmas.ttf", 25);
+		font2 = TTF_OpenFont("../Output/Assets/Fonts/buttons.ttf", 20);
+		font3 = TTF_OpenFont("../Output/Assets/Fonts/names.ttf", 13);
 		if (font == NULL)
 		{
 			LOG("Couldn't load %d pt font from %s: %s\n",
@@ -59,7 +61,7 @@ bool Fonts::CleanUp()
 	return false;
 }
 
-bool Fonts::drawText(const char* string, SDL_Color color, int x, int y)
+bool Fonts::drawText(const char* string, SDL_Color color, int x, int y, TTF_Font* font)
 {
 	SDL_Surface* text_surface = NULL;
 	text_surface = TTF_RenderText_Solid(font, string, color);

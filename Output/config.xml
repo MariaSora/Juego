@@ -243,6 +243,7 @@
 			  </deathAnim>
 		  </animations>
 	  </flyingEnemy>
+	
 	  
   
   <walkingEnemy x="800" y="170" type="true" texturepath="Assets/Textures/Purple_Slime.png" path2="Assets/Textures/path2.png">
@@ -378,16 +379,16 @@
 	</tutorial>
 	
 	<healItem x="200" y="170" texturepath="Assets/Textures/healing.png"/>
-	<healItem x="210" y="512" texturepath="Assets/Textures/healing.png"/>
-	<healItem x="384" y="352" texturepath="Assets/Textures/healing.png"/>
-	<healItem x="200" y="672" texturepath="Assets/Textures/healing.png"/>
-	<healItem x="500" y="672" texturepath="Assets/Textures/healing.png"/>
+	<healItem x="850" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem x="1650" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem x="2600" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem x="3000" y="170" texturepath="Assets/Textures/healing.png"/>
 
-	<candyItem x="310" y="130" texturepath="Assets/Textures/candy.png"/>
-	<candyItem x="320" y="512" texturepath="Assets/Textures/candy.png"/>
-	<candyItem x="304" y="352" texturepath="Assets/Textures/candy.png"/>
-	<candyItem x="270" y="672" texturepath="Assets/Textures/candy.png"/>
-	<candyItem x="540" y="672" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="310" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="450" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="950" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="1700" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem x="2000" y="170" texturepath="Assets/Textures/candy.png"/>
 
 	<checkpoint x="230" y="163" num="1" texturepath="Assets/Textures/lollipop.png"/>
 	<checkpoint x="1500" y="197" num="2" texturepath="Assets/Textures/lollipop.png"/>

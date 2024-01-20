@@ -12,7 +12,7 @@
 #include <math.h>
 #include "SDL_image/include/SDL_image.h"
 
-Map::Map() : Module(), mapLoaded(false)
+Map::Map(bool startEnabled) : Module(startEnabled), mapLoaded(false)
 {
     name.Create("map");
 }
@@ -130,7 +130,7 @@ bool Map::Update(float dt)
         mapLayerItem = mapLayerItem->next;
 
     }
-    app->fonts->drawText(std::to_string(app->scene->player->points).c_str(), { 0,0,0,255 }, (-app->render->camera.x * app->scene->speedUI) + 420, 10);
+    app->fonts->drawText(std::to_string(app->scene->player->points).c_str(), { 0,0,0,255 }, (-app->render->camera.x * app->scene->speedUI) + 420, 10, app->fonts->font);
  
     return true;
 
