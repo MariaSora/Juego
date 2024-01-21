@@ -3,9 +3,6 @@
  <properties>
   <property name="Draw" type="bool" value="true"/>
  </properties>
- <tileset firstgid="1" name="tmw_platforms_sky" tilewidth="16" tileheight="16" tilecount="1836" columns="36">
-  <image source="tmw_plataforms_sky.png" width="576" height="817"/>
- </tileset>
  <tileset firstgid="1837" name="platforms_level2" tilewidth="16" tileheight="16" tilecount="1548" columns="36">
   <image source="platforms_level2.png" width="576" height="689"/>
  </tileset>

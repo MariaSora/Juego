@@ -9,6 +9,8 @@
 #include "Point.h"
 #include "Physics.h"
 #include "Map.h"
+#include "Level2.h"
+#include "FadeToBlack.h"
 
 Checkpoints::Checkpoints() : Entity(EntityType::CHECKPOINT)
 {
@@ -61,7 +63,8 @@ bool Checkpoints::Update(float dt)
 			break;
 		case 3:
 			LOG("Checkpoint 3");
-			app->map->level = 2;
+			app->level2->active = true;
+			app->fade->PassScreens((Module*)app->map,(Module*)app->level2, 20);
 			break;
 		}
 	}

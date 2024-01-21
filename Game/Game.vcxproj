@@ -107,6 +107,7 @@
     <ClCompile Include="Source\GuiControlPopUp.cpp" />
     <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\HealItem.cpp" />
+    <ClCompile Include="Source\Level2.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Audio.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="Source\GuiControlPopUp.h" />
     <ClInclude Include="Source\GuiManager.h" />
     <ClInclude Include="Source\HealItem.h" />
+    <ClInclude Include="Source\Level2.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\movingPlatform.h" />
     <ClInclude Include="Source\Particles.h" />

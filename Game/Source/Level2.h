@@ -1,5 +1,5 @@
-#ifndef __MAP_H__
-#define __MAP_H__
+#ifndef __LEVEL2_H__
+#define __LEVEL2_H__
 
 #include "Module.h"
 #include "List.h"
@@ -11,7 +11,7 @@
 #include "PugiXml\src\pugixml.hpp"
 
 // Ignore Terrain Types and Tile Types for now, but we want the image!
-struct TileSet
+struct TileSet_level2
 {
 	SString	name;
 	int	firstgid;
@@ -28,28 +28,27 @@ struct TileSet
 
 //  We create an enum for map type, just for convenience,
 // NOTE: Platformer game will be of type ORTHOGONAL
-enum MapTypes
+enum Level2Types
 {
-	MAPTYPE_UNKNOWN = 0,
-	MAPTYPE_ORTHOGONAL,
-	MAPTYPE_ISOMETRIC,
-	MAPTYPE_STAGGERED
+	LEVEL2TYPE_UNKNOWN = 0,
+	LEVEL2TYPE_ORTHOGONAL,
+	LEVEL2TYPE_STAGGERED
 };
 
-struct Properties
+struct Properties_level2
 {
-	struct Property
+	struct Property_level2
 	{
 		SString name;
 		bool value;
 	};
 
-	List<Property*> propertyList;
+	List<Property_level2*> propertyList;
 
-	~Properties()
+	~Properties_level2()
 	{
 		//...
-		ListItem<Property*>* property;
+		ListItem<Property_level2*>* property;
 		property = propertyList.start;
 
 		while (property != NULL)
@@ -61,12 +60,12 @@ struct Properties
 		propertyList.Clear();
 	}
 
-	Property* GetProperty(const char* name);
+	Property_level2* GetProperty(const char* name);
 
 	//List<Property*> list;
 };
 
-struct MapLayer
+struct Level2Layer
 {
 	SString	name;
 	int id;
@@ -75,12 +74,12 @@ struct MapLayer
 	float parallax;
 	uint* data;
 
-	Properties properties;
+	Properties_level2 properties_level2;
 
-	MapLayer() : data(NULL)
+	Level2Layer() : data(NULL)
 	{}
 
-	~MapLayer()
+	~Level2Layer()
 	{
 		RELEASE(data);
 	}
@@ -92,7 +91,7 @@ struct MapLayer
 };
 
 
-struct MapObject {
+struct Level2Object{
 
 	uint id;
 	uint x;
@@ -103,42 +102,42 @@ struct MapObject {
 
 };
 
-struct MapObjects
+struct Level2Objects
 {
-	SString    name;
+	SString name;
 	int id;
 	int x;
 	int y;
 	int width;
 	int height;
-	List<MapObject*> objects;
+	List<Level2Object*> objects;
 
-	Properties properties;
+	Properties_level2 properties_level2;
 
 };
 
-struct MapData
+struct Level2Data
 {
 	int width;
 	int	height;
 	int	tileWidth;
 	int	tileHeight;
-	List<TileSet*> tilesets;
-	MapTypes type;
+	List<TileSet_level2*> tilesets;
+	Level2Types type;
 
 
-	List<MapObjects*> mapObjects;
-	List<MapLayer*> maplayers;
+	List<Level2Objects*> mapObjects;
+	List<Level2Layer*> maplayers;
 };
 
-class Map : public Module
+class Level2 : public Module
 {
 public:
 
-	Map(bool startEnabled);
+	Level2(bool startEnabled);
 
 	// Destructor
-	virtual ~Map();
+	virtual ~Level2();
 
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
@@ -155,20 +154,20 @@ public:
 	// Load new map
 	bool Load(SString mapFileName);
 
-	iPoint MapToWorld(int x, int y) const;
-	iPoint Map::WorldToMap(int x, int y);
+	iPoint Level2ToWorld(int x, int y) const;
+	iPoint Level2::WorldToLevel2(int x, int y);
 
 private:
 
 	bool LoadMap(pugi::xml_node mapFile);
 	bool LoadTileSet(pugi::xml_node mapFile);
-	bool LoadLayer(pugi::xml_node& node, MapLayer* layer);
+	bool LoadLayer(pugi::xml_node& node, Level2Layer* layer);
 	bool LoadAllLayers(pugi::xml_node mapNode);
-	bool LoadObject(pugi::xml_node& node, MapObjects* layer);
+	bool LoadObject(pugi::xml_node& node, Level2Objects* layer);
 	bool LoadAllObjectGroup(pugi::xml_node mapNode);
 	bool LoadCollisionsObject();
-	TileSet* GetTilesetFromTileId(int gid) const;
-	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	TileSet_level2* GetTilesetFromTileId(int gid) const;
+	bool LoadProperties(pugi::xml_node& node, Properties_level2& properties);
 	
 	void CreateNavigationMap(int& width, int& height, uchar** buffer) const;
 
@@ -177,24 +176,25 @@ private:
 public:
 
 	int level = 1;
-	SString name;
+	SString name2;
 	SString path;
 	SString mapPath;
 	PhysBody* platform;
-	PhysBody* stairs;
 
 	PathFinding* pathfinding;
 	PathFinding* pathfinding4;
 	PathFinding* pathfinding2;
 	PathFinding* pathfinding3;
+
+	bool active = false;
 	
 private:
-	MapData mapData; 
-	bool mapLoaded;
-	MapLayer* navigationLayer;
+	Level2Data level2Data; 
+	bool level2Loaded;
+	Level2Layer* navigationLayer;
 	int blockedGid = 1;
 
 	PhysBody* pbody;
 };
 
-#endif // __MAP_H__
+#endif // __LEVEL2_H__

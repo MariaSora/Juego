@@ -1,7 +1,7 @@
 #include "App.h"
 #include "Render.h"
 #include "Textures.h"
-#include "Map.h"
+#include "Level2.h"
 #include "Physics.h"
 #include "Scene.h"
 #include "Player.h"
@@ -12,17 +12,17 @@
 #include <math.h>
 #include "SDL_image/include/SDL_image.h"
 
-Map::Map(bool startEnabled) : Module(startEnabled), mapLoaded(false)
+Level2::Level2(bool startEnabled) : Module(startEnabled), level2Loaded(false)
 {
-    name.Create("map");
+    name.Create("level2");
 }
 
 // Destructor
-Map::~Map()
+Level2::~Level2()
 {}
 
 // Called before render is available
-bool Map::Awake(pugi::xml_node& config)
+bool Level2::Awake(pugi::xml_node& config)
 {
     LOG("Loading Map Parser");
     bool ret = true;
@@ -30,8 +30,11 @@ bool Map::Awake(pugi::xml_node& config)
     return ret;
 }
 
-bool Map::Start() {
+bool Level2::Start() {
 
+    if (!active) {
+        return true;
+    }
     //Calls the functon to load the map, make sure that the filename is assigned
     SString mapPath = path;
     mapPath += name;
@@ -43,31 +46,31 @@ bool Map::Start() {
     pathfinding3 = new PathFinding(); 
 
     uchar* navigationMap = NULL;
-    CreateNavigationMap(mapData.width, mapData.height, &navigationMap); 
-    pathfinding->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap);
-    pathfinding4->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap);
-    pathfinding2->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap); 
-    pathfinding3->SetNavigationMap((uint)mapData.width, (uint)mapData.height, navigationMap); 
+    CreateNavigationMap(level2Data.width, level2Data.height, &navigationMap);
+    pathfinding->SetNavigationMap((uint)level2Data.width, (uint)level2Data.height, navigationMap);
+    pathfinding4->SetNavigationMap((uint)level2Data.width, (uint)level2Data.height, navigationMap);
+    pathfinding2->SetNavigationMap((uint)level2Data.width, (uint)level2Data.height, navigationMap);
+    pathfinding3->SetNavigationMap((uint)level2Data.width, (uint)level2Data.height, navigationMap);
 
     RELEASE_ARRAY(navigationMap); 
 
     return ret;
 }
 
-bool Map::Update(float dt)
+bool Level2::Update(float dt)
 {
     bool ret = true;
 
-    if (mapLoaded == false)
+    if (level2Loaded == false)
         return false;
 
-    ListItem<MapLayer*>* mapLayerItem;
-    mapLayerItem = mapData.maplayers.start;
+    ListItem<Level2Layer*>* mapLayerItem;
+    mapLayerItem = level2Data.maplayers.start;
 
     while (mapLayerItem != NULL) {
 
-        if (mapLayerItem->data->properties.GetProperty("Draw") != NULL && mapLayerItem->data->properties.GetProperty("Draw")->value
-            && (mapLayerItem->data->properties.GetProperty("Parallax") == NULL || mapLayerItem->data->properties.GetProperty("Parallax")->value == false)) {
+        if (mapLayerItem->data->properties_level2.GetProperty("Draw") != NULL && mapLayerItem->data->properties_level2.GetProperty("Draw")->value
+            && (mapLayerItem->data->properties_level2.GetProperty("Parallax") == NULL || mapLayerItem->data->properties_level2.GetProperty("Parallax")->value == false)) {
 
             iPoint playerPos = app->scene->GetPlayer()->position;
             int xToTiledLeft = MAX((playerPos.x / 16) - 30, 0);
@@ -78,10 +81,10 @@ bool Map::Update(float dt)
                 for (int y = 0; y < mapLayerItem->data->height; y++)
                 {
                     int gid = mapLayerItem->data->Get(x, y);
-                    TileSet* tileset = GetTilesetFromTileId(gid);
+                    TileSet_level2* tileset = GetTilesetFromTileId(gid);
 
                     SDL_Rect r = tileset->GetTileRect(gid);
-                    iPoint pos = MapToWorld(x, y);
+                    iPoint pos = Level2ToWorld(x, y);
 
 
                     app->render->DrawTexture(tileset->texture,
@@ -92,7 +95,7 @@ bool Map::Update(float dt)
             }
         }
 
-        if (mapLayerItem->data->properties.GetProperty("Parallax") != NULL && mapLayerItem->data->properties.GetProperty("Parallax")->value)
+        if (mapLayerItem->data->properties_level2.GetProperty("Parallax") != NULL && mapLayerItem->data->properties_level2.GetProperty("Parallax")->value)
         {
     
             for (int x = 0; x < mapLayerItem->data->width; x++)
@@ -100,10 +103,10 @@ bool Map::Update(float dt)
                 for (int y = 0; y < mapLayerItem->data->height; y++)
                 {
                     int gid = mapLayerItem->data->Get(x, y);
-                    TileSet* tileset = GetTilesetFromTileId(gid);
+                    TileSet_level2* tileset = GetTilesetFromTileId(gid);
 
                     SDL_Rect r = tileset->GetTileRect(gid);
-                    iPoint pos = MapToWorld(x, y);
+                    iPoint pos = Level2ToWorld(x, y);
 
                     app->render->DrawTexture(tileset->texture,
                         pos.x,
@@ -124,28 +127,28 @@ bool Map::Update(float dt)
 
 }
 
-iPoint Map::MapToWorld(int x, int y) const
+iPoint Level2::Level2ToWorld(int x, int y) const
 {
     iPoint ret;
 
-    ret.x = x * mapData.tileWidth;
-    ret.y = y * mapData.tileHeight;
+    ret.x = x * level2Data.tileWidth;
+    ret.y = y * level2Data.tileHeight;
 
     return ret;
 }
 
-iPoint Map::WorldToMap(int x, int y)
+iPoint Level2::WorldToLevel2(int x, int y)
 {
     iPoint ret(0, 0);
 
-    ret.x = x / mapData.tileWidth;
-    ret.y = y / mapData.tileHeight;
+    ret.x = x / level2Data.tileWidth;
+    ret.y = y / level2Data.tileHeight;
 
     return ret;
 }
 
 // Get relative Tile rectangle
-SDL_Rect TileSet::GetTileRect(int gid) const
+SDL_Rect TileSet_level2::GetTileRect(int gid) const
 {
     SDL_Rect rect = { 0 };
     int relativeIndex = gid - firstgid;
@@ -158,10 +161,10 @@ SDL_Rect TileSet::GetTileRect(int gid) const
     return rect;
 }
 
-TileSet* Map::GetTilesetFromTileId(int gid) const
+TileSet_level2* Level2::GetTilesetFromTileId(int gid) const
 {
-    ListItem<TileSet*>* item = mapData.tilesets.start;
-    TileSet* set = NULL;
+    ListItem<TileSet_level2*>* item = level2Data.tilesets.start;
+    TileSet_level2* set = NULL;
 
     while (item)
     {
@@ -177,26 +180,30 @@ TileSet* Map::GetTilesetFromTileId(int gid) const
 }
 
 // Called before quitting
-bool Map::CleanUp()
+bool Level2::CleanUp()
 {
+    if (!active) {
+        return true;
+    }
+
     LOG("Unloading map");
 
     pathfinding->CleanUp();
     pathfinding2->CleanUp();
 
-    ListItem<TileSet*>* item;
-    item = mapData.tilesets.start;
+    ListItem<TileSet_level2*>* item;
+    item = level2Data.tilesets.start;
 
     while (item != NULL)
     {
         RELEASE(item->data);
         item = item->next;
     }
-    mapData.tilesets.Clear();
+    level2Data.tilesets.Clear();
 
     // Remove all layers
-    ListItem<MapLayer*>* layerItem;
-    layerItem = mapData.maplayers.start;
+    ListItem<Level2Layer*>* layerItem;
+    layerItem = level2Data.maplayers.start;
 
     while (layerItem != NULL)
     {
@@ -209,7 +216,7 @@ bool Map::CleanUp()
 }
 
 // Load new map
-bool Map::Load(SString mapFileName)
+bool Level2::Load(SString mapFileName)
 {
     bool ret = true;
 
@@ -250,13 +257,13 @@ bool Map::Load(SString mapFileName)
     if (ret == true)
     {
         LOG("Successfully parsed map XML file :%s", mapFileName.GetString());
-        LOG("width : %d height : %d", mapData.width, mapData.height);
-        LOG("tile_width : %d tile_height : %d", mapData.tileWidth, mapData.tileHeight);
+        LOG("width : %d height : %d", level2Data.width, level2Data.height);
+        LOG("tile_width : %d tile_height : %d", level2Data.tileWidth, level2Data.tileHeight);
 
         LOG("Tilesets----");
 
-        ListItem<TileSet*>* tileset;
-        tileset = mapData.tilesets.start;
+        ListItem<TileSet_level2*>* tileset;
+        tileset = level2Data.tilesets.start;
 
         while (tileset != NULL) {
             LOG("name : %s firstgid : %d", tileset->data->name.GetString(), tileset->data->firstgid);
@@ -267,8 +274,8 @@ bool Map::Load(SString mapFileName)
 
         LOG("Layers----");
 
-        ListItem<MapLayer*>* mapLayer;
-        mapLayer = mapData.maplayers.start;
+        ListItem<Level2Layer*>* mapLayer;
+        mapLayer = level2Data.maplayers.start;
 
         while (mapLayer != NULL) {
             LOG("id : %d name : %s", mapLayer->data->id, mapLayer->data->name.GetString());
@@ -278,13 +285,13 @@ bool Map::Load(SString mapFileName)
     }
 
     // Find the navigation layer
-        ListItem<MapLayer*>* mapLayerItem;
-        mapLayerItem = mapData.maplayers.start;
+        ListItem<Level2Layer*>* mapLayerItem;
+        mapLayerItem = level2Data.maplayers.start;
         navigationLayer = mapLayerItem->data;
 
         //Search the layer in the map that contains information for navigation
         while (mapLayerItem != NULL) {
-            if (mapLayerItem->data->properties.GetProperty("Navigation") != NULL && mapLayerItem->data->properties.GetProperty("Navigation")->value) {
+            if (mapLayerItem->data->properties_level2.GetProperty("Navigation") != NULL && mapLayerItem->data->properties_level2.GetProperty("Navigation")->value) {
                 navigationLayer = mapLayerItem->data;
                 break;
             }
@@ -294,12 +301,12 @@ bool Map::Load(SString mapFileName)
 
     if (mapFileXML) mapFileXML.reset();
 
-    mapLoaded = ret;
+    level2Loaded = ret;
 
     return ret;
 }
 
-bool Map::LoadMap(pugi::xml_node mapFile)
+bool Level2::LoadMap(pugi::xml_node mapFile)
 {
     bool ret = true;
     pugi::xml_node map = mapFile.child("map");
@@ -312,24 +319,24 @@ bool Map::LoadMap(pugi::xml_node mapFile)
     else
     {
         //Load map general properties
-        mapData.height = map.attribute("height").as_int();
-        mapData.width = map.attribute("width").as_int();
-        mapData.tileHeight = map.attribute("tileheight").as_int();
-        mapData.tileWidth = map.attribute("tilewidth").as_int();
-        mapData.type = MAPTYPE_UNKNOWN;
+        level2Data.height = map.attribute("height").as_int();
+        level2Data.width = map.attribute("width").as_int();
+        level2Data.tileHeight = map.attribute("tileheight").as_int();
+        level2Data.tileWidth = map.attribute("tilewidth").as_int();
+        level2Data.type = LEVEL2TYPE_UNKNOWN;
     }
 
     return ret;
 }
 
-bool Map::LoadTileSet(pugi::xml_node mapFile) {
+bool Level2::LoadTileSet(pugi::xml_node mapFile) {
 
     bool ret = true;
 
     pugi::xml_node tileset;
     for (tileset = mapFile.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
     {
-        TileSet* set = new TileSet();
+        TileSet_level2* set = new TileSet_level2();
 
         set->name = tileset.attribute("name").as_string();
         set->firstgid = tileset.attribute("firstgid").as_int();
@@ -344,13 +351,13 @@ bool Map::LoadTileSet(pugi::xml_node mapFile) {
         texPath += tileset.child("image").attribute("source").as_string();
         set->texture = app->tex->Load(texPath.GetString());
 
-        mapData.tilesets.Add(set);
+        level2Data.tilesets.Add(set);
     }
 
     return ret;
 }
 
-bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
+bool Level2::LoadLayer(pugi::xml_node& node, Level2Layer* layer)
 {
     bool ret = true;
 
@@ -368,7 +375,7 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
         layer->parallax = 1.0f;
     }
 
-    LoadProperties(node, layer->properties);
+    LoadProperties(node, layer->properties_level2);
 
     //Reserve the memory for the data 
     layer->data = new uint[layer->width * layer->height];
@@ -386,23 +393,23 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
     return ret;
 }
 
-bool Map::LoadAllLayers(pugi::xml_node mapNode) {
+bool Level2::LoadAllLayers(pugi::xml_node mapNode) {
     bool ret = true;
 
     for (pugi::xml_node layerNode = mapNode.child("layer"); layerNode && ret; layerNode = layerNode.next_sibling("layer"))
     {
         //Load the layer
-        MapLayer* mapLayer = new MapLayer();
+        Level2Layer* mapLayer = new Level2Layer();
         ret = LoadLayer(layerNode, mapLayer);
 
         //add the layer to the map
-        mapData.maplayers.Add(mapLayer);
+        level2Data.maplayers.Add(mapLayer);
     }
 
     return ret;
 }
 
-bool Map::LoadObject(pugi::xml_node& node, MapObjects* mapObjects)
+bool Level2::LoadObject(pugi::xml_node& node, Level2Objects* mapObjects)
 {
     bool ret = true;
 
@@ -414,7 +421,7 @@ bool Map::LoadObject(pugi::xml_node& node, MapObjects* mapObjects)
     mapObjects->x = node.attribute("x").as_int();
     mapObjects->y = node.attribute("y").as_int();
 
-    LoadProperties(node, mapObjects->properties);
+    LoadProperties(node, mapObjects->properties_level2);
 
     ////Reserve the memory for the data 
     //layer->data = new uint[layer->width * layer->height];
@@ -425,7 +432,7 @@ bool Map::LoadObject(pugi::xml_node& node, MapObjects* mapObjects)
     int i = 0;
     for (object = node.child("object"); object && ret; object = object.next_sibling("object"))
     {
-        MapObject* objectAux = new MapObject{
+        Level2Object* objectAux = new Level2Object{
             object.attribute("id").as_uint(),
             object.attribute("x").as_uint(),
             object.attribute("y").as_uint(),
@@ -443,48 +450,40 @@ bool Map::LoadObject(pugi::xml_node& node, MapObjects* mapObjects)
     return ret;
 }
 
-bool Map::LoadAllObjectGroup(pugi::xml_node mapNode)
+bool Level2::LoadAllObjectGroup(pugi::xml_node mapNode)
 {
     bool ret = true;
 
     for (pugi::xml_node objectNode = mapNode.child("objectgroup"); objectNode && ret; objectNode = objectNode.next_sibling("objectgroup"))
     {
         //Load the layer
-        MapObjects* mapObjects = new MapObjects();
-        ret = LoadObject(objectNode, mapObjects);
+        Level2Objects* level2Objects = new Level2Objects();
+        ret = LoadObject(objectNode, level2Objects);
 
         //add the layer to the map
-        mapData.mapObjects.Add(mapObjects);
+        level2Data.mapObjects.Add(level2Objects);
     }
 
     return ret;
 }
 
-bool Map::LoadCollisionsObject()
+bool Level2::LoadCollisionsObject()
 {
-    ListItem<MapObjects*>* mapObjectsItem;
-    mapObjectsItem = mapData.mapObjects.start;
+    ListItem<Level2Objects*>* mapObjectsItem;
+    mapObjectsItem = level2Data.mapObjects.start;
     bool ret = true;
 
 
     while (mapObjectsItem != NULL) { //Capa de objetos
         for (int i = 0; i < mapObjectsItem->data->objects.Count(); i++) { //Cada objeto individual
 
-            MapObject* object = mapObjectsItem->data->objects[i];
+            Level2Object* object = mapObjectsItem->data->objects[i];
 
             if (mapObjectsItem->data->id == 8) //normal floor
             {
                 PhysBody* c1 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
                 c1->ctype = ColliderType::PLATFORM;
                 platform = c1;
-            }
-
-            if (mapObjectsItem->data->id == 10) //stairs
-            {
-                PhysBody* c2 = app->physics->CreateRectangle(object->x + object->width / 2, object->y + object->height / 2, object->width, object->height, STATIC);
-                c2->ctype = ColliderType::STAIRS;
-                c2->body->GetFixtureList()[0].SetSensor(true);
-                stairs = c2;
             }
 
         }
@@ -495,13 +494,13 @@ bool Map::LoadCollisionsObject()
     return ret;
 }
 
-bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
+bool Level2::LoadProperties(pugi::xml_node& node, Properties_level2& properties)
 {
     bool ret = false;
 
     for (pugi::xml_node propertieNode = node.child("properties").child("property"); propertieNode; propertieNode = propertieNode.next_sibling("property"))
     {
-        Properties::Property* p = new Properties::Property();
+        Properties_level2::Property_level2* p = new Properties_level2::Property_level2();
         p->name = propertieNode.attribute("name").as_string();
         p->value = propertieNode.attribute("value").as_bool(); // (!!) I'm assuming that all values are bool !!
 
@@ -511,10 +510,10 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
     return ret;
 }
 
-Properties::Property* Properties::GetProperty(const char* name)
+Properties_level2::Property_level2* Properties_level2::GetProperty(const char* name)
 {
-    ListItem<Property*>* item = propertyList.start;
-    Property* p = NULL;
+    ListItem<Property_level2*>* item = propertyList.start;
+    Property_level2* p = NULL;
 
     while (item)
     {
@@ -528,16 +527,16 @@ Properties::Property* Properties::GetProperty(const char* name)
     return p;
 }
 
-int Map::GetTileWidth() {
-    return mapData.tileWidth;
+int Level2::GetTileWidth() {
+    return level2Data.tileWidth;
 }
 
-int Map::GetTileHeight() {
-    return mapData.tileHeight;
+int Level2::GetTileHeight() {
+    return level2Data.tileHeight;
 }
 
 // L13: Create navigationMap map for pathfinding
-void Map::CreateNavigationMap(int& width, int& height, uchar** buffer) const
+void Level2::CreateNavigationMap(int& width, int& height, uchar** buffer) const
 {
     bool ret = false;
 
@@ -546,9 +545,9 @@ void Map::CreateNavigationMap(int& width, int& height, uchar** buffer) const
     //reserves the memory for the navigation map
     memset(navigationMap, 1, navigationLayer->width * navigationLayer->height);
 
-    for (int x = 0; x < mapData.width; x++)
+    for (int x = 0; x < level2Data.width; x++)
     {
-        for (int y = 0; y < mapData.height; y++)
+        for (int y = 0; y < level2Data.height; y++)
         {
             //i is the index of x,y coordinate in a unidimensional array that represents the navigation map
             int i = (y * navigationLayer->width) + x;
@@ -564,7 +563,7 @@ void Map::CreateNavigationMap(int& width, int& height, uchar** buffer) const
     }
 
     *buffer = navigationMap;
-    width = mapData.width;
-    height = mapData.height;
+    width = level2Data.width;
+    height = level2Data.height;
 
 }

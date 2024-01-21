@@ -11,6 +11,7 @@
 #include "FadeToBlack.h"
 #include "GuiManager.h"
 #include "SceneIntro.h"
+#include "Level2.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -38,6 +39,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	sceneIntro = new SceneIntro(true);
 	scene = new Scene(false);
 	map = new Map(false);
+	level2 = new Level2(false);
 	entityManager = new EntityManager(false);
 	guiManager = new GuiManager(true);
 	fade = new FadeToBlack(true);
@@ -54,6 +56,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(sceneIntro);
 	AddModule(scene);
 	AddModule(map);
+	AddModule(level2);
 	AddModule(entityManager);
 	AddModule(guiManager);
 	AddModule(fade);

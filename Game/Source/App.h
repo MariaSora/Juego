@@ -20,6 +20,7 @@ class Audio;
 class Scene;
 class EntityManager;
 class Map;
+class Level2;
 class Physics;
 class GuiManager;
 class FadeToBlack;
@@ -93,6 +94,7 @@ public:
 	Scene* scene;
 	EntityManager* entityManager;
 	Map* map;
+	Level2* level2;
 	Physics* physics;
 	GuiManager* guiManager;
 	FadeToBlack* fade;

@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Scene.h"
 #include "Map.h"
+#include "Level2.h"
 #include "movingPlatform.h"
 #include "transparentWall.h"
 #include "Portal.h"
@@ -110,9 +111,13 @@ bool Scene::Awake(pugi::xml_node& config)
 	if (config.child("map")) {
 		//Get the map name from the config file and assigns the value in the module
 		app->map->name = config.child("map").attribute("name").as_string();
-		app->map->name2 = config.child("map").attribute("name2").as_string();
 		app->map->path = config.child("map").attribute("path").as_string();
 	}
+	if (config.child("level2")) {
+		app->level2->name2 = config.child("level2").attribute("name2").as_string();
+		app->level2->path = config.child("level2").attribute("path").as_string();
+	}
+
 	return ret;
 
 }
