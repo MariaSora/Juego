@@ -39,7 +39,7 @@ bool FadeToBlack::Update(float dt)
 		{
 			moduleToDisable->Disable();
 			app->map->Disable();
-
+			
 
 			moduleToEnable->Enable();
 			app->map->Enable();

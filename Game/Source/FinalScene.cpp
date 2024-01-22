@@ -35,7 +35,7 @@ bool FinalScene::Awake(pugi::xml_node& config)
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
 
-	if (isEnabled) {
+	if (app->map->level == 2) {
 		for (pugi::xml_node healItemNode = config.child("healItem"); healItemNode; healItemNode = healItemNode.next_sibling("healItem"))
 		{
 			HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
@@ -88,6 +88,10 @@ bool FinalScene::PreUpdate()
 // Called each loop iteration
 bool FinalScene::Update(float dt)
 {
+	/*if (isEnabled) {
+		app->render->camera.x = player->position.x;
+	}*/
+
 
 	//if (app->render->camera.x != player->position.x * app->win->GetScale()) {
 	//	app->render->camera.x = -player->position.x * app->win->GetScale() + 200;

@@ -63,6 +63,7 @@ bool Checkpoints::Update(float dt)
 			break;
 		case 3:
 			LOG("Checkpoint 3");
+			app->map->level = 2;
 			app->fade->PassScreens(app->scene, (Module*)app->finalscene, 20);
 			break;
 		}

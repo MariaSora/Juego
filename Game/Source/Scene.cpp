@@ -91,28 +91,17 @@ bool Scene::Awake(pugi::xml_node& config)
 			Portal* portal = (Portal*)app->entityManager->CreateEntity(EntityType::PORTAL);
 			portal->parameters = platformNode;
 		}
-
-	}
-
-	else if (app->map->level == 2)
-	{
-		if (config.child("player")) {
-			player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-			player->parameters = config.child("player");
+		
+		if (config.child("map")) {
+			//Get the map name from the config file and assigns the value in the module
+			app->map->name = config.child("map").attribute("name").as_string();
+			app->map->name2 = config.child("map").attribute("name2").as_string();
+			app->map->path = config.child("map").attribute("path").as_string();
 		}
-
-		for (pugi::xml_node ParticlesNode = config.child("particles"); ParticlesNode; ParticlesNode = ParticlesNode.next_sibling("particles")) {
-			Particles* particles = (Particles*)app->entityManager->CreateEntity(EntityType::PARTICLES);
-			particles->parameters = ParticlesNode;
-		}
+			
 	}
 
-	if (config.child("map")) {
-		//Get the map name from the config file and assigns the value in the module
-		app->map->name = config.child("map").attribute("name").as_string();
-		app->map->name2 = config.child("map").attribute("name2").as_string();
-		app->map->path = config.child("map").attribute("path").as_string();
-	}
+	
 	return ret;
 
 }
