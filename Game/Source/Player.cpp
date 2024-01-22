@@ -450,7 +450,6 @@ void Player::OnExitCollision(PhysBody* physA, PhysBody* physB)
 		}
 		break;
 	case ColliderType::PORTAL:
-	
 		if (portal != NULL)
 		{
 			portal->touchingPortal = false;

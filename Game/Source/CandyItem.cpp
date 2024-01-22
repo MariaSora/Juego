@@ -30,7 +30,7 @@ bool CandyItem::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	
-	pbody = app->physics->CreateCircle(position.x, position.y, 10, bodyType::STATIC); 
+	pbody = app->physics->CreateCircle(position.x, position.y, 10, bodyType::KINEMATIC);  
 	pbody->listener = this; 
 	pbody->ctype = ColliderType::CANDYITEM;
 

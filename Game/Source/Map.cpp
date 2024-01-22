@@ -32,7 +32,7 @@ bool Map::Awake(pugi::xml_node& config)
 
 bool Map::Start() {
 
-    if (level == 1) 
+   /* if (level == 1) 
     {
         mapPath = path;
         mapPath += name;
@@ -42,7 +42,7 @@ bool Map::Start() {
         mapPath = path;
         mapPath += name2;
     }
-    Load(mapPath);
+    Load(mapPath);*/
 
     //Calls the functon to load the map, make sure that the filename is assigned
     SString mapPath = path;
@@ -216,6 +216,7 @@ bool Map::CleanUp()
         RELEASE(layerItem->data);
         layerItem = layerItem->next;
     }
+    mapData.maplayers.Clear();
 
     return true;
 }

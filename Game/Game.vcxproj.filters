@@ -33,9 +33,6 @@
     <ClCompile Include="Source\Fonts.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Tutorial.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Source\CandyItem.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
@@ -100,6 +97,10 @@
     <ClCompile Include="Source\GuiControlCheckBox.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Boss.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FinalScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene.h" />
@@ -156,9 +157,6 @@
       <Filter>Entities</Filter>
     </ClInclude>
     <ClInclude Include="Source\Fonts.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Tutorial.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="Source\CandyItem.h">
@@ -234,6 +232,10 @@
     <ClInclude Include="Source\GuiControlCheckBox.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Boss.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FinalScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

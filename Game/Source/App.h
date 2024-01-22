@@ -24,6 +24,7 @@ class Physics;
 class GuiManager;
 class FadeToBlack;
 class SceneIntro;
+class FinalScene;
 
 class App
 {
@@ -97,6 +98,7 @@ public:
 	GuiManager* guiManager;
 	FadeToBlack* fade;
 	SceneIntro* sceneIntro;
+	FinalScene* finalscene;
 
 	int vida;
 	bool statewalkingenemy = true;

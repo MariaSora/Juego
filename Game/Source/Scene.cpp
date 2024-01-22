@@ -249,78 +249,82 @@ Player* Scene::GetPlayer()
 }
 
 bool Scene::LoadState(pugi::xml_node node) {
+	if (isEnabled) {
+		//Updates the camera position using the state in the xml file
+		player->position.x = node.child("Player").attribute("x").as_int() + 16;
+		player->position.y = node.child("Player").attribute("y").as_int() - 16;
+		app->vida = node.child("Player").attribute("Vida").as_int();
+		//checkpoint->num = node.child("Player").attribute("LastCheckpoint").as_int();
+		player->PositionUpdate.p.x = node.child("Player").attribute("lastcheckpoint.x").as_int() + 16;
+		player->PositionUpdate.p.y = node.child("Player").attribute("lastcheckpoint.y").as_int() - 16;
 
-	//Updates the camera position using the state in the xml file
-	player->position.x = node.child("Player").attribute("x").as_int() + 16;
-	player->position.y = node.child("Player").attribute("y").as_int() - 16;
-	app->vida = node.child("Player").attribute("Vida").as_int();
-	//checkpoint->num = node.child("Player").attribute("LastCheckpoint").as_int();
-	player->PositionUpdate.p.x = node.child("Player").attribute("lastcheckpoint.x").as_int() + 16;
-	player->PositionUpdate.p.y = node.child("Player").attribute("lastcheckpoint.y").as_int() - 16;
-
-	player->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(player->position.x, player->position.y)), 0); 
+		player->pbody->body->SetTransform(PIXEL_TO_METERS(b2Vec2(player->position.x, player->position.y)), 0);
 
 
-	//Se eliminan todos
+		//Se eliminan todos
 
-	while (app->entityManager->enemies.Count() > 0) {
-		app->entityManager->DestroyEntity(app->entityManager->enemies.At(app->entityManager->enemies.Count() - 1)->data);
-		app->entityManager->enemies.Del(app->entityManager->enemies.At(app->entityManager->enemies.Count() - 1));
-	}
-	app->entityManager->enemies.Clear();
-	
-	////Se cargan todos
-	pugi::xml_document configFile;
-	pugi::xml_parse_result parseResult = configFile.load_file("config.xml");
-
-	pugi::xml_node config = configFile.child("config").child("scene");
-
-	for (pugi::xml_node FlyingEnemyNode = config.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
-		FlyingEnemy* flyingenemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY);
-		flyingenemy->parameters = FlyingEnemyNode;
-		flyingenemy->Awake();
-		flyingenemy->Start();
-	}
-
-	for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
-		WalkingEnemy* walkingenemy = (WalkingEnemy*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
-		walkingenemy->parameters = WalkingEnemyNode;
-		walkingenemy->Awake();
-		walkingenemy->Start();
-	}
-
-	for (pugi::xml_node itemNode = node.child("Enemies").child("Enemy"); itemNode; itemNode = itemNode.next_sibling("Enemy"))
-	{
-		if (!itemNode.attribute("Alive").as_bool()) {
-			app->entityManager->enemies_dead.Add(iPoint(itemNode.attribute("x").as_int(), itemNode.attribute("y").as_int()));
+		while (app->entityManager->enemies.Count() > 0) {
+			app->entityManager->DestroyEntity(app->entityManager->enemies.At(app->entityManager->enemies.Count() - 1)->data);
+			app->entityManager->enemies.Del(app->entityManager->enemies.At(app->entityManager->enemies.Count() - 1));
 		}
+		app->entityManager->enemies.Clear();
+
+		////Se cargan todos
+		pugi::xml_document configFile;
+		pugi::xml_parse_result parseResult = configFile.load_file("config.xml");
+
+		pugi::xml_node config = configFile.child("config").child("scene");
+
+		for (pugi::xml_node FlyingEnemyNode = config.child("flyingEnemy"); FlyingEnemyNode; FlyingEnemyNode = FlyingEnemyNode.next_sibling("flyingEnemy")) {
+			FlyingEnemy* flyingenemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYINGENEMY);
+			flyingenemy->parameters = FlyingEnemyNode;
+			flyingenemy->Awake();
+			flyingenemy->Start();
+		}
+
+		for (pugi::xml_node WalkingEnemyNode = config.child("walkingEnemy"); WalkingEnemyNode; WalkingEnemyNode = WalkingEnemyNode.next_sibling("walkingEnemy")) {
+			WalkingEnemy* walkingenemy = (WalkingEnemy*)app->entityManager->CreateEntity(EntityType::WALKINGENEMY);
+			walkingenemy->parameters = WalkingEnemyNode;
+			walkingenemy->Awake();
+			walkingenemy->Start();
+		}
+
+		for (pugi::xml_node itemNode = node.child("Enemies").child("Enemy"); itemNode; itemNode = itemNode.next_sibling("Enemy"))
+		{
+			if (!itemNode.attribute("Alive").as_bool()) {
+				app->entityManager->enemies_dead.Add(iPoint(itemNode.attribute("x").as_int(), itemNode.attribute("y").as_int()));
+			}
+		}
+		app->entityManager->KillEnemiesLoad();
 	}
-	app->entityManager->KillEnemiesLoad();
+	
 
 	return true;
 }
 
 bool Scene::SaveState(pugi::xml_node node) {
+	if (isEnabled) {
+		//append on node of a new child Camera and add attributtes x,y of the camera position
+		pugi::xml_node camNode = node.append_child("Player");
+		camNode.append_attribute("x").set_value(player->position.x);
+		camNode.append_attribute("y").set_value(player->position.y);
+		camNode.append_attribute("Vida").set_value(app->vida);
+		camNode.append_attribute("lastcheckpoint.x").set_value(player->PositionUpdate.p.x);
+		camNode.append_attribute("lastcheckpoint.y").set_value(player->PositionUpdate.p.y);
+		//camNode.append_attribute("LastCheckpoint").set_value(checkpoint->num);
+		//player->pbody->body->GetTransform();
 
-	//append on node of a new child Camera and add attributtes x,y of the camera position
-	pugi::xml_node camNode = node.append_child("Player"); 
-	camNode.append_attribute("x").set_value(player->position.x); 
-	camNode.append_attribute("y").set_value(player->position.y); 
-	camNode.append_attribute("Vida").set_value(app->vida); 
-	camNode.append_attribute("lastcheckpoint.x").set_value(player->PositionUpdate.p.x);
-	camNode.append_attribute("lastcheckpoint.y").set_value(player->PositionUpdate.p.y);
-	//camNode.append_attribute("LastCheckpoint").set_value(checkpoint->num);
-	//player->pbody->body->GetTransform();
+		pugi::xml_node EnemiesNodes = node.append_child("Enemies");
 
-	pugi::xml_node EnemiesNodes = node.append_child("Enemies");
+		for (int i = 0; i < app->entityManager->enemies.Count(); i++) {
+			pugi::xml_node EnemyNode = EnemiesNodes.append_child("Enemy");
 
-	for (int i = 0; i < app->entityManager->enemies.Count(); i++) { 
-		pugi::xml_node EnemyNode = EnemiesNodes.append_child("Enemy");
-
-		EnemyNode.append_attribute("x").set_value(app->entityManager->enemies.At(i)->data->initialpos.x);
-		EnemyNode.append_attribute("y").set_value(app->entityManager->enemies.At(i)->data->initialpos.y);
-		EnemyNode.append_attribute("Alive").set_value(app->entityManager->enemies.At(i)->data->active);
+			EnemyNode.append_attribute("x").set_value(app->entityManager->enemies.At(i)->data->initialpos.x);
+			EnemyNode.append_attribute("y").set_value(app->entityManager->enemies.At(i)->data->initialpos.y);
+			EnemyNode.append_attribute("Alive").set_value(app->entityManager->enemies.At(i)->data->active);
+		}
 	}
+	
 
 	return true;
 }

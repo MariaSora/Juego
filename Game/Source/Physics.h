@@ -27,6 +27,7 @@ enum class ColliderType {
 	PLAYER,
 	FLYINGENEMY,
 	WALKINGENEMY,
+	BOSS,
 	HEALITEM,
 	CANDYITEM,
 	WALL,
@@ -37,7 +38,6 @@ enum class ColliderType {
 	STAIRS,
 	PARTICLES,
 	CHECKPOINT,
-	FINALLEVEL1,
 	UNKNOWN
 	// ..
 };

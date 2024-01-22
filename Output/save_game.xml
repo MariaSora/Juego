@@ -6,19 +6,22 @@
 	<fonts />
 	<audio />
 	<:anonymous />
+	<:anonymous />
 	<scene>
-		<Player x="3036" y="196" Vida="5" lastcheckpoint.x="29.6799984" lastcheckpoint.y="3.5999999" />
+		<Player x="2522" y="133" Vida="5" lastcheckpoint.x="29.6799984" lastcheckpoint.y="3.5999999" />
 		<Enemies>
 			<Enemy x="150" y="100" Alive="true" />
 			<Enemy x="1700" y="90" Alive="true" />
-			<Enemy x="800" y="170" Alive="false" />
+			<Enemy x="800" y="170" Alive="true" />
 			<Enemy x="2650" y="50" Alive="true" />
 		</Enemies>
 	</scene>
+	<scene />
 	<:anonymous />
 	<entitymanager />
+	<guiManager />
 	<fadetoblack />
 	<renderer>
-		<camera x="-5500" y="0" />
+		<camera x="-4844" y="0" />
 	</renderer>
 </game_state>

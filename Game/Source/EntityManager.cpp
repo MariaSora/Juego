@@ -10,6 +10,7 @@
 #include "Pathfinding.h"
 #include "Map.h"
 #include "Checkpoints.h"
+#include "Boss.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -107,6 +108,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 		break;
 	case EntityType::MOVINGPLATFORM:
 		entity = new MovingPlatform();
+		break;
+	case EntityType::BOSS: 
+		entity = new Boss();
 		break;
 	case EntityType::WALL:
 		entity = new transparentWall();
