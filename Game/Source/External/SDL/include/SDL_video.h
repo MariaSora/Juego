@@ -583,8 +583,8 @@ extern DECLSPEC void SDLCALL SDL_SetWindowSize(SDL_Window * window, int w,
  *
  *  \sa SDL_SetWindowSize()
  */
-extern DECLSPEC void SDLCALL SDL_GetWindowSize(SDL_Window * window, int *w,
-                                               int *h);
+extern DECLSPEC void SDLCALL SDL_GetWindowSize(SDL_Window * window, uint *w,
+                                               uint *h);
 
 /**
  *  \brief Set the minimum size of a window's client area.

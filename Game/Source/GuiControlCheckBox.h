@@ -11,14 +11,14 @@ class GuiControlCheckBox : public GuiControl
 
 public:
 
-	GuiControlCheckBox(uint32 id, SDL_Rect bounds);
+	GuiControlCheckBox(uint32 id, const char* text, SDL_Rect bounds);
 	virtual ~GuiControlCheckBox();
 
 	// Called each loop iteration
 	bool Update(float dt);
-	bool isPressed = false; 
+	bool isChecked = false; 
 	bool isFocused = false; 
-	bool no = false; 
+	bool no = true; 
 
 private:
 

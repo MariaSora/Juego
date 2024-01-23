@@ -5,6 +5,7 @@
 #include "GuiControlButton.h"
 #include "GuiControlPopUp.h"
 #include "GuiControlCheckBox.h"
+#include "GuiControlSlider.h"
 #include "Audio.h"
 
 GuiManager::GuiManager(bool startEnabled) :Module(startEnabled)
@@ -20,7 +21,7 @@ bool GuiManager::Start()
 }
 
 // L15: DONE1: Implement CreateGuiControl function that instantiates a new GUI control and add it to the list of controls
-GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char* text, SDL_Rect bounds, Module* observer, SDL_Rect sliderBounds)
+GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char* text, SDL_Rect bounds, Module* observer, int minV, int maxV, SDL_Rect sliderBounds)
 {
 	GuiControl* guiControl = nullptr;
 
@@ -34,7 +35,10 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 		guiControl = new GuiControlPopUp(id);
 		break;
 	case GuiControlType::CHECKBOX:
-		guiControl = new GuiControlCheckBox(id, bounds);
+		guiControl = new GuiControlCheckBox(id, text, bounds);
+		break;
+	case GuiControlType::SLIDER:
+		guiControl = new GuiControlSlider(id, bounds, minV, maxV);
 		break;
 	}
 

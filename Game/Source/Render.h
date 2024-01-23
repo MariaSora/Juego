@@ -53,6 +53,8 @@ public:
 	bool LoadState(pugi::xml_node node);
 	bool SaveState(pugi::xml_node node);
 
+	void ToggleVSync(bool enableVSync);
+
 public:
 
 	SDL_Renderer* renderer;
@@ -60,6 +62,9 @@ public:
 	SDL_Rect viewport;
 	SDL_Color background;
 	TTF_Font* font;
+
+private: 
+	bool vsync;
 
 };
 

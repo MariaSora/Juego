@@ -3,10 +3,12 @@
 #include "Map.h"
 #include "FadeToBlack.h"
 #include "Window.h"
+#include "Render.h"
 #include "Textures.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
 #include "Audio.h"
+#include "Log.h"
 
 
 SceneIntro::SceneIntro(bool startEnabled) : Module(startEnabled)
@@ -28,6 +30,7 @@ bool SceneIntro::Start()
 
 	app->win->GetWindowSize(windowW, windowH);
 
+	//el parametro id sirve para ponerles como un número y si queremos diferenciarlos por ello (nota por si me hace falta)
 	SDL_Rect btPos = { 270, 370, 120,35 };
 	playButton = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "PLAY", btPos, this);
 	SDL_Rect btPos2 = { 470, 370, 170,40 };
@@ -55,23 +58,43 @@ bool SceneIntro::Update(float dt)
 	if (settingsButton->isPressed) {
 		if (popUpSettings == nullptr) {
 			popUpSettings = (GuiControlPopUp*)app->guiManager->CreateGuiControl(GuiControlType::POPUP, 1, "", { 0,0,0,0 }, this);
-			SDL_Rect btPos6 = { 720, 110, 30,30 };
+			SDL_Rect btPos6 = { 620, 190, 30,30 };
 			crossSButton = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "X", btPos6, this);
-			//app->fonts->drawText("FullScreen", { 0,0,0,255 }, 420, 200, app->fonts->font3);
-			SDL_Rect btPos8 = { 520, 200, 30,30 };
-			fullscreen = (GuiControlCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 1, "", btPos8, this);		
-		
-			if (fullscreen->isPressed) app->win->fullscreen = true;
+			SDL_Rect btPos8 = { 520, 210, 30,30 };
+			fullscreen = (GuiControlCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 1, "Fullscreen", btPos8, this);
+			SDL_Rect btPos9 = { 520, 260, 30,30 };
+			vsync = (GuiControlCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 1, "VSync     ", btPos9, this);
+		}
+	}
+	if (popUpSettings != nullptr) {
+		if (fullscreen->isChecked) {
+			LOG("FULLSCREEN");
+			app->win->ToggleFullscreen(true);
+		}
+		else {
+			LOG("NO FULLSCREEN");
+			app->win->ToggleFullscreen(false);
+		}
+
+		if (vsync->isChecked) {
+			LOG("VSYNC");
+			app->render->ToggleVSync(true);
+		}
+		else {
+			LOG("NO VSYNC");
+			app->render->ToggleVSync(false);
 		}
 	}
 	if (crossSButton != nullptr) {
-		if (crossSButton->isPressed) {
+		if (crossSButton->isPressed || playButton->isPressed) {
 		    app->guiManager->RemoveGuiControl(popUpSettings);
 			popUpSettings = nullptr;
 			app->guiManager->RemoveGuiControl(crossSButton);
 			crossSButton = nullptr;
 			app->guiManager->RemoveGuiControl(fullscreen);
-			fullscreen = nullptr;
+			fullscreen = nullptr;	
+			app->guiManager->RemoveGuiControl(vsync);
+			vsync = nullptr;
 		}
 	}
 

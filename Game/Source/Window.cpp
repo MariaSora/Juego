@@ -60,6 +60,8 @@ bool Window::Awake(pugi::xml_node& config)
 		{
 			// Get window surface
 			screenSurface = SDL_GetWindowSurface(window);
+
+			ToggleFullscreen(fullscreen);
 		}
 	}
 
@@ -98,4 +100,28 @@ void Window::GetWindowSize(uint& width, uint& height) const
 uint Window::GetScale() const
 {
 	return scale;
+}
+
+void Window::ToggleFullscreen(bool enableFullscreen) {
+
+	if (enableFullscreen) {
+		// Get the current window flags
+		Uint32 currentFlags = SDL_GetWindowFlags(window);
+
+		if ((currentFlags & SDL_WINDOW_FULLSCREEN) == 0) {
+			// Save the current window dimensions
+			SDL_GetWindowSize(window, &width, &height);
+
+			// Set the window to fullscreen
+			SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+		}
+	}
+	else {
+		// If the window is currently in fullscreen mode
+		if (SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN) {
+			// Set the window back to normal size using the saved dimensions
+			SDL_SetWindowFullscreen(window, 0);
+			SDL_SetWindowSize(window, width, height);
+		}
+	}
 }

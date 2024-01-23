@@ -42,6 +42,7 @@ public:
 	GuiControlButton* crossSButton;
 	GuiControlPopUp* popUpSettings;
 	GuiControlCheckBox* fullscreen;
+	GuiControlCheckBox* vsync;
 
 private:
 

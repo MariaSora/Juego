@@ -16,7 +16,7 @@ public:
 
 	// Called each loop iteration
 	bool Update(float dt);
-	bool isPressed = false; 
+	bool isPressed = false;
 	bool isFocused = false; 
 
 private:

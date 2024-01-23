@@ -8,7 +8,7 @@
 
 #define VSYNC true
 
-Render::Render(bool startEnabled) : Module(startEnabled)
+Render::Render(bool startEnabled) : Module(startEnabled), vsync(VSYNC)
 {
 	name.Create("renderer");
 	background.r = 0;
@@ -32,6 +32,7 @@ bool Render::Awake(pugi::xml_node& config)
 	if (config.child("vsync").attribute("value").as_bool(true) == true)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
+		vsync = true; 
 		LOG("Using vsync");
 	}
 
@@ -271,4 +272,22 @@ bool Render::SaveState(pugi::xml_node node) {
 	camNode.append_attribute("y").set_value(camera.y);
 
 	return true;
+}
+
+void Render::ToggleVSync(bool enableVSync) {
+
+	vsync = enableVSync;
+
+	Uint32 flags = SDL_RENDERER_ACCELERATED;
+
+	if (vsync)
+	{
+		flags |= SDL_RENDERER_PRESENTVSYNC;
+		LOG("Using VSync");
+	}
+	LOG("vsync: %d", vsync);
+
+	/*SDL_DestroyRenderer(renderer);
+	renderer = SDL_CreateRenderer(app->win->window, -1, flags);*/
+	
 }

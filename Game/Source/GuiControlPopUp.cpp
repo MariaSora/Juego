@@ -17,8 +17,7 @@ GuiControlPopUp::~GuiControlPopUp()
 
 bool GuiControlPopUp::Update(float dt)
 {
-	LOG("Draw PopUp");
-	app->render->DrawRectangle({ 80, 50, 300, 200 }, 255, 134, 27, 210);
+	app->render->DrawRectangle({ 130, 90, 200, 110 }, 255, 134, 27, 240);
 	
 	return true; 
 }
