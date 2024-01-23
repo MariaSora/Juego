@@ -32,6 +32,8 @@ public:
 	// Play a previously loaded WAV
 	bool PlayFx(unsigned int fx, int repeat = 0);
 
+	void SetVolume(int volume, bool isMusic);
+
 
 	//audios Fx
 	int attackFx, jumpFx, deathFx, teleportFx, enemyShot, enemyDeath, winFx;

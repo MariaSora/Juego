@@ -31,9 +31,9 @@ bool SceneIntro::Start()
 	app->win->GetWindowSize(windowW, windowH);
 
 	//el parametro id sirve para ponerles como un número y si queremos diferenciarlos por ello (nota por si me hace falta)
-	SDL_Rect btPos = { 270, 370, 120,35 };
+	SDL_Rect btPos = { 270, 390, 120,35 };
 	playButton = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "PLAY", btPos, this);
-	SDL_Rect btPos2 = { 470, 370, 170,40 };
+	SDL_Rect btPos2 = { 470, 390, 170,40 };
 	continueButton = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "CONTINUE", btPos2, this);
 	SDL_Rect btPos3 = {770, 10, 120,40 };
 	settingsButton = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "SETTINGS", btPos3, this);
@@ -60,10 +60,14 @@ bool SceneIntro::Update(float dt)
 			popUpSettings = (GuiControlPopUp*)app->guiManager->CreateGuiControl(GuiControlType::POPUP, 1, "", { 0,0,0,0 }, this);
 			SDL_Rect btPos6 = { 620, 190, 30,30 };
 			crossSButton = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "X", btPos6, this);
-			SDL_Rect btPos8 = { 520, 210, 30,30 };
+			SDL_Rect btPos8 = { 547, 200, 30,30 };
 			fullscreen = (GuiControlCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 1, "Fullscreen", btPos8, this);
-			SDL_Rect btPos9 = { 520, 260, 30,30 };
+			SDL_Rect btPos9 = { 547, 250, 30,30 };
 			vsync = (GuiControlCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 1, "VSync     ", btPos9, this);
+			SDL_Rect btPos10 = { 468, 325, 110,10 };
+			music = (GuiControlSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 1, "Music ", btPos10, this, 0, 128);
+			SDL_Rect btPos11 = { 468, 370, 110,10 };
+			fx = (GuiControlSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 1, "FX    ", btPos11, this, 0 , 128);
 		}
 	}
 	if (popUpSettings != nullptr) {
@@ -84,6 +88,15 @@ bool SceneIntro::Update(float dt)
 			LOG("NO VSYNC");
 			app->render->ToggleVSync(false);
 		}
+		if (music->isPressed) {
+			LOG("Music modified");
+			app->audio->SetVolume(music->currentValue, true);
+		}
+		//fx in intro should be disabled
+		if (fx->isPressed) {
+			LOG("Fx modified");
+			app->audio->SetVolume(fx->currentValue, false);
+		}
 	}
 	if (crossSButton != nullptr) {
 		if (crossSButton->isPressed || playButton->isPressed) {
@@ -95,6 +108,10 @@ bool SceneIntro::Update(float dt)
 			fullscreen = nullptr;	
 			app->guiManager->RemoveGuiControl(vsync);
 			vsync = nullptr;
+			app->guiManager->RemoveGuiControl(music);
+			music = nullptr;
+			app->guiManager->RemoveGuiControl(fx);
+			fx = nullptr;
 		}
 	}
 

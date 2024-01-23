@@ -6,6 +6,7 @@
 #include "GuiControlButton.h"
 #include "GuiControlCheckBox.h"
 #include "GuiControlPopUp.h"
+#include "GuiControlSlider.h"
 
 struct SDL_Texture;
 
@@ -42,7 +43,9 @@ public:
 	GuiControlButton* crossSButton;
 	GuiControlPopUp* popUpSettings;
 	GuiControlCheckBox* fullscreen;
-	GuiControlCheckBox* vsync;
+	GuiControlCheckBox* vsync;	
+	GuiControlSlider* music;
+	GuiControlSlider* fx;
 
 private:
 

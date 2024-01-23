@@ -20,7 +20,7 @@ GuiControlCheckBox::~GuiControlCheckBox()
 
 bool GuiControlCheckBox::Update(float dt)
 {
-	app->render->DrawText(text.GetString(), bounds.x - 170, bounds.y, 150, 30, { 0,0,0 });
+	app->render->DrawText(text.GetString(), bounds.x - 190, bounds.y, 150, 30, { 0,0,0 });
 	if (state != GuiControlState::DISABLED)
 	{
 		// L15: DONE 3: Update the state of the GUiButton according to the mouse position
@@ -66,7 +66,7 @@ bool GuiControlCheckBox::Update(float dt)
 			app->render->DrawRectangle(bounds, 255, 250, 250, 255, true, false);
 			break;
 		case GuiControlState::PRESSED:
-			app->render->DrawRectangle(bounds, 135, 0, 255, 255, true, false);
+			app->render->DrawRectangle(bounds, 100, 255, 137, 255, true, false);
 			break;
 		}
 
