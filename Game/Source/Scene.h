@@ -66,6 +66,7 @@ public:
 	GuiControlButton* crossPButton;
 	GuiControlPopUp* popUpPause;
 	float speedUI = 0.5f;
+	int num;
 
 	PhysBody* pbody;
 };

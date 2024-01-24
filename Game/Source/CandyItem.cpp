@@ -21,6 +21,7 @@ bool CandyItem::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	level = parameters.attribute("level").as_int();
 
 	return true;
 }
@@ -30,7 +31,7 @@ bool CandyItem::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	
-	pbody = app->physics->CreateCircle(position.x, position.y, 10, bodyType::KINEMATIC);  
+	pbody = app->physics->CreateCircle(position.x, position.y, 10, bodyType::STATIC);  
 	pbody->listener = this; 
 	pbody->ctype = ColliderType::CANDYITEM;
 
@@ -62,8 +63,10 @@ void CandyItem::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
-		isPicked1 = true; 
-		app->scene->player->points++; 
+		if (pbody->body->IsActive()) {
+			isPicked1 = true;
+			app->scene->player->points++;
+		}
 		break;
 	}
 }

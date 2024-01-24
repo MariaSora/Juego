@@ -52,6 +52,7 @@ private:
 	float textPosX, textPosY = 0;
 	uint texW, texH;
 
+
 public:
 
 	HealItem* healItem;
@@ -63,7 +64,7 @@ public:
 	GuiControlPopUp* popUpPause;
 
 	float speedUI = 0.5f;
-
+	int num; 
 	PhysBody* pbody;
 };
 

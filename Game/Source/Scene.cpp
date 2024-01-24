@@ -38,16 +38,25 @@ bool Scene::Awake(pugi::xml_node& config)
 
 	if (app->map->level == 1) 
 	{
-		for (pugi::xml_node healItemNode = config.child("healItem"); healItemNode; healItemNode = healItemNode.next_sibling("healItem"))
-		{
-			HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
-			healItem->parameters = healItemNode;
+		if (config.child("healItem")) {
+			num = config.child("healItem").attribute("level").as_int();
+			if (num == 1) {
+				for (pugi::xml_node healItemNode = config.child("healItem"); healItemNode; healItemNode = healItemNode.next_sibling("healItem"))
+				{
+					HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
+					healItem->parameters = healItemNode;
+				}
+			}
 		}
-
-		for (pugi::xml_node candyItemNode = config.child("candyItem"); candyItemNode; candyItemNode = candyItemNode.next_sibling("candyItem"))
-		{
-			CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
-			candyItem->parameters = candyItemNode;
+		if (config.child("candyItem")) {
+			num = config.child("candyItem").attribute("level").as_int();
+			if (num == 1) {
+				for (pugi::xml_node candyItemNode = config.child("candyItem"); candyItemNode; candyItemNode = candyItemNode.next_sibling("candyItem"))
+				{
+					CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
+					candyItem->parameters = candyItemNode;
+				}
+			}
 		}
 
 		for (pugi::xml_node checkpointNode = config.child("checkpoint"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint"))
@@ -342,6 +351,8 @@ void Scene::Disable()
 		isEnabled = false;
 		app->map->Disable();
 		app->entityManager->Disable();
+		player->position.x = player->initialpos.x; 
+		player->position.y = player->initialpos.y; 
 		CleanUp();
 	}
 }

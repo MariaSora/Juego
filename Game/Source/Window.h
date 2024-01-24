@@ -41,10 +41,11 @@ public:
 
 	bool fullscreen;
 
-private:
-	SString title;
 	uint width;
 	uint height;
+
+private:
+	SString title;
 	uint scale;
 };
 

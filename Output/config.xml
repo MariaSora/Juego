@@ -171,6 +171,7 @@
 			
 	    </animations>
 	  </player>
+		
 	  
   <particles x ="-1700" y="0" alive ="true" type ="true" texturepath="Assets/Textures/Ice.png">
 		 <animations>
@@ -363,17 +364,30 @@
 	  </walkingEnemy>
 	
 	
-	<healItem x="200" y="170" texturepath="Assets/Textures/healing.png"/>
-	<healItem x="850" y="170" texturepath="Assets/Textures/healing.png"/>
-	<healItem x="1650" y="170" texturepath="Assets/Textures/healing.png"/>
-	<healItem x="2600" y="170" texturepath="Assets/Textures/healing.png"/>
-	<healItem x="3000" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="1" x="200" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="1" x="850" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="1" x="1650" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="1" x="2600" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="1" x="3000" y="170" texturepath="Assets/Textures/healing.png"/>
+	
+	<healItem level ="2" x="200" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="2" x="850" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="2" x="1650" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="2" x="2600" y="170" texturepath="Assets/Textures/healing.png"/>
+	<healItem level ="2" x="3000" y="170" texturepath="Assets/Textures/healing.png"/>
+		
 
-	<candyItem x="310" y="170" texturepath="Assets/Textures/candy.png"/>
-	<candyItem x="450" y="170" texturepath="Assets/Textures/candy.png"/>
-	<candyItem x="950" y="170" texturepath="Assets/Textures/candy.png"/>
-	<candyItem x="1700" y="170" texturepath="Assets/Textures/candy.png"/>
-	<candyItem x="2000" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="1" x="310" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="1" x="450" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="1" x="950" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="1" x="1700" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="1" x="2000" y="170" texturepath="Assets/Textures/candy.png"/>
+		
+	<candyItem level ="2" x="310" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="2" x="450" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="2" x="950" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="2" x="1700" y="170" texturepath="Assets/Textures/candy.png"/>
+	<candyItem level ="2" x="2000" y="170" texturepath="Assets/Textures/candy.png"/>
 
 	<checkpoint x="230" y="163" num="1" type="false" texturepath="Assets/Textures/lollipop.png"/>
 	<checkpoint x="1500" y="197" num="2" type="false" texturepath="Assets/Textures/lollipop.png"/>
@@ -476,5 +490,6 @@
 	</Boss>
 		
 	</scene>
+	
   
 </config>

@@ -58,10 +58,9 @@ bool Window::Awake(pugi::xml_node& config)
 		}
 		else
 		{
+			ToggleFullscreen(fullscreen);
 			// Get window surface
 			screenSurface = SDL_GetWindowSurface(window);
-
-			ToggleFullscreen(fullscreen);
 		}
 	}
 

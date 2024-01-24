@@ -33,6 +33,7 @@ private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
+	int level; 
 };
 
 #endif // __CANDYITEM_H__

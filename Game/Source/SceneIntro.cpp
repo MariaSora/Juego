@@ -67,7 +67,7 @@ bool SceneIntro::Update(float dt)
 			SDL_Rect btPos10 = { 468, 325, 110,10 };
 			music = (GuiControlSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 1, "Music ", btPos10, this, 0, 128);
 			SDL_Rect btPos11 = { 468, 370, 110,10 };
-			fx = (GuiControlSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 1, "FX    ", btPos11, this, 0 , 128);
+			fx = (GuiControlSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 1, "FX     ", btPos11, this, 0 , 128);
 		}
 	}
 	if (popUpSettings != nullptr) {

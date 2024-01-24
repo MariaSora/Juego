@@ -51,6 +51,8 @@ bool Render::Awake(pugi::xml_node& config)
 		camera.y = 0;
 	}
 
+	SDL_RenderSetLogicalSize(renderer, app->win->screenSurface->w, app->win->screenSurface->h);
+
 	return ret;
 }
 
