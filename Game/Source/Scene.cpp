@@ -91,6 +91,11 @@ bool Scene::Awake(pugi::xml_node& config)
 		portal->parameters = platformNode;
 	}
 		
+	if (config.child("Boss")) {
+		boss = (Boss*)app->entityManager->CreateEntity(EntityType::BOSS);
+		boss->parameters = config.child("Boss");
+	}
+
 	if (config.child("map")) {
 		//Get the map name from the config file and assigns the value in the module
 		app->map->name = config.child("map").attribute("name").as_string();

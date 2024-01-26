@@ -25,9 +25,10 @@ bool Boss::Awake() {
 	position.y = parameters.attribute("y").as_int();
 	 
 	texturePath = parameters.attribute("texturepath").as_string();
-	drawPath2 = parameters.attribute("path2").as_string(); 
+	texturePath2 = parameters.attribute("texturepath2").as_string();//textura barra de vida
+	drawPath2 = parameters.attribute("path2").as_string(); //textura para el path
 
-	idleAnim.LoadAnimation("boss", "idleAnim");
+	idleAnim.LoadAnimation("Boss", "idleAnim");
 
 	return true;
 }
@@ -40,6 +41,7 @@ bool Boss::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	texture2 = app->tex->Load(drawPath2);
+	texture3 = app->tex->Load(texturePath2);
 
 	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
 	pbody->listener = this;
@@ -62,10 +64,17 @@ bool Boss::Update(float dt)
 	BossPos = app->map->WorldToMap(position.x, position.y);
 	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x - 10, position.y);
 	
+	currentAnimation = &idleAnim; 
+
 	BossFunctionality();
+	LivesManagement();
 
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+
+	currentLifeAnimation->Update();
+	SDL_Rect rectLife = currentLifeAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture2, (-app->render->camera.x * app->scene->speedUI) + 10, 15, &rectLife);
 
 	currentAnimation->Update();
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
@@ -114,6 +123,16 @@ void Boss::Attack()
 	MoveToPlayer(BossPos, 1.0f, path);
 }
 
+void Boss::LivesManagement()
+{
+	if (vida == 0) currentLifeAnimation = &life0; life1.Reset();
+	if (vida == 1) currentLifeAnimation = &life1; life2.Reset();
+	if (vida == 2) currentLifeAnimation = &life2; life3.Reset();
+	if (vida == 3) currentLifeAnimation = &life3; life4.Reset();
+	if (vida == 4) currentLifeAnimation = &life4; life5.Reset();
+	if (vida == 5) currentLifeAnimation = &life5; life0.Reset();
+}
+
 void Boss::BossFunctionality()
 {
 	b2Vec2 vel = pbody->body->GetLinearVelocity(); 
@@ -129,11 +148,7 @@ void Boss::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::PLAYER:
-		LOG("Collision PLAYER");
-		if (app->scene->player->atk = true) {
-			if (type) app->WalkingEnemyAlive2 = false;
-			if (!type) 	app->WalkingEnemyAlive = false;
-		}
+		LOG("Collision PLAYER-BOSS");
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");

@@ -378,6 +378,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WALKINGENEMY:
 		LOG("Collision WALKINGENEMY");
 		break;
+	case ColliderType::BOSS:
+		LOG("Collision BOSS");
+		break;
 	case ColliderType::PARTICLES: 
 		LOG("Collision PARTICLES");
 		currentAnimation = &damagedAnim;
