@@ -63,7 +63,10 @@ void HealItem::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
-		isPicked = true; 
+		if (!app->godmode)
+		{
+			isPicked = true;
+		}
 		break;
 	}
 }

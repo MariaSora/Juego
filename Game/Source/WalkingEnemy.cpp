@@ -41,14 +41,8 @@ bool WalkingEnemy::Awake() {
 
 bool WalkingEnemy::Start() {
 
-
-
-	
 	initialpos.y = position.y;
 	initialpos.x = position.x;
-
-
-
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
@@ -268,9 +262,11 @@ void WalkingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER");
-		if (app->scene->player->atk = true) {
-			if (type) app->WalkingEnemyAlive2 = false;
-			if (!type) 	app->WalkingEnemyAlive = false;
+		if (!app->godmode) {
+			if (app->scene->player->atk = true) {
+				if (type) app->WalkingEnemyAlive2 = false;
+				if (!type) 	app->WalkingEnemyAlive = false;
+			}
 		}
 		break;
 	case ColliderType::PLATFORM:

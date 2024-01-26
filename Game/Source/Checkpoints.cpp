@@ -63,8 +63,9 @@ bool Checkpoints::Update(float dt)
 			break;
 		case 3:
 			LOG("Checkpoint 3");
+			app->scene->startLevel1 = false;
 			app->scene->startLevel2 = true;
-			//app->scene->Level2();
+			app->scene->Level2();
 			break;
 		}
 	}

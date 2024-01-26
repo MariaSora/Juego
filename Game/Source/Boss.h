@@ -31,13 +31,16 @@ public:
 	void Attack();
 
 	void BossFunctionality();
+	void LivesManagement(); 
 
 public:
 
 	float speed = 0.2f;
 	SDL_Texture* texture;
 	SDL_Texture* texture2;
+	SDL_Texture* texture3;
 	const char* texturePath;
+	const char* texturePath2;
 
 	const char* drawPath2;
 	const char* drawPath3;
@@ -50,13 +53,15 @@ public:
 	SDL_Texture* boss = nullptr;
 
 	Animation* currentAnimation = nullptr;
-	Animation idleAnim, walkAnim, deathAnim, attackAnim, jumpAnim, damageAnim;
+	Animation* currentLifeAnimation = nullptr;
+	Animation idleAnim, walkAnim, dieAnim, attackAnim, damagedAnim, life0, life1, life2, life3, life4, life5;
 	
 	iPoint initialPos;
 
 	int counter = 0; 
 	bool type;
 	int distance;
+	int vida = 5;
 
 private: 
 	iPoint BossPos;

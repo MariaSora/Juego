@@ -91,6 +91,11 @@ bool Scene::Awake(pugi::xml_node& config)
 		portal->parameters = platformNode;
 	}
 		
+	if (config.child("Boss")) {
+		boss = (Boss*)app->entityManager->CreateEntity(EntityType::BOSS);
+		boss->parameters = config.child("Boss");
+	}
+
 	if (config.child("map")) {
 		//Get the map name from the config file and assigns the value in the module
 		app->map->name = config.child("map").attribute("name").as_string();
@@ -168,8 +173,13 @@ bool Scene::Update(float dt)
 	if (app->render->camera.x != player->position.x * app->win->GetScale()) {
 		app->render->camera.x = -player->position.x * app->win->GetScale() + 200;
 	}
+
 	if (app->render->camera.y != player->position.y * app->win->GetScale()) {
 		app->render->camera.y = 0;
+
+		if (app->scene->startLevel2 == true) {
+			app->render->camera.y = -648;
+		}
 	}
 	//Camera limits
 	if (app->render->camera.x >= 0) {
@@ -178,6 +188,7 @@ bool Scene::Update(float dt)
 	if (app->render->camera.x <= -5500) {
 		app->render->camera.x = -5500;
 	}
+
 
 	iPoint mousePos;
 	app->input->GetMousePosition(mousePos.x, mousePos.y);
@@ -301,6 +312,19 @@ bool Scene::Update(float dt)
 	return true;
 }
 
+void Scene::Level2()
+{
+	startLevel1 = false;
+
+	if (startLevel2 = true) {
+		app->render->camera.x = app->level2.x;
+		app->render->camera.y = app->level2.y;
+		app->scene->player->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->level2.x), PIXEL_TO_METERS(app->level2.y)), 10);
+	}
+
+	//app->fade->PassScreens(app->level2.x,app->level2.y, 20);
+}
+
 // Called each loop iteration
 bool Scene::PostUpdate()
 {
@@ -400,7 +424,6 @@ bool Scene::SaveState(pugi::xml_node node) {
 			EnemyNode.append_attribute("Alive").set_value(app->entityManager->enemies.At(i)->data->active);
 		}
 	}
-	
 
 	return true;
 }

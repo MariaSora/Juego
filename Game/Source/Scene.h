@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "FlyingEnemy.h"
 #include "WalkingEnemy.h"
+#include "Boss.h"
 #include "Particles.h"
 #include "HealItem.h"
 #include "CandyItem.h"
@@ -44,7 +45,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	//void Level2();
+	void Level2();
 
 	Player* GetPlayer();
 
@@ -69,6 +70,7 @@ public:
 	CandyItem* candyItem;
 	WalkingEnemy* walkingEnemy;
 	Checkpoints* checkpoint;
+	Boss* boss;
 	GuiControlButton* crossPButton = nullptr;
 	GuiControlPopUp* popUpPause = nullptr;
 	float speedUI = 0.5f;
@@ -90,6 +92,7 @@ public:
 	PhysBody* pbody;
 
 	//Nivel2
+	bool startLevel1 = true;
 	bool startLevel2 = false;
 	bool open = false;
 };
