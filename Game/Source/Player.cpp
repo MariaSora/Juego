@@ -108,7 +108,9 @@ bool Player::Update(float dt)
 	//hacer nivel 2
 	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		app->godmode = false;
-		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+		app->scene->startLevel1 = false; 
+		app->scene->startLevel2 = true; 
+		app->scene->Level2(); 
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {

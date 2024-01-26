@@ -8,9 +8,9 @@
 	<:anonymous />
 	<sceneintro />
 	<scene>
-		<Player x="182" y="196" Vida="2" lastcheckpoint.x="3.9599998" lastcheckpoint.y="2.93999982" />
+		<Player x="318" y="467" Vida="4" lastcheckpoint.x="2.37999988" lastcheckpoint.y="3.31999993" />
 		<Enemies>
-			<Enemy x="150" y="100" Alive="false" />
+			<Enemy x="150" y="100" Alive="true" />
 			<Enemy x="1700" y="90" Alive="true" />
 			<Enemy x="800" y="170" Alive="true" />
 			<Enemy x="2650" y="50" Alive="true" />
@@ -22,6 +22,6 @@
 	<:anonymous />
 	<fadetoblack />
 	<renderer>
-		<camera x="-164" y="0" />
+		<camera x="-436" y="-648" />
 	</renderer>
 </game_state>

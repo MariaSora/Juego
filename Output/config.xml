@@ -379,7 +379,7 @@
 	<checkpoint x="1500" y="163" num="2" type="false" texturepath="Assets/Textures/lollipop.png"/>
 	<checkpoint x="3150" y="163" num="3" type="true" texturepath="Assets/Textures/lollipop.png"/>
 		
-	<Boss x ="280" y="367" vida="5" texturepath="Assets/Textures/Bosss.png" texturepath2="Assets/Textures/vida.png"  path2="Assets/Textures/path2.png">
+	<Boss x ="480" y="367" vida="5" texturepath="Assets/Textures/Bosss.png" texturepath2="Assets/Textures/vida.png"  path2="Assets/Textures/path2.png">
 		<animations>
 			<idleAnim loop ="true" speed ="0.2">
 				<anim x ="8" y ="8" width ="42" height ="62"/>
@@ -390,12 +390,12 @@
 			</idleAnim>
 
 			<walkAnim loop ="true" speed ="0.2">
-				<anim x ="7" y ="130" width ="44" height ="62"/>
-				<anim x ="48" y ="130" width ="44" height ="62"/>
-				<anim x ="91" y ="130" width ="44" height ="62"/>
-				<anim x ="123" y ="130" width ="44" height ="62"/>
-				<anim x ="156" y ="130" width ="44" height ="62"/>
-				<anim x ="193" y ="130" width ="44" height ="62"/>
+				<anim x ="8" y ="130" width ="39" height ="62"/>
+				<anim x ="50" y ="130" width ="40" height ="62"/>
+				<anim x ="92" y ="130" width ="28" height ="62"/>
+				<anim x ="120" y ="130" width ="35" height ="62"/>
+				<anim x ="155" y ="130" width ="37" height ="62"/>
+				<anim x ="193" y ="130" width ="29" height ="62"/>
 			</walkAnim>
 
 			<attackAnim loop ="false" speed ="0.25">

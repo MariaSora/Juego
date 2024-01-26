@@ -53,7 +53,7 @@ bool Boss::Start() {
 	texture2 = app->tex->Load(drawPath2);
 	texture3 = app->tex->Load(texturePath2);
 
-	pbody = app->physics->CreateCircle(position.x-40, position.y+40, 8, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::BOSS; 
 
@@ -90,10 +90,10 @@ bool Boss::Update(float dt)
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
 	
 	if (isFacingRight) {
-		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_NONE);
+		app->render->DrawTexture(texture, position.x + 8, position.y-30, &rect, 1, SDL_FLIP_NONE);
 	}
 	else {
-		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
+		app->render->DrawTexture(texture, position.x + 8, position.y-30, &rect, 1, SDL_FLIP_HORIZONTAL);
 	}
 
 	return true;
@@ -179,7 +179,7 @@ void Boss::BossFunctionality()
 	}
 
 	if (vida == 0) {
-		currentAnimation = &dieAnim;
+		//currentAnimation = &dieAnim;
 		vel = { 0,0 };
 		pbody->body->SetLinearVelocity(vel);
 		if (dieAnim.HasFinished()) {
