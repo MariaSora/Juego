@@ -29,6 +29,16 @@ bool Boss::Awake() {
 	drawPath2 = parameters.attribute("path2").as_string(); //textura para el path
 
 	idleAnim.LoadAnimation("Boss", "idleAnim");
+	walkAnim.LoadAnimation("Boss", "walkAnim");
+	attackAnim.LoadAnimation("Boss", "attackAnim");
+	dieAnim.LoadAnimation("Boss", "dieAnim");
+	damagedAnim.LoadAnimation("Boss", "damagedAnim");
+	life0.LoadAnimation("Boss", "life0");
+	life1.LoadAnimation("Boss", "life1");
+	life2.LoadAnimation("Boss", "life2");
+	life3.LoadAnimation("Boss", "life3");
+	life4.LoadAnimation("Boss", "life4");
+	life5.LoadAnimation("Boss", "life5");
 
 	return true;
 }
@@ -137,6 +147,48 @@ void Boss::BossFunctionality()
 {
 	b2Vec2 vel = pbody->body->GetLinearVelocity(); 
 
+	if (vida != 0) {
+		if (BossPos.x - playerPos.x <= 10 && BossPos.x - playerPos.x >= -10)
+		{
+			app->map->pathfinding2->CreatePath(BossPos, playerPos);
+			path = app->map->pathfinding2->GetLastPath();
+			if (app->physics->debug)
+			{
+				for (uint i = 0; i < path->Count(); i++)
+				{
+					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+					app->render->DrawTexture(texture2, pos.x, pos.y);
+				}
+			}
+		}
+		if (app->scene->player->touchingP) {
+			if (BossPos.x - playerPos.x <= 5 && BossPos.x - playerPos.x >= -5) {
+				Attack();
+			}
+			else {
+				vel = { 0,0 };
+				pbody->body->SetLinearVelocity(vel);
+			}
+		}
+		else {
+			vel = { 0,0 };
+			pbody->body->SetLinearVelocity(vel);
+		}
+		
+	}
+
+	if (vida == 0) {
+		currentAnimation = &dieAnim;
+		vel = { 0,0 };
+		pbody->body->SetLinearVelocity(vel);
+		if (dieAnim.HasFinished()) {
+			active = false;
+			pbody->body->SetActive(false);
+			//currentAnimation = &idleAnim;
+			SDL_DestroyTexture(texture);
+			app->map->pathfinding->ClearLastPath();
+		}
+	}
 }
 
 bool Boss::CleanUp()
@@ -149,6 +201,13 @@ void Boss::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::PLAYER:
 		LOG("Collision PLAYER-BOSS");
+		if (app->godmode == false) {
+			app->vida--;
+			app->scene->player->damage = true;
+			if (app->scene->player->currentAnimation = &attackAnim) {
+				vida--;
+			}
+		}
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
