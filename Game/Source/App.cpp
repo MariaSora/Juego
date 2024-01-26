@@ -11,7 +11,6 @@
 #include "FadeToBlack.h"
 #include "GuiManager.h"
 #include "SceneIntro.h"
-#include "FinalScene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -38,7 +37,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	physics = new Physics(true);
 	sceneIntro = new SceneIntro(true);
 	scene = new Scene(false);
-	finalscene = new FinalScene(false); 
 	map = new Map(false);
 	entityManager = new EntityManager(false);
 	guiManager = new GuiManager(true);
@@ -55,7 +53,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(physics);
 	AddModule(sceneIntro);
 	AddModule(scene);
-	AddModule(finalscene);
 	AddModule(map);
 	AddModule(entityManager);
 	AddModule(guiManager);

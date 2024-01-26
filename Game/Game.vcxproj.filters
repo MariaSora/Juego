@@ -100,7 +100,6 @@
     <ClCompile Include="Source\Boss.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Source\FinalScene.cpp" />
     <ClCompile Include="Source\GuiControlSlider.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
@@ -238,7 +237,6 @@
     <ClInclude Include="Source\Boss.h">
       <Filter>Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Source\FinalScene.h" />
     <ClInclude Include="Source\GuiControlSlider.h">
       <Filter>GUI</Filter>
     </ClInclude>

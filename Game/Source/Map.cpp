@@ -32,18 +32,6 @@ bool Map::Awake(pugi::xml_node& config)
 
 bool Map::Start() {
 
-   /* if (level == 1) 
-    {
-        mapPath = path;
-        mapPath += name;
-    }
-    else 
-    {
-        mapPath = path;
-        mapPath += name2;
-    }
-    Load(mapPath);*/
-
     //Calls the functon to load the map, make sure that the filename is assigned
     SString mapPath = path;
     mapPath += name;

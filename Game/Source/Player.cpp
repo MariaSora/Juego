@@ -27,7 +27,9 @@ Player::~Player() {
 bool Player::Awake() {
 
 	position.x = parameters.attribute("x").as_int();
-	position.y = parameters.attribute("y").as_int();
+	position.y = parameters.attribute("y").as_int();	
+	app->level2.x = parameters.attribute("x2").as_int();
+	app->level2.y = parameters.attribute("y2").as_int();
 	app->vida = parameters.attribute("vida").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	texturePath2 = parameters.attribute("texturepath2").as_string();
@@ -300,7 +302,6 @@ void Player::PlayerMovement(float dt)
 			if (dieAnim.HasFinished()) {
 				dieAnim.Reset();
 				pbody->body->SetTransform(b2Vec2(PositionUpdate.p.x, PositionUpdate.p.y), 0);
-
 
 				die = false;
 				app->vida = 5;

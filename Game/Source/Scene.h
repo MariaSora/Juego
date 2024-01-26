@@ -42,6 +42,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	void Level2();
+
 	Player* GetPlayer();
 
 	bool LoadState(pugi::xml_node node);
@@ -69,6 +71,9 @@ public:
 	int num;
 
 	PhysBody* pbody;
+
+	//Nivel2
+	bool startLevel2 = false;
 };
 
 #endif // __SCENE_H__

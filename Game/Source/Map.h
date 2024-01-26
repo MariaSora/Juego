@@ -176,7 +176,6 @@ private:
 	int GetTileHeight();
 public:
 
-	int level = 1;
 	SString name;
 	SString name2;
 	SString path;

@@ -24,7 +24,6 @@ class Physics;
 class GuiManager;
 class FadeToBlack;
 class SceneIntro;
-class FinalScene;
 
 class App
 {
@@ -98,7 +97,6 @@ public:
 	GuiManager* guiManager;
 	FadeToBlack* fade;
 	SceneIntro* sceneIntro;
-	FinalScene* finalscene;
 
 	int vida;
 	bool statewalkingenemy = true;
@@ -112,6 +110,7 @@ public:
 	bool attack2 = false;
 
 	iPoint positionportal2; 
+	iPoint level2;
 
 	bool godmode = false;
 	bool WEDamaged = false;
