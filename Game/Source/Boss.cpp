@@ -90,10 +90,10 @@ bool Boss::Update(float dt)
 	SDL_Rect rect = currentAnimation->GetCurrentFrame(); 
 	
 	if (isFacingRight) {
-		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
+		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_NONE);
 	}
 	else {
-		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_NONE);
+		app->render->DrawTexture(texture, position.x + 8, position.y, &rect, 1, SDL_FLIP_HORIZONTAL);
 	}
 
 	return true;
@@ -158,6 +158,7 @@ void Boss::BossFunctionality()
 				{
 					iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 					app->render->DrawTexture(texture2, pos.x, pos.y);
+					currentAnimation = &walkAnim;
 				}
 			}
 		}
@@ -204,8 +205,9 @@ void Boss::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (app->godmode == false) {
 			app->vida--;
 			app->scene->player->damage = true;
-			if (app->scene->player->currentAnimation = &attackAnim) {
+			if (app->scene->player->currentAnimation = &app->scene->player->attackAnim) {
 				vida--;
+				currentAnimation = &damagedAnim;
 			}
 		}
 		break;
