@@ -14,6 +14,7 @@
 #include "SceneIntro.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
+#include "FadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -195,21 +196,15 @@ bool Scene::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest(); 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest(); 
-	 
-	return true;
-}
 
-void Scene::Level2()
-{
-	if (startLevel2 = true) {
-		app->scene->player->pbody->body->SetTransform(b2Vec2(PIXEL_TO_METERS(app->level2.x), PIXEL_TO_METERS(app->level2.y)), 0);
-		app->render->camera.x = app->level2.x;
-		app->render->camera.y = app->level2.y;
-		//app->scene->player->position.x = positionLevel2.x;
-		//app->scene->player->position.y = positionLevel2.y;
+	if (player->die) {
+		if (player->dieAnim.HasFinished()) {
+			app->fade->PassScreens(this, (Module*)app->gameover, 15);
+		}
 	}
 
-	//app->fade->PassScreens(app->level2.x,app->level2.y, 20);
+	 
+	return true;
 }
 
 // Called each loop iteration

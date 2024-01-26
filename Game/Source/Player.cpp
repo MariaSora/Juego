@@ -302,7 +302,6 @@ void Player::PlayerMovement(float dt)
 			if (dieAnim.HasFinished()) {
 				dieAnim.Reset();
 				pbody->body->SetTransform(b2Vec2(PositionUpdate.p.x, PositionUpdate.p.y), 0);
-
 				die = false;
 				app->vida = 5;
 			}
