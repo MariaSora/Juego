@@ -229,7 +229,7 @@ void App::FinishUpdate()
 
 	app->win->SetTitle(title);
 
-	if (loadRequest && app->sceneIntro->load) {
+	if (loadRequest) {
 		loadRequest = false;
 		Load();
 	}

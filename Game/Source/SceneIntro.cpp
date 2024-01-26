@@ -55,7 +55,7 @@ bool SceneIntro::Update(float dt)
 
 	if (continueButton->isPressed) {
 		app->fade->PassScreens(this, (Module*)app->scene, 20);
-		load = true; 
+	/*	load = true; */
 	}
 
 	if (settingsButton->isPressed) {
