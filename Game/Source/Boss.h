@@ -54,7 +54,7 @@ public:
 
 	Animation* currentAnimation = nullptr;
 	Animation* currentLifeAnimation = nullptr;
-	Animation idleAnim, walkAnim, deathAnim, attackAnim, damageAnim, life0, life1, life2, life3, life4, life5;
+	Animation idleAnim, walkAnim, dieAnim, attackAnim, damagedAnim, life0, life1, life2, life3, life4, life5;
 	
 	iPoint initialPos;
 

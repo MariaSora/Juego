@@ -322,7 +322,6 @@ bool Scene::SaveState(pugi::xml_node node) {
 			EnemyNode.append_attribute("Alive").set_value(app->entityManager->enemies.At(i)->data->active);
 		}
 	}
-	
 
 	return true;
 }
