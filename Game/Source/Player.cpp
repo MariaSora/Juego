@@ -115,7 +115,14 @@ bool Player::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
 		app->godmode = false;
-		pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+		if (app->scene->startLevel2 == false) {
+			pbody->body->SetTransform(b2Vec2(Ipos.p.x, Ipos.p.y), 0);
+		}
+		else {
+			app->scene->startLevel1 = false;
+			app->scene->startLevel2 = true;
+			app->scene->Level2(); 
+		}
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
