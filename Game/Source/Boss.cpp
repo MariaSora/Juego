@@ -53,7 +53,7 @@ bool Boss::Start() {
 	texture2 = app->tex->Load(drawPath2);
 	texture3 = app->tex->Load(texturePath2);
 
-	pbody = app->physics->CreateCircle(position.x, position.y, 8, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x-40, position.y+40, 8, bodyType::DYNAMIC);
 	pbody->listener = this;
 	pbody->ctype = ColliderType::BOSS; 
 
