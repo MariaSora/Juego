@@ -169,13 +169,14 @@ bool EntityManager::Update(float dt)
 	bool ret = true;
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
+	if (!app->scene->open) {
+		for (item = entities.start; item != NULL && ret == true; item = item->next)
+		{
+			pEntity = item->data;
 
-	for (item = entities.start; item != NULL && ret == true; item = item->next)
-	{
-		pEntity = item->data;
-
-		if (pEntity->active == false) continue;
-		ret = item->data->Update(dt);
+			if (pEntity->active == false) continue;
+			ret = item->data->Update(dt);
+		}
 	}
 
 	return ret;

@@ -180,8 +180,9 @@ bool Map::CleanUp()
 {
     LOG("Unloading map");
 
-    pathfinding->CleanUp();
-    pathfinding2->CleanUp();
+    if(pathfinding != nullptr) pathfinding->CleanUp();
+    if (pathfinding2 != nullptr) pathfinding2->CleanUp();
+   
 
     ListItem<TileSet*>* item;
     item = mapData.tilesets.start;

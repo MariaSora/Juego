@@ -206,6 +206,108 @@ bool Scene::Update(float dt)
 		}
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		app->SaveRequest();
+		open = true; 
+		if (popUpPause == nullptr) {
+			popUpPause = (GuiControlPopUp*)app->guiManager->CreateGuiControl(GuiControlType::POPUP, 1, "", { 0,0,0,0 }, this);
+			SDL_Rect btPos6 = { 420, 250, 110,30};
+			resume = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "RESUME", btPos6, this);
+			SDL_Rect btPos8 = { 420, 200, 110,30 };
+			settings = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "SETTINGS", btPos8, this);
+			SDL_Rect btPos9 = { 420, 300, 110,30};
+			home = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "HOME", btPos9, this);
+			SDL_Rect btPos10 = { 420, 350, 110,30 };
+			exitB = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "EXIT", btPos10, this);
+		}
+	}
+	if (popUpPause != nullptr) {
+		if (settings->isPressed) {
+			LOG("Settings Open");
+			if (popUpSettings == nullptr) {
+				popUpSettings = (GuiControlPopUp*)app->guiManager->CreateGuiControl(GuiControlType::POPUP, 1, "", { 0,0,0,0 }, this);
+				SDL_Rect btPos6 = { 620, 190, 30,30 };
+				crossSButton = (GuiControlButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "X", btPos6, this);
+				SDL_Rect btPos8 = { 547, 200, 30,30 };
+				fullscreen = (GuiControlCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 1, "Fullscreen", btPos8, this);
+				SDL_Rect btPos9 = { 547, 250, 30,30 };
+				vsync = (GuiControlCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 1, "VSync     ", btPos9, this);
+				SDL_Rect btPos10 = { 468, 325, 110,10 };
+				music = (GuiControlSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 1, "Music ", btPos10, this, 0, 128);
+				SDL_Rect btPos11 = { 468, 370, 110,10 };
+				fx = (GuiControlSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 1, "FX     ", btPos11, this, 0, 128);
+			}
+		}
+		if (popUpSettings != nullptr) {
+			if (fullscreen->isChecked) {
+				LOG("FULLSCREEN");
+				app->win->ToggleFullscreen(true);
+			}
+			else {
+				LOG("NO FULLSCREEN");
+				app->win->ToggleFullscreen(false);
+			}
+
+			if (vsync->isChecked) {
+				LOG("VSYNC");
+				app->render->ToggleVSync(true);
+			}
+			else {
+				LOG("NO VSYNC");
+				app->render->ToggleVSync(false);
+			}
+			if (music->isPressed) {
+				LOG("Music modified");
+				app->audio->SetVolume(music->currentValue, true);
+			}
+			//fx in intro should be disabled
+			if (fx->isPressed) {
+				LOG("Fx modified");
+				app->audio->SetVolume(fx->currentValue, false);
+			}
+		}
+		if (crossSButton != nullptr) {
+			if (crossSButton->isPressed) {
+				app->guiManager->RemoveGuiControl(popUpSettings);
+				popUpSettings = nullptr;
+				app->guiManager->RemoveGuiControl(crossSButton);
+				crossSButton = nullptr;
+				app->guiManager->RemoveGuiControl(fullscreen);
+				fullscreen = nullptr;
+				app->guiManager->RemoveGuiControl(vsync);
+				vsync = nullptr;
+				app->guiManager->RemoveGuiControl(music);
+				music = nullptr;
+				app->guiManager->RemoveGuiControl(fx);
+				fx = nullptr;
+			}
+		}
+
+		if (exitB->isPressed) {
+			SDL_DestroyWindow(app->win->window);
+			SDL_Quit();
+		}
+		if (home->isPressed) {
+			app->fade->PassScreens(this, (Module*)app->sceneIntro, 20);
+		}
+
+	}
+	if (resume != nullptr) {
+		if (resume->isPressed || home->isPressed) {
+			app->guiManager->RemoveGuiControl(popUpPause);
+			popUpPause = nullptr;
+			app->guiManager->RemoveGuiControl(resume);
+			resume = nullptr;
+			app->guiManager->RemoveGuiControl(settings);
+			settings = nullptr;
+			app->guiManager->RemoveGuiControl(home);
+			home = nullptr;
+			app->guiManager->RemoveGuiControl(exitB);
+			exitB = nullptr;
+			app->LoadRequest();
+			open = false; 
+		}
+	}
 	 
 	return true;
 }
@@ -228,8 +330,8 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	//if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+	//	ret = false;
 
 	return ret;
 }
