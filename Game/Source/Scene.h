@@ -11,6 +11,8 @@
 #include "Checkpoints.h"
 #include "GuiControlButton.h"
 #include "GuiControlPopUp.h"
+#include "GuiControlCheckBox.h"
+#include "GuiControlSlider.h"
 
 
 struct SDL_Texture;
@@ -67,15 +69,29 @@ public:
 	CandyItem* candyItem;
 	WalkingEnemy* walkingEnemy;
 	Checkpoints* checkpoint;
-	GuiControlButton* crossPButton;
-	GuiControlPopUp* popUpPause;
+	GuiControlButton* crossPButton = nullptr;
+	GuiControlPopUp* popUpPause = nullptr;
 	float speedUI = 0.5f;
 	int num;
+
+	GuiControlButton* settings = nullptr;
+	GuiControlButton* exitB = nullptr;
+	GuiControlButton* resume = nullptr;
+	GuiControlPopUp* popUpSettings = nullptr;
+	GuiControlButton* home = nullptr;
+
+	GuiControlButton* settingsButton = nullptr;
+	GuiControlButton* crossSButton = nullptr;
+	GuiControlCheckBox* fullscreen = nullptr;
+	GuiControlCheckBox* vsync = nullptr;
+	GuiControlSlider* music = nullptr;
+	GuiControlSlider* fx = nullptr;
 
 	PhysBody* pbody;
 
 	//Nivel2
 	bool startLevel2 = false;
+	bool open = false;
 };
 
 #endif // __SCENE_H__

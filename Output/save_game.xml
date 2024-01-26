@@ -6,9 +6,9 @@
 	<fonts />
 	<audio />
 	<:anonymous />
-	<:anonymous />
+	<sceneintro />
 	<scene>
-		<Player x="494" y="165" Vida="5" lastcheckpoint.x="4.27999973" lastcheckpoint.y="2.93999982" />
+		<Player x="102" y="196" Vida="5" lastcheckpoint.x="2.37999988" lastcheckpoint.y="3.31999993" />
 		<Enemies>
 			<Enemy x="150" y="100" Alive="true" />
 			<Enemy x="1700" y="90" Alive="true" />
@@ -22,6 +22,6 @@
 	<:anonymous />
 	<fadetoblack />
 	<renderer>
-		<camera x="-788" y="0" />
+		<camera x="-4" y="0" />
 	</renderer>
 </game_state>

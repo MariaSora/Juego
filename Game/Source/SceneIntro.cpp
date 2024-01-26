@@ -14,7 +14,7 @@
 
 SceneIntro::SceneIntro(bool startEnabled) : Module(startEnabled)
 {
-
+	name.Create("sceneintro");
 }
 
 SceneIntro::~SceneIntro()
@@ -26,6 +26,8 @@ SceneIntro::~SceneIntro()
 bool SceneIntro::Start()
 {
 	introTexture = app->tex->Load("Assets/Textures/mainMenu.png");
+	app->map->Disable();
+	app->render->camera.x = 0;
 	//app->audio->PlayMusic("Assets/Audio/Music/introMusica.ogg");
 
 	app->win->GetWindowSize(windowW, windowH);
@@ -47,7 +49,7 @@ bool SceneIntro::Start()
 
 bool SceneIntro::Update(float dt)
 {
-	app->render->DrawTexture(introTexture, 0, 0);
+	app->render->DrawTexture(introTexture,0, 0);
 
 	if (playButton->isPressed) {
 		app->fade->PassScreens(this, (Module*)app->scene, 20);
@@ -55,6 +57,7 @@ bool SceneIntro::Update(float dt)
 
 	if (continueButton->isPressed) {
 		app->fade->PassScreens(this, (Module*)app->scene, 20);
+		app->LoadRequest();
 	/*	load = true; */
 	}
 

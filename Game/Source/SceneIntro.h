@@ -34,17 +34,17 @@ public:
 public:
 	// The scene sprite sheet loaded into an SDL_Texture
 	SDL_Texture* introTexture = nullptr;
-	GuiControlButton* playButton;
-	GuiControlButton* continueButton;
-	GuiControlButton* settingsButton;
-	GuiControlButton* creditsButton;
-	GuiControlButton* exitButton;
-	GuiControlButton* crossSButton;
-	GuiControlPopUp* popUpSettings;
-	GuiControlCheckBox* fullscreen;
-	GuiControlCheckBox* vsync;	
-	GuiControlSlider* music;
-	GuiControlSlider* fx;
+	GuiControlButton* playButton = nullptr;
+	GuiControlButton* continueButton = nullptr;
+	GuiControlButton* settingsButton = nullptr;
+	GuiControlButton* creditsButton = nullptr;
+	GuiControlButton* exitButton = nullptr;
+	GuiControlButton* crossSButton = nullptr;
+	GuiControlPopUp* popUpSettings = nullptr;
+	GuiControlCheckBox* fullscreen = nullptr;
+	GuiControlCheckBox* vsync = nullptr;	
+	GuiControlSlider* music = nullptr;
+	GuiControlSlider* fx = nullptr;
 
 	bool load = false; 
 

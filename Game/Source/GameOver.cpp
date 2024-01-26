@@ -7,6 +7,7 @@
 #include "Textures.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
+#include "Scene.h"
 #include "Audio.h"
 #include "Log.h"
 
@@ -25,7 +26,7 @@ GameOver::~GameOver()
 bool GameOver::Start()
 {
 	gameOverTexture = app->tex->Load("Assets/Textures/gameOver.png");
-
+	app->render->camera.x = 0;
 	app->win->GetWindowSize(windowW, windowH);
 
 	return true;
@@ -33,7 +34,7 @@ bool GameOver::Start()
 
 bool GameOver::Update(float dt)
 {
-	app->render->DrawTexture(gameOverTexture, 2, 0);
+	app->render->DrawTexture(gameOverTexture,0, 0);
 	return true;
 }
 
