@@ -24,8 +24,6 @@ class Physics;
 class GuiManager;
 class FadeToBlack;
 class SceneIntro;
-class FinalScene;
-class GameOver;
 class GameOver;
 
 class App
@@ -100,8 +98,6 @@ public:
 	GuiManager* guiManager;
 	FadeToBlack* fade;
 	SceneIntro* sceneIntro;
-	FinalScene* finalscene;
-	GameOver* gameover;
 	GameOver* gameover;
 
 	int vida;

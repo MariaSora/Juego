@@ -11,7 +11,6 @@
 #include "FadeToBlack.h"
 #include "GuiManager.h"
 #include "SceneIntro.h"
-#include "FinalScene.h"
 #include "GameOver.h"
 
 #include "Defs.h"
