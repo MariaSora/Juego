@@ -49,6 +49,8 @@ public:
 	bool LoadState(pugi::xml_node node);
 	bool SaveState(pugi::xml_node node);
 
+	bool gameover = false; 
+
 	void Enable();
 	void Disable();
 

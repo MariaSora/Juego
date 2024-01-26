@@ -37,25 +37,16 @@ bool Scene::Awake(pugi::xml_node& config)
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
 
-	if (config.child("healItem")) {
-		num = config.child("healItem").attribute("level").as_int();
-		if (num == 1) {
-			for (pugi::xml_node healItemNode = config.child("healItem"); healItemNode; healItemNode = healItemNode.next_sibling("healItem"))
-			{
-				HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
-				healItem->parameters = healItemNode;
-			}
-		}
+	for (pugi::xml_node healItemNode = config.child("healItem"); healItemNode; healItemNode = healItemNode.next_sibling("healItem"))
+	{
+		HealItem* healItem = (HealItem*)app->entityManager->CreateEntity(EntityType::HEALITEM);
+		healItem->parameters = healItemNode;
 	}
-	if (config.child("candyItem")) {
-		num = config.child("candyItem").attribute("level").as_int();
-		if (num == 1) {
-			for (pugi::xml_node candyItemNode = config.child("candyItem"); candyItemNode; candyItemNode = candyItemNode.next_sibling("candyItem"))
-			{
-				CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
-				candyItem->parameters = candyItemNode;
-			}
-		}
+	
+	for (pugi::xml_node candyItemNode = config.child("candyItem"); candyItemNode; candyItemNode = candyItemNode.next_sibling("candyItem"))
+	{
+		CandyItem* candyItem = (CandyItem*)app->entityManager->CreateEntity(EntityType::CANDYITEM);
+		candyItem->parameters = candyItemNode;
 	}
 
 	for (pugi::xml_node checkpointNode = config.child("checkpoint"); checkpointNode; checkpointNode = checkpointNode.next_sibling("checkpoint"))
@@ -198,8 +189,9 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest(); 
 
 	if (player->die) {
-		if (player->dieAnim.HasFinished()) {
-			app->fade->PassScreens(this, (Module*)app->gameover, 15);
+		if (player->dieAnim.HasFinished() && !gameover) {
+			gameover = true;
+			app->fade->PassScreens(this, (Module*)app->gameover, 20);
 		}
 	}
 

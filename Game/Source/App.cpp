@@ -132,9 +132,9 @@ bool App::Start()
 	while(item != NULL && ret == true)
 	{
 		LOG("Cargando: %s", item->data->name.GetString());
-		//if (item->data->isEnabled) {
+		if (item->data->isEnabled) {
 			ret = item->data->Start();
-		//}
+		}
 		item = item->next;
 	}
 

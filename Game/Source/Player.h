@@ -66,7 +66,7 @@ public:
 
 
 	bool isFacingRight; 
-	uint points;
+	uint score;
 
 	b2Transform PositionUpdate;
 

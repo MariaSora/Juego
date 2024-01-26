@@ -70,7 +70,7 @@ bool Player::Start() {
 
 	Ipos = pbody->body->GetTransform(); //Pos inicial
 	PositionUpdate = Ipos; 
-	points = 0;
+	score = 0;
 
 	ListItem<Entity*>* item;
 	Entity* pEntity = NULL;
@@ -391,7 +391,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::CANDYITEM:
 		LOG("Collision ITEM");
-		//score +1
 		break;
 	case ColliderType::WALL:
 

@@ -26,14 +26,13 @@ public:
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
 public:
-	
+
 	bool isPicked1 = false;
 
 private:
 	SDL_Texture* texture;
 	const char* texturePath;
 	PhysBody* pbody;
-	int level; 
 };
 
 #endif // __CANDYITEM_H__

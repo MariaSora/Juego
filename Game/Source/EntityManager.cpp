@@ -60,8 +60,9 @@ bool EntityManager::Start() {
 
 		if (pEntity->active == false) continue;
 		ret = item->data->Start();
+		LOG("startType %d", item->data->type);
 	}
-
+	
 	return ret;
 }
 
