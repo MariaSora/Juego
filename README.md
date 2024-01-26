@@ -2,6 +2,8 @@
 
 CloudEater is a platform game developed in C++, with SDL and Box2D libraries, about a cute character on its adventure through a world of candy placed in the sky. 
 
+Link to our website: https://becca203.github.io/
+
 ## Key Features
 
  - Debug system 
