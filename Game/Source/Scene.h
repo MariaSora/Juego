@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "FlyingEnemy.h"
 #include "WalkingEnemy.h"
+#include "Boss.h"
 #include "Particles.h"
 #include "HealItem.h"
 #include "CandyItem.h"
@@ -49,6 +50,8 @@ public:
 	bool LoadState(pugi::xml_node node);
 	bool SaveState(pugi::xml_node node);
 
+	bool gameover = false; 
+
 	void Enable();
 	void Disable();
 
@@ -65,6 +68,7 @@ public:
 	CandyItem* candyItem;
 	WalkingEnemy* walkingEnemy;
 	Checkpoints* checkpoint;
+	Boss* boss;
 	GuiControlButton* crossPButton;
 	GuiControlPopUp* popUpPause;
 	float speedUI = 0.5f;

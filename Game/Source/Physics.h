@@ -89,6 +89,8 @@ public:
 
 	void EndContact(b2Contact* contact);
 
+	void DeleteBody(PhysBody* body);
+
 
 
 	// Box2D World

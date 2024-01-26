@@ -408,3 +408,17 @@ int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& no
 
 	return ret;
 }
+
+void Physics::DeleteBody(PhysBody* body) {
+	if (body != nullptr && body->body != nullptr) {
+		// Assuming b2World is your physics world
+		b2World* world = body->body->GetWorld();
+
+		// Destroy the Box2D body
+		world->DestroyBody(body->body);
+
+		// Additional cleanup if needed
+
+		delete body;  // Assuming you need to delete the PhysBody instance
+	}
+}

@@ -33,9 +33,7 @@ bool GameOver::Start()
 
 bool GameOver::Update(float dt)
 {
-	app->render->DrawTexture(gameOverTexture, 0, 0);
-
-
+	app->render->DrawTexture(gameOverTexture, 2, 0);
 	return true;
 }
 
