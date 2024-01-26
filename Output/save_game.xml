@@ -5,7 +5,7 @@
 	<textures />
 	<fonts />
 	<audio />
-	<:anonymous />
+
 	<sceneintro />
 	<scene>
 		<Player x="102" y="196" Vida="5" lastcheckpoint.x="2.37999988" lastcheckpoint.y="3.31999993" />
@@ -16,10 +16,10 @@
 			<Enemy x="2650" y="50" Alive="true" />
 		</Enemies>
 	</scene>
-	<:anonymous />
+
 	<entitymanager />
 	<guiManager />
-	<:anonymous />
+
 	<fadetoblack />
 	<renderer>
 		<camera x="-4" y="0" />
