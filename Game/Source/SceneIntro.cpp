@@ -7,6 +7,7 @@
 #include "Textures.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
+#include "GameOver.h"
 #include "Audio.h"
 #include "Log.h"
 
@@ -25,7 +26,6 @@ SceneIntro::~SceneIntro()
 bool SceneIntro::Start()
 {
 	introTexture = app->tex->Load("Assets/Textures/mainMenu.png");
-	buttonText = app->tex->Load("Assets/Textures/buttonText.png");
 	//app->audio->PlayMusic("Assets/Audio/Music/introMusica.ogg");
 
 	app->win->GetWindowSize(windowW, windowH);
@@ -48,11 +48,14 @@ bool SceneIntro::Start()
 bool SceneIntro::Update(float dt)
 {
 	app->render->DrawTexture(introTexture, 0, 0);
-	//app->render->DrawTexture(buttonText, 450, 350);
-	//app->render->DrawTexture(buttonText, 250, 350);
 
 	if (playButton->isPressed) {
 		app->fade->PassScreens(this, (Module*)app->scene, 20);
+	}
+
+	if (continueButton->isPressed) {
+		app->fade->PassScreens(this, (Module*)app->scene, 20);
+		load = true; 
 	}
 
 	if (settingsButton->isPressed) {

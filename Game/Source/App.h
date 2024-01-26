@@ -25,6 +25,7 @@ class GuiManager;
 class FadeToBlack;
 class SceneIntro;
 class FinalScene;
+class GameOver;
 
 class App
 {
@@ -99,6 +100,7 @@ public:
 	FadeToBlack* fade;
 	SceneIntro* sceneIntro;
 	FinalScene* finalscene;
+	GameOver* gameover;
 
 	int vida;
 	bool statewalkingenemy = true;
@@ -107,6 +109,8 @@ public:
 	bool WalkingEnemyAlive = true;
 	bool WalkingEnemyAlive2 = true;
 
+	bool saveRequest = false;
+	bool loadRequest = false;
 
 	bool attack = false;
 	bool attack2 = false;
@@ -120,6 +124,7 @@ public:
 	// xml_node(s) to read specific branches of the xml
 	pugi::xml_document configFile;
 	pugi::xml_node configNode;
+
 
 private:
 
@@ -147,9 +152,6 @@ private:
 	uint32 secondsSinceStartup = 0;
 
 	uint32 maxFrameDuration = 16;
-
-	bool saveRequest = false;
-	bool loadRequest = false;
 
 };
 

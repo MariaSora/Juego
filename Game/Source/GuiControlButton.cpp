@@ -44,31 +44,50 @@ bool GuiControlButton::Update(float dt)
 			isPressed = false;
 		}
 
-		//L15: DONE 4: Draw the button according the GuiControl State
 		switch (state)
 		{
 		case GuiControlState::DISABLED:
-			app->render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
-			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 200,200,236 });
+			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 152,152,152 });
+			isPressed = false;
+			isFocused = false;
 			break;
 		case GuiControlState::NORMAL:
-		/*	app->render->DrawRectangle(bounds, 255, 250, 246, 255, true, false);*/
-			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, {0,0,0});
-	
+			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 0,0,0 });
+
 			break;
 		case GuiControlState::FOCUSED:
-	/*		app->render->DrawRectangle(bounds, 255, 165, 236, 255, true, false);*/
-			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, {255,165,236});
+			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 255,165,236 });
 			break;
 		case GuiControlState::PRESSED:
-		/*	app->render->DrawRectangle(bounds, 255, 0, 175, 255, true, false);*/
 			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 255,0,175 });
 			break;
 		}
 
-		//app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3);
-
 	}
+	else if (state == GuiControlState::DISABLED) {
+		state = GuiControlState::DISABLED;
+
+		switch (state)
+		{
+		case GuiControlState::DISABLED:
+			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 152,152,152 });
+			isPressed = false;
+			isFocused = false;
+			break;
+		case GuiControlState::NORMAL:
+			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 152,152,152 });
+
+			break;
+		case GuiControlState::FOCUSED:
+			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 98,98,98 });
+			break;
+		case GuiControlState::PRESSED:
+			app->render->DrawText(text.GetString(), bounds.x + 5, bounds.y + 2, bounds.w - 10, bounds.h - 3, { 98,98,98 });
+			break;
+		}
+	}
+	
+
 
 	return false;
 }

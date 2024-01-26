@@ -1,23 +1,21 @@
-#ifndef __SCENE_INTRO_H__
-#define __SCENE_INTRO_H__
+#ifndef __GAME_OVER_H__
+#define __GAME_OVER_H__
 
 #include "Module.h"
 #include "GuiControl.h"
 #include "GuiControlButton.h"
-#include "GuiControlCheckBox.h"
-#include "GuiControlPopUp.h"
-#include "GuiControlSlider.h"
+
 
 struct SDL_Texture;
 
-class SceneIntro : public Module
+class GameOver : public Module
 {
 public:
 	//Constructor
-	SceneIntro(bool startEnabled);
+	GameOver(bool startEnabled);
 
 	//Destructor
-	~SceneIntro();
+	~GameOver();
 
 	// Called when the module is activated
 	// Loads the necessary textures for the map background
@@ -33,20 +31,8 @@ public:
 
 public:
 	// The scene sprite sheet loaded into an SDL_Texture
-	SDL_Texture* introTexture = nullptr;
-	GuiControlButton* playButton;
-	GuiControlButton* continueButton;
-	GuiControlButton* settingsButton;
-	GuiControlButton* creditsButton;
-	GuiControlButton* exitButton;
-	GuiControlButton* crossSButton;
-	GuiControlPopUp* popUpSettings;
-	GuiControlCheckBox* fullscreen;
-	GuiControlCheckBox* vsync;	
-	GuiControlSlider* music;
-	GuiControlSlider* fx;
-
-	bool load = false; 
+	SDL_Texture* gameOverTexture = nullptr;
+	GuiControlButton* restartButton;
 
 private:
 

@@ -14,6 +14,7 @@
 #include "SceneIntro.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
+#include "FadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -202,7 +203,11 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) app->LoadRequest(); 
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) app->SaveRequest(); 
 
-
+	if (player->die) {
+		if (player->dieAnim.HasFinished()) {
+			app->fade->PassScreens(this, (Module*)app->gameover, 15);
+		}
+	}
 	//if (app->map->level == 1)
 	//{
 	//	CleanUp();

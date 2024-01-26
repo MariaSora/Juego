@@ -12,6 +12,7 @@
 #include "GuiManager.h"
 #include "SceneIntro.h"
 #include "FinalScene.h"
+#include "GameOver.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -43,6 +44,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entityManager = new EntityManager(false);
 	guiManager = new GuiManager(true);
 	fade = new FadeToBlack(true);
+	gameover = new GameOver(false);
 
 
 	// Ordered for awake / Start / Update
@@ -59,6 +61,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(entityManager);
 	AddModule(guiManager);
+	AddModule(gameover);
 	AddModule(fade);
 
 	// Render last to swap buffer
@@ -229,7 +232,7 @@ void App::FinishUpdate()
 
 	app->win->SetTitle(title);
 
-	if (loadRequest) {
+	if (loadRequest && app->sceneIntro->load) {
 		loadRequest = false;
 		Load();
 	}

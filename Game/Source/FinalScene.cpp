@@ -14,6 +14,7 @@
 #include "Particles.h"
 #include "GuiControl.h"
 #include "GuiManager.h"
+#include "sceneIntro.h"
 
 #include "Defs.h"
 #include "Log.h"

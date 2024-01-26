@@ -104,6 +104,7 @@
     <ClCompile Include="Source\GuiControlSlider.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GameOver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Scene.h" />
@@ -242,6 +243,7 @@
     <ClInclude Include="Source\GuiControlSlider.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="Source\GameOver.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">
