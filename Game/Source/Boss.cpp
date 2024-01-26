@@ -74,7 +74,7 @@ bool Boss::Update(float dt)
 	BossPos = app->map->WorldToMap(position.x, position.y);
 	playerPos = app->map->WorldToMap(app->scene->GetPlayer()->position.x - 10, position.y);
 	
-	currentAnimation = &idleAnim; 
+	currentAnimation = &walkAnim; 
 
 	BossFunctionality();
 	LivesManagement();

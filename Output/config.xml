@@ -390,12 +390,12 @@
 			</idleAnim>
 
 			<walkAnim loop ="true" speed ="0.2">
-				<anim x ="10" y ="460" width ="18" height ="28"/>
-				<anim x ="42" y ="460" width ="18" height ="28"/>
-				<anim x ="74" y ="460" width ="18" height ="28"/>
-				<anim x ="106" y ="460" width ="18" height ="28"/>
-				<anim x ="138" y ="460" width ="18" height ="28"/>
-				<anim x ="170" y ="460" width ="18" height ="28"/>
+				<anim x ="7" y ="130" width ="44" height ="62"/>
+				<anim x ="48" y ="130" width ="44" height ="62"/>
+				<anim x ="91" y ="130" width ="44" height ="62"/>
+				<anim x ="123" y ="130" width ="44" height ="62"/>
+				<anim x ="156" y ="130" width ="44" height ="62"/>
+				<anim x ="193" y ="130" width ="44" height ="62"/>
 			</walkAnim>
 
 			<attackAnim loop ="false" speed ="0.25">
