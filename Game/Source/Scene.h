@@ -42,7 +42,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	void Level2();
+	//void Level2();
 
 	Player* GetPlayer();
 
