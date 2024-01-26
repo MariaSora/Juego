@@ -110,7 +110,6 @@ bool Map::Update(float dt)
                         pos.y,
                         &r,
                         mapLayerItem->data->parallax);
-                   
                 }
             } 
           

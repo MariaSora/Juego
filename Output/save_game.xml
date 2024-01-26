@@ -8,7 +8,7 @@
 	<:anonymous />
 	<:anonymous />
 	<scene>
-		<Player x="494" y="165" Vida="4" lastcheckpoint.x="4.27999973" lastcheckpoint.y="2.93999982" />
+		<Player x="99" y="196" Vida="2" lastcheckpoint.x="4.27999973" lastcheckpoint.y="2.93999982" />
 		<Enemies>
 			<Enemy x="150" y="100" Alive="true" />
 			<Enemy x="1700" y="90" Alive="true" />
@@ -16,12 +16,12 @@
 			<Enemy x="2650" y="50" Alive="true" />
 		</Enemies>
 	</scene>
-	<scene />
 	<:anonymous />
 	<entitymanager />
 	<guiManager />
+	<:anonymous />
 	<fadetoblack />
 	<renderer>
-		<camera x="-788" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </game_state>

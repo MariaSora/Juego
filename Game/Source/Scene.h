@@ -42,7 +42,7 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	//void Level2();
+	void Level2();
 
 	Player* GetPlayer();
 
@@ -73,6 +73,7 @@ public:
 	PhysBody* pbody;
 
 	//Nivel2
+	bool startLevel1 = true;
 	bool startLevel2 = false;
 };
 

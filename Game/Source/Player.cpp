@@ -289,7 +289,7 @@ void Player::PlayerMovement(float dt)
 	}
 
 	if (app->godmode == false) {
-		if (position.y >= 630 || app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
+		if (position.y >= 630 && app->scene->startLevel1 == false || position.y >= 300 && app->scene->startLevel1 == true|| app->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
 			die = true;
 		}
 		if (app->vida <= 0) {
